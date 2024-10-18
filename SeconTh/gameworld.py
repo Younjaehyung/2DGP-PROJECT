@@ -2,8 +2,13 @@ from monster import*
 from player import*
 
 
+
 class GameWorld:
     def __init__(self):
+       # self.worldL = load_image()
+       # self.worldR =
+       # self.worldT =
+       # self.worldB =
 
         self.Check=0
 
@@ -25,6 +30,7 @@ class GameWorld:
 
     def update(self):
         self.checkstage()   #1 검사
+        self.player.update()
                             #2 player update
                             #3 monster update
                             #4 gamelogic update
@@ -33,10 +39,31 @@ class GameWorld:
     def render(self):
         self.player.render()
         if self.playerWhere == 1:
-            self.
-        self.enemies.render()
-        pass
+            self
 
+        for _enemy in self.enemies:
+            if self.player.y > _enemy:
+                self.player.render()
+                _enemy.render()
+            else:
+                _enemy.render()
+                self.player.render()
+
+
+        pass
+    def worldrender(self):
+        if self.playerWhere == 0:
+            pass
+        elif self.playerWhere == 1:
+            pass
+        elif self.playerWhere == 2:
+            pass
+        elif self.playerWhere == 3:
+            pass
+        elif self.playerWhere == 4:
+            pass
+
+        pass
     def enterfield(self):
         pass
 
@@ -71,12 +98,12 @@ class GameWorld:
 
         if checking_empty==1:
             return 1    #아무도 없으면 1 반환
-        else
+        else:
             return 0    #존재하면 0 반환
 
 
     def killplayer(self):
-
+        pass
 
 
     def checkplayer(self):
