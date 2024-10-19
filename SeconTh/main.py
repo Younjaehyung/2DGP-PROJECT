@@ -29,5 +29,6 @@ initialize()
 while True:
     gameobject_update()
     gameobject_draw()
+    delay(0.05)
 
 close_canvas()
