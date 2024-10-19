@@ -22,7 +22,30 @@ class Player:
         self.move()
         pass
     def render(self):
+        flip_x ='H'
+        flip_y =0
+        if self.handle_x<0:
+            flip_x ='h'
+        if self.handle_y < 0:
+            flip_y = 0
 
+
+
+
+
+        self.normal_frame = (self.normal_frame +1)%6
+
+        self.image.clip_composite_draw(
+            self.normal_frame * 100,  # 이미지의 왼쪽 상단 x좌표
+            self.action_frame * 100,  # 이미지의 왼쪽 상단 y좌표
+            100,
+            100,
+            flip_y,
+            flip_x,
+            self.x,
+            self.y,
+            250,
+            250)
         pass
 
     def attack(self):
