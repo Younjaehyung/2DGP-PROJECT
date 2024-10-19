@@ -40,9 +40,9 @@ class Player:
         elif self.handle_y > 0:
             self.flip_y = 0
 
-            if self.prevstatus != self.status:
-                self.normal_frame = 0
-                self.prevstatus = self.status
+        if self.prevstatus != self.status:
+            self.normal_frame = 0
+            self.prevstatus = self.status
 
         if self.status==0:
             self.action_frame=7
@@ -50,14 +50,17 @@ class Player:
         elif self.status==1:
             self.action_frame=6
             self.normal_frame = (self.normal_frame + 1) % 8
+
         elif self.status == 2:
             self.action_frame = 5
             self.normal_frame = (self.normal_frame + 1) % 7
-            
+            if self.normal_frame==0:
+                self.status = 0
         elif self.status == 3:
             self.action_frame = 3
             self.normal_frame = (self.normal_frame + 1) % 7
-
+            if self.normal_frame==0:
+                self.status = 0
 
 
 
