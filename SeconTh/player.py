@@ -1,5 +1,5 @@
 import random
-
+import time
 from pico2d import *
 
 class Player:
@@ -8,6 +8,10 @@ class Player:
         self.attack_stat = random.randint(10,30)
         self.hp=random.randint(40,100)
         self.speed=random.randint(10,30)
+
+        self.cooltime = 2
+        self.is_key_down = False
+        self.key_pressed_time = None
 
         self.handle_x = 0
         self.handle_y = 0
@@ -22,8 +26,9 @@ class Player:
         self.image = load_image("resource/Knight/Knight/Knight.png")
 
     def update(self):
-        self.attack()
-        self.move()
+        events = get_events()
+        self.attack(events)
+        self.move(events)
         pass
     def render(self):
         if self.handle_x<0:
@@ -41,6 +46,13 @@ class Player:
         elif self.status==1:
             self.action_frame=6
             self.normal_frame = (self.normal_frame + 1) % 8
+        elif self.status == 2:
+            self.action_frame = 5
+            self.normal_frame = (self.normal_frame + 1) % 7
+            
+        elif self.status == 3:
+            self.action_frame = 3
+            self.normal_frame = (self.normal_frame + 1) % 7
 
 
 
@@ -59,12 +71,37 @@ class Player:
         pass
 
 
-    def attack(self):
+    def attack(self,events):
+
+        for event in events:
+            if event.type == SDL_KEYDOWN and event.key == SDLK_z:
+                if not self.is_key_down:  # 키가 처음 눌렸을 때만 시간 기록
+                    self.key_pressed_time = time.time()  # 키가 눌린 시간을 기록
+                    self.is_key_down = True
+                    print(12)
+
+            elif event.type == SDL_KEYUP and event.key == SDLK_z:
+                if self.is_key_down:
+                    key_released_time = time.time()  # 키가 떼어진 시간을 기록
+                    pressed_duration = key_released_time - self.key_pressed_time  # 눌린 시간 계산
+
+                    if pressed_duration < 0.5:
+                        self.short_press_action()  # 짧게 누른 액션
+                    else:
+                        self.long_press_action()  # 길게 누른 액션
+
+                    self.is_key_down = False  # 키가 떼어졌으므로 초기화
         pass
 
-    def move(self):
 
-        events = get_events()
+    def short_press_action(self):
+        self.status = 2
+
+    def long_press_action(self):
+        self.status = 3
+
+    def move(self,events):
+
         for event in events:
             #if self.status==0:
                 if event.type == SDL_KEYDOWN:
@@ -83,13 +120,17 @@ class Player:
                 elif event.type == SDL_KEYUP:
                     if event.key == SDLK_UP:
                         self.handle_y -= 1
+                        self.status = 0
                     if event.key == SDLK_DOWN:
                         self.handle_y += 1
+                        self.status = 0
                     if event.key == SDLK_RIGHT:
                         self.handle_x -= 1
+                        self.status = 0
                     if event.key == SDLK_LEFT:
                         self.handle_x += 1
-                    self.status = 0
+                        self.status = 0
+
 
 
 
