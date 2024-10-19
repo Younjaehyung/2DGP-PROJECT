@@ -20,7 +20,7 @@ class Player:
         self.flip_y = 0
 
         self.status = 0
-
+        self.prevstatus=0
         self.normal_frame = 0
         self.action_frame=7
         self.image = load_image("resource/Knight/Knight/Knight.png")
@@ -39,6 +39,10 @@ class Player:
             self.flip_y = 0
         elif self.handle_y > 0:
             self.flip_y = 0
+
+            if self.prevstatus != self.status:
+                self.normal_frame = 0
+                self.prevstatus = self.status
 
         if self.status==0:
             self.action_frame=7
