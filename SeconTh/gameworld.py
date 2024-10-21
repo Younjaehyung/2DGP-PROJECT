@@ -1,6 +1,6 @@
 from monster import*
 from player import*
-
+import time
 
 
 class GameWorld:
@@ -9,7 +9,10 @@ class GameWorld:
        # self.worldR =
        # self.worldT =
        # self.worldB =
+        self.worldmain = load_image("resource/map.png")
+        self.font = load_font('resource/DungeonFont.ttf', 70)  # 24는 폰트 크기
 
+        self.text = "0"
         self.Check=0
 
         self.enemies =[]
@@ -22,7 +25,10 @@ class GameWorld:
         self.stage=1
         self.EndStage = 0
 
+        self.start_time = time.perf_counter()
         self.playerTime = 30
+        self.playerTotalTime = 30
+
         self.playerWhere = 0
         self.player = Player()
         self.playerLife=10
@@ -31,28 +37,38 @@ class GameWorld:
     def update(self):
         self.checkstage()   #1 검사
         self.player.update()
+
                             #2 player update
                             #3 monster update
                             #4 gamelogic update
         pass
 
     def render(self):
+        self.worldrender()
         self.player.render()
-        if self.playerWhere == 1:
-            self
-
         for _enemy in self.enemies:
             if self.player.y > _enemy:
                 self.player.render()
-                _enemy.render()
+                #_enemy.render()
             else:
-                _enemy.render()
+                #_enemy.render()
                 self.player.render()
-
+        self.playertimer()
 
         pass
+
+
+    def playertimer(self):
+        current_time = time.perf_counter()  # 현재 시간
+        self.playerTime =  self.playerTotalTime- (current_time - self.start_time)
+        if self.playerTime<10:
+            self.font.draw(400, 500, f'{self.playerTime:.2f}', (255, 0, 0))
+        else:
+            self.font.draw(400, 500, f'{self.playerTime:.2f}', (185, 240, 100))
+
     def worldrender(self):
         if self.playerWhere == 0:
+            self.worldmain.draw(400,300)
             pass
         elif self.playerWhere == 1:
             pass
@@ -63,6 +79,8 @@ class GameWorld:
         elif self.playerWhere == 4:
             pass
 
+
+
         pass
     def enterfield(self):
         pass
@@ -71,6 +89,7 @@ class GameWorld:
     def resetplayer(self):
         self.player=Player()
         self.playerWhere = 0
+        self.start_time = time.perf_counter()
         self.playerlife-=1
         self.stage += 1
         self.playerTime=30
