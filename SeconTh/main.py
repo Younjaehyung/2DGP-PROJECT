@@ -7,28 +7,51 @@ from gameworld import GameWorld
 
 
 def gameobject_update():
-    global game
+
     game.update()
 
 
 def gameobject_draw():
-    global game
+
 
     clear_canvas()
     game.render()
     update_canvas()
 
+def handle_input():
+
+        global running
+        events = get_events()
+        for event in events:
+            if event.type == SDL_QUIT:
+                running = False
+            elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+                running = False
+            else :
+                game.player.handle_event(event)
+
+
 def initialize():
     global game
-    game = GameWorld()
+    global mapH
+    global mapW
 
-open_canvas()
+    game = GameWorld()
+    game.resetmapsize(mapW,mapH)
+
+
+
+mapH=800
+mapW=1200
+
+open_canvas(mapW,mapH)
 initialize()
 
 
 while True:
+    handle_input()
     gameobject_update()
     gameobject_draw()
-    delay(0.05)
+    delay(0.01)
 
 close_canvas()
