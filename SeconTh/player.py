@@ -15,7 +15,7 @@ class Player:
 
         self.handle_x = 0
         self.handle_y = 0
-
+        self.font = load_font('resource/DungeonFont.ttf', 70)
         self.flip_x='H'
         self.flip_y = 0
 
@@ -77,6 +77,8 @@ class Player:
             self.y,
             250,
             250)
+
+        self.font.draw(self.x, self.y, f'{self.x:.2f},{self.y:.2f}', (255, 0, 0))
         pass
 
 
@@ -118,7 +120,7 @@ class Player:
             #if self.status==0:
                 if event.type == SDL_KEYDOWN:
                     if event.key == SDLK_UP:
-                        self.handle_y =self.handle_y+ 1
+                        self.handle_y += 1
 
                     if event.key == SDLK_LEFT:
                         self.handle_x -= 1
@@ -147,6 +149,9 @@ class Player:
             self.status = 1
         if self.handle_x !=0:
             self.status = 1
+
+
+
 
         self.x += (self.speed/50) * self.handle_x
         self.y += (self.speed/50) * self.handle_y
