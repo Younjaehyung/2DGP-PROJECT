@@ -11,7 +11,10 @@ class GameWorld:
        # self.worldB =
         self.mapSize_W=800
         self.mapSize_H=600
-        self.worldmain = load_image("resource/map.png")
+        self.worldmain = load_image("resource/mapMain.png")
+
+        self.worldT = load_image("resource/mapT.png")
+
         self.font = load_font('resource/DungeonFont.ttf', 70)  # 24는 폰트 크기
 
         self.text = "0"
@@ -71,15 +74,20 @@ class GameWorld:
 
     def worldrender(self):
         if self.playerWhere == 0:
-            self.worldmain.draw(400,300)
+            self.worldmain.clip_draw(0,0,800, 600,self.mapSize_W//2, self.mapSize_H//2,1200,800)
+            #self.worldmain.draw(self.mapSize_W//2,self.mapSize_H//2)
             pass
         elif self.playerWhere == 1:
+            self.worldL.draw(self.mapSize_W//2,self.mapSize_H//2)
             pass
         elif self.playerWhere == 2:
+            self.worldT.draw(self.mapSize_W//2,self.mapSize_H//2)
             pass
         elif self.playerWhere == 3:
+            self.worldR.draw(self.mapSize_W//2,self.mapSize_H//2)
             pass
         elif self.playerWhere == 4:
+            self.worldB.draw(self.mapSize_W//2, self.mapSize_H//2)
             pass
 
 
@@ -92,6 +100,11 @@ class GameWorld:
         self.mapSize_W=w
         self.mapSize_H=h
 
+    def resetevent(self):
+        events = get_events()
+        for event in events:
+            pass
+
     def resetplayer(self):
         self.player=Player()
         self.player.handle_y=0
@@ -102,9 +115,7 @@ class GameWorld:
         self.stage += 1
         self.playerTime=30
 
-        events = get_events()
-        for event in events:
-            pass
+        self.resetevent()
 
     def resetenemy(self):
         self.enemiesL = [MonsterL() for i in range(self.stage * 5 * self.penalty)]
