@@ -23,7 +23,9 @@ class Player:
         self.prevstatus=0
         self.normal_frame = 0
         self.action_frame=7
-        self.image = load_image("resource/Knight/Knight/Knight.png")
+        #self.image = load_image("resource/Knight/Knight/Knight.png")
+        self.image = load_image("resource/Soldier/Soldier/Soldier.png")
+        self.image = load_image("resource/Lancer/Lancer/Lancer.png")
 
     def update(self):
         events = get_events()
@@ -126,7 +128,7 @@ class Player:
 
                     if event.key == SDLK_DOWN:
                         self.handle_y -= 1
-                        
+
                 elif event.type == SDL_KEYUP:
                     if event.key == SDLK_UP:
                         self.handle_y -= 1
