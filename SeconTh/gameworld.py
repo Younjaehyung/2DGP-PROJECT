@@ -9,6 +9,8 @@ class GameWorld:
        # self.worldR =
        # self.worldT =
        # self.worldB =
+        self.mapSize_W=800
+        self.mapSize_H=600
         self.worldmain = load_image("resource/map.png")
         self.font = load_font('resource/DungeonFont.ttf', 70)  # 24는 폰트 크기
 
@@ -36,6 +38,7 @@ class GameWorld:
 
     def update(self):
         self.checkstage()   #1 검사
+        self.checkplayer()
         self.player.update()
 
                             #2 player update
@@ -83,16 +86,25 @@ class GameWorld:
 
         pass
     def enterfield(self):
-        pass
 
+        pass
+    def resetmapsize(self,w,h):
+        self.mapSize_W=w
+        self.mapSize_H=h
 
     def resetplayer(self):
         self.player=Player()
+        self.player.handle_y=0
+        self.player.handle_x=0
         self.playerWhere = 0
         self.start_time = time.perf_counter()
-        self.playerlife-=1
+        self.playerLife-=1
         self.stage += 1
         self.playerTime=30
+
+        events = get_events()
+        for event in events:
+            pass
 
     def resetenemy(self):
         self.enemiesL = [MonsterL() for i in range(self.stage * 5 * self.penalty)]
@@ -122,16 +134,26 @@ class GameWorld:
 
 
     def killplayer(self):
+        self.player.hp=0
         pass
 
 
     def checkplayer(self):
         if self.playerTime <= 0 or self.player.hp <= 0:
             self.resetplayer()
-            self.playerWhere=0
+
             #2
         #1  #0  #3
             #4
+        if self.player.x < 0:
+            self.player.x += (self.player.speed / 50)
+        if self.player.x >= self.mapSize_W:
+            self.player.x -=(self.player.speed / 50)
+        if self.player.y < 0:
+            self.player.y += (self.player.speed / 50)
+        if self.player.y > self.mapSize_H:
+            self.player.y -= (self.player.speed / 50)
+
 
         if self.playerWhere==0:
             if self.player.x <= 0 and 250 <= self.player.y <= 350:
