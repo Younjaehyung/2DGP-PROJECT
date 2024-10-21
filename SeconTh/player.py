@@ -28,9 +28,9 @@ class Player:
         self.image = load_image("resource/Lancer/Lancer/Lancer.png")
 
     def update(self):
-        events = get_events()
-        self.attack(events)
-        self.move(events)
+
+        self.attack()
+        self.move()
         pass
     def render(self):
         if self.handle_x<0:
@@ -81,10 +81,7 @@ class Player:
         self.font.draw(self.x, self.y, f'{self.x:.2f},{self.y:.2f}', (255, 0, 0))
         pass
 
-
-    def attack(self,events):
-
-        for event in events:
+    def handle_event(self,event):
             if event.type == SDL_KEYDOWN and event.key == SDLK_x:
                 self.long_press_action()
 
@@ -105,6 +102,39 @@ class Player:
                         self.long_press_action()  # 길게 누른 액션
 
                     self.is_key_down = False  # 키가 떼어졌으므로 초기화
+
+
+            if event.type == SDL_KEYDOWN:
+                if event.key == SDLK_UP:
+                        self.handle_y += 1
+
+                if event.key == SDLK_LEFT:
+                        self.handle_x -= 1
+
+                if event.key == SDLK_RIGHT:
+                        self.handle_x += 1
+
+                if event.key == SDLK_DOWN:
+                        self.handle_y -= 1
+
+            elif event.type == SDL_KEYUP:
+                if event.key == SDLK_UP:
+                        self.handle_y -= 1
+                        self.status = 0
+                if event.key == SDLK_DOWN:
+                        self.handle_y += 1
+                        self.status = 0
+                if event.key == SDLK_RIGHT:
+                        self.handle_x -= 1
+                        self.status = 0
+                if event.key == SDLK_LEFT:
+                        self.handle_x += 1
+                        self.status = 0
+
+
+    def attack(self):
+
+
         pass
 
 
@@ -114,36 +144,8 @@ class Player:
     def long_press_action(self):
         self.status = 3
 
-    def move(self,events):
+    def move(self):
 
-        for event in events:
-            #if self.status==0:
-                if event.type == SDL_KEYDOWN:
-                    if event.key == SDLK_UP:
-                        self.handle_y += 1
-
-                    if event.key == SDLK_LEFT:
-                        self.handle_x -= 1
-
-                    if event.key == SDLK_RIGHT:
-                        self.handle_x += 1
-
-                    if event.key == SDLK_DOWN:
-                        self.handle_y -= 1
-
-                elif event.type == SDL_KEYUP:
-                    if event.key == SDLK_UP:
-                        self.handle_y -= 1
-                        self.status = 0
-                    if event.key == SDLK_DOWN:
-                        self.handle_y += 1
-                        self.status = 0
-                    if event.key == SDLK_RIGHT:
-                        self.handle_x -= 1
-                        self.status = 0
-                    if event.key == SDLK_LEFT:
-                        self.handle_x += 1
-                        self.status = 0
 
         if self.handle_x !=0 :
             self.status = 1
