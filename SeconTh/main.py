@@ -22,13 +22,17 @@ def handle_input():
 
         global running
         events = get_events()
-        for event in events:
-            if event.type == SDL_QUIT:
-                running = False
-            elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-                running = False
-            else :
-                game.player.handle_event(event)
+        if game.resetflag==True:
+
+            return
+        else:
+            for event in events:
+             if event.type == SDL_QUIT:
+                  running = False
+             elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+                  running = False
+             else :
+                  game.player.handle_event(event)
 
 
 def initialize():
