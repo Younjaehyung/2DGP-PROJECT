@@ -19,17 +19,27 @@ class Player:
         self.flip_x='H'
         self.flip_y = 0
 
-        self.status = 0
+        self.status = 0 #0 idle 1 move 2 attack 3 spec attack 4 death 5 none
         self.prevstatus=0
         self.normal_frame = 0
         self.action_frame=7
         #self.image = load_image("resource/Knight/Knight/Knight.png")
-        self.image = load_image("resource/Soldier/Soldier/Soldier.png")
-        self.image = load_image("resource/Lancer/Lancer/Lancer.png")
+        #self.image = load_image("resource/Soldier/Soldier/Soldier.png")
+        #self.image = load_image("resource/Lancer/Lancer/Lancer.png")
+        self.image = load_image("resource/Armored Axeman/Armored Axeman/Armored Axeman.png")
+        #self.image = load_image("resource/plalyer_move.png")
 
     def update(self):
 
-        self.attack()
+
+
+        #self.attack()
+
+        if self.prevstatus != self.status:
+            self.normal_frame = 0
+
+            self.prevstatus = self.status
+
         self.move()
         pass
     def render(self):
@@ -42,15 +52,13 @@ class Player:
         elif self.handle_y > 0:
             self.flip_y = 0
 
-        if self.prevstatus != self.status:
-            self.normal_frame = 0
-            self.prevstatus = self.status
+
 
         if self.status==0:
-            self.action_frame=7
+            self.action_frame=6
             self.normal_frame = (self.normal_frame + 1) % 6
         elif self.status==1:
-            self.action_frame=6
+            self.action_frame=5
             self.normal_frame = (self.normal_frame + 1) % 8
 
         elif self.status == 2:
@@ -85,38 +93,38 @@ class Player:
             if event.type == SDL_KEYDOWN and event.key == SDLK_x:
                 self.long_press_action()
 
-            if event.type == SDL_KEYDOWN and event.key == SDLK_z:
-                if not self.is_key_down:  # 키가 처음 눌렸을 때만 시간 기록
-                    self.key_pressed_time = time.time()  # 키가 눌린 시간을 기록
-                    self.is_key_down = True
+          #  if event.type == SDL_KEYDOWN and event.key == SDLK_z:
+           #   if not self.is_key_down:  # 키가 처음 눌렸을 때만 시간 기록
+             #       self.key_pressed_time = time.time()  # 키가 눌린 시간을 기록
+               #     self.is_key_down = True
 
 
-            elif event.type == SDL_KEYUP and event.key == SDLK_z:
-                if self.is_key_down:
-                    key_released_time = time.time()  # 키가 떼어진 시간을 기록
-                    pressed_duration = key_released_time - self.key_pressed_time  # 눌린 시간 계산
+            #elif event.type == SDL_KEYUP and event.key == SDLK_z:
+              #  if self.is_key_down:
+                 #   key_released_time = time.time()  # 키가 떼어진 시간을 기록
+                 #   pressed_duration = key_released_time - self.key_pressed_time  # 눌린 시간 계산
 
-                    if pressed_duration < 0.5:
-                        self.short_press_action()  # 짧게 누른 액션
-                    else:
-                        self.long_press_action()  # 길게 누른 액션
+                 #   if pressed_duration < 0.5:
+                 #       self.short_press_action()  # 짧게 누른 액션
+                #    else:
+                 #       self.long_press_action()  # 길게 누른 액션
 
-                    self.is_key_down = False  # 키가 떼어졌으므로 초기화
+                 #   self.is_key_down = False  # 키가 떼어졌으므로 초기화
 
 
             if event.type == SDL_KEYDOWN:
                 if event.key == SDLK_UP:
                         self.handle_y += 1
-
+                        self.status = 1
                 if event.key == SDLK_LEFT:
                         self.handle_x -= 1
-
+                        self.status = 1
                 if event.key == SDLK_RIGHT:
                         self.handle_x += 1
-
+                        self.status = 1
                 if event.key == SDLK_DOWN:
                         self.handle_y -= 1
-
+                        self.status = 1
             elif event.type == SDL_KEYUP:
                 if event.key == SDLK_UP:
                         self.handle_y -= 1
@@ -132,10 +140,6 @@ class Player:
                         self.status = 0
 
 
-    def attack(self):
-
-
-        pass
 
 
     def short_press_action(self):
@@ -147,16 +151,14 @@ class Player:
     def move(self):
 
 
-        if self.handle_x !=0 :
-            self.status = 1
-        if self.handle_x !=0:
-            self.status = 1
+
 
 
 
 
         self.x += (self.speed/50) * self.handle_x
         self.y += (self.speed/50) * self.handle_y
+
 
     def reset(self):
         self.hp=0
