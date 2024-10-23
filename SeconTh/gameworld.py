@@ -5,13 +5,20 @@ import time
 
 class GameWorld:
     def __init__(self):
-       # self.worldL = load_image()
-       # self.worldR =
-       # self.worldT =
-       # self.worldB =
+        self.worldL = load_image("resource/mapMain.png")
+        self.worldR =load_image("resource/mapMain.png")
+        self.worldT =load_image("resource/mapMain.png")
+        self.worldB =load_image("resource/mapMain.png")
+        self.worldmain = load_image("resource/mapMain.png")
+
+        self.worldmap =None
+
+        self.screenSize_W=1200
+        self.screenSize_H=800
+
         self.mapSize_W=800
         self.mapSize_H=600
-        self.worldmain = load_image("resource/mapMain.png")
+
 
         self.worldT = load_image("resource/mapT.png")
 
@@ -19,7 +26,7 @@ class GameWorld:
 
         self.text = "0"
         self.Check=0
-
+        self.resetflag=False
         self.enemies =[]
         self.enemiesL=[]
         self.enemiesR = []
@@ -38,8 +45,13 @@ class GameWorld:
         self.player = Player()
         self.playerLife=10
         self.playerWhere=0
+    def handle_event(self,event):
+        if not self.resetflag:
+            self.player.handle_event(event)
+
 
     def update(self):
+        self.resetevent()
         self.checkstage()   #1 검사
         self.checkplayer()
         self.player.update()
@@ -74,23 +86,22 @@ class GameWorld:
 
     def worldrender(self):
         if self.playerWhere == 0:
-            self.worldmain.clip_draw(0,0,800, 600,self.mapSize_W//2, self.mapSize_H//2,1200,800)
-            #self.worldmain.draw(self.mapSize_W//2,self.mapSize_H//2)
+            self.worldmap=self.worldmain
             pass
         elif self.playerWhere == 1:
-            self.worldL.draw(self.mapSize_W//2,self.mapSize_H//2)
+            self.worldmap=self.worldL
             pass
         elif self.playerWhere == 2:
-            self.worldT.draw(self.mapSize_W//2,self.mapSize_H//2)
+            self.worldmap=self.worldT
             pass
         elif self.playerWhere == 3:
-            self.worldR.draw(self.mapSize_W//2,self.mapSize_H//2)
+            self.worldmap=self.worldR
             pass
         elif self.playerWhere == 4:
-            self.worldB.draw(self.mapSize_W//2, self.mapSize_H//2)
+            self.worldmap=self.worldB
             pass
 
-
+        self.worldmap.clip_draw(0, 0, 800, 600, self.mapSize_W // 2, self.mapSize_H // 2, 1200, 800)
 
         pass
     def enterfield(self):
@@ -101,21 +112,23 @@ class GameWorld:
         self.mapSize_H=h
 
     def resetevent(self):
-        events = get_events()
-        for event in events:
-            pass
+        if self.resetflag:
+            self.resetflag=False
+        else: return
 
     def resetplayer(self):
-        self.player=Player()
-        self.player.handle_y=0
-        self.player.handle_x=0
+       # self.player = None
         self.playerWhere = 0
         self.start_time = time.perf_counter()
         self.playerLife-=1
         self.stage += 1
         self.playerTime=30
 
-        self.resetevent()
+    def resetplayer2(self):
+        self.player = Player()
+        self.player.handle_y = 0
+        self.player.handle_x = 0
+
 
     def resetenemy(self):
         self.enemiesL = [MonsterL() for i in range(self.stage * 5 * self.penalty)]
@@ -151,29 +164,40 @@ class GameWorld:
 
     def checkplayer(self):
         if self.playerTime <= 0 or self.player.hp <= 0:
+            self.resetflag = 2
             self.resetplayer()
+            return
+        elif self.resetflag == 2:
+            self.resetplayer2()
+            self.resetflag = 0
 
             #2
         #1  #0  #3
             #4
         if self.player.x < 0:
             self.player.x += (self.player.speed / 50)
-        if self.player.x >= self.mapSize_W:
+        if self.player.x > self.mapSize_W:
             self.player.x -=(self.player.speed / 50)
         if self.player.y < 0:
             self.player.y += (self.player.speed / 50)
         if self.player.y > self.mapSize_H:
             self.player.y -= (self.player.speed / 50)
 
+        map_left = 10
+        map_right = self.mapSize_W - 10
+        map_top = self.mapSize_H - 10
+        map_bottom = 10
+
 
         if self.playerWhere==0:
-            if self.player.x <= 0 and 250 <= self.player.y <= 350:
+            if self.player.x <= map_left and 250 <= self.player.y <= 350:
                 self.playerWhere = 1
-            if self.player.x >= 800 and 250 <= self.player.y <= 350:
+                self.player.x = map_right
+            if self.player.x >= map_right and 250 <= self.player.y <= 350:
                 self.playerWhere = 3
-            if self.player.y >= 600 and 350 <= self.player.x <= 450:
+            if self.player.y >= map_top and 350 <= self.player.x <= 450:
                 self.playerWhere = 2
-            if self.player.y <= 0 and 350 <= self.player.x <= 450:
+            if self.player.y <= map_bottom and 350 <= self.player.x <= 450:
                 self.playerWhere = 4
         elif self.playerWhere==1:
             if self.player.x >= 800 and 250 <= self.player.y <= 350:

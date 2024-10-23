@@ -22,8 +22,10 @@ def handle_input():
 
         global running
         events = get_events()
-        if game.resetflag==True:
-
+        if game.resetflag==2:
+            for event in events:
+                print('pass')
+                pass
             return
         else:
             for event in events:
@@ -32,7 +34,7 @@ def handle_input():
              elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
                   running = False
              else :
-                  game.player.handle_event(event)
+                  game.handle_event(event)
 
 
 def initialize():
