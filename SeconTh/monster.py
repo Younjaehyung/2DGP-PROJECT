@@ -1,6 +1,11 @@
 import random
 
+import pygame
+
+
 class Monster:
+
+
     def __init__(self):
         self.x, self.y = random.randrange(100, 600), random.randrange(100, 600)
         self.frame=0
@@ -10,6 +15,9 @@ class Monster:
         self.health=0
         self.time=0
         self.status=0 #0 : 기본 상태
+
+
+
        # self.image = load_image('run_animation.png')
     def render(self):
         if self.status==0 : #기본
@@ -31,26 +39,38 @@ class Monster:
         pass
 
 class MonsterT(Monster):
+    image = None
     def __init__(self):
         super().__init__()
         self.monster_type = 1
         self.health=100
+        # if image == None:
+        # Monster.image=load_image('run_animation.png')
         #self.image = load_image('run_animation.png')
 class MonsterB(Monster):
+    image = None
     def __init__(self):
         super().__init__()
         self.monster_type = 2
         self.health = 100
+        # if image == None:
+        # Monster.image=load_image('run_animation.png')
         #self.image = load_image('run_animation.png')
 class MonsterL(Monster):
+    image = None
     def __init__(self):
         super().__init__()
         self.monster_type = 3
         self.health = 100
+        # if image == None:
+        # Monster.image=load_image('run_animation.png')
         #self.image = load_image('run_animation.png')
 class MonsterR(Monster):
+    image = None
     def __init__(self):
         super().__init__()
         self.monster_type = 4
         self.health = 100
+        # if image == None:
+        # Monster.image=load_image('run_animation.png')
         #self.image = load_image('run_animation.png')
