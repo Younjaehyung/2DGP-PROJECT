@@ -146,6 +146,7 @@ class GameWorld:
             pass
 
     def checkmonster(self):
+
         checking_empty=1
         for enemy in self.enemies:
             if enemy.health >= 0 :
