@@ -23,10 +23,10 @@ class Player:
         self.prevstatus=0
         self.normal_frame = 0
         self.action_frame=7
-        #self.image = load_image("resource/Knight/Knight/Knight.png")
-        #self.image = load_image("resource/Soldier/Soldier/Soldier.png")
-        #self.image = load_image("resource/Lancer/Lancer/Lancer.png")
-        self.image = load_image("resource/Armored Axeman/Armored Axeman/Armored Axeman.png")
+        #self.image = load_image("resource/Knight/Knight with shadows/Knight.png")
+        #self.image = load_image("resource/Soldier/Soldier with shadows/Soldier.png")
+        #self.image = load_image("resource/Lancer/Lancer with shadows/Lancer.png")
+        self.image = load_image("resource/Armored Axeman/Armored Axeman with shadows/Armored Axeman.png")
         #self.image = load_image("resource/plalyer_move.png")
 
     def update(self):
