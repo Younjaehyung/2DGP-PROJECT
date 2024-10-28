@@ -1,6 +1,9 @@
 import random
 import time
+import os
 from pico2d import *
+import pygame
+import collider
 
 class Player:
     def __init__(self):
@@ -22,20 +25,26 @@ class Player:
         self.status = 0 #0 idle 1 move 2 attack 3 spec attack 4 death 5 none
         self.prevstatus=0
         self.normal_frame = 0
-        self.action_frame=7
+        self.action_frame=8
 
         self.wait_time = get_time()
-        self.image = None
+        base_path = "resource"
+        job_paths = {
+            1: "Knight/Knight with shadows/Knight.png",
+            2: "Soldier/Soldier with shadows/Soldier.png",
+            3: "Lancer/Lancer with shadows/Lancer.png",
+            4: "Armored Axeman/Armored Axeman with shadows/Armored Axeman.png"
+        }
+        # self.image = load_image("resource/plalyer_move.png")
+        image_path = f"resource/{job_paths.get(self.job, '')}"
+        # 파일이 존재하는지 확인
+        self.image = load_image(image_path)
 
-        if self.job == 1:
-            self.image = load_image("resource/Knight/Knight with shadows/Knight.png")
-        elif self.job == 2:
-            self.image = load_image("resource/Soldier/Soldier with shadows/Soldier.png")
-        elif self.job == 3:
-            self.image = load_image("resource/Lancer/Lancer with shadows/Lancer.png")
-        elif self.job == 4:
-            self.image = load_image("resource/Armored Axeman/Armored Axeman with shadows/Armored Axeman.png")
-        #self.image = load_image("resource/plalyer_move.png")
+        base_path = os.path.dirname(os.path.abspath(__file__))
+        image_path = os.path.join(base_path, "resource", job_paths.get(self.job, ''))
+
+        self.colliderImage = pygame.image.load(image_path).convert_alpha()
+        self.rect = self.image.get_rect(topleft=(x, y))
 
     def update(self):
 
@@ -60,27 +69,26 @@ class Player:
         elif self.handle_y > 0:
             self.flip_y = 0
 
+        if get_time() - self.wait_time > 0.1:
+            self.wait_time = get_time()
 
-
-        if self.status==0:
-            self.action_frame=7
-            if get_time() - self.wait_time > 0.3:
-                self.wait_time=get_time()
+            if self.status==0:
+                self.action_frame=7
                 self.normal_frame = (self.normal_frame + 1) % 6
-        elif self.status==1:
-            self.action_frame=6
-            self.normal_frame = (self.normal_frame + 1) % 8
+            elif self.status==1:
+                self.action_frame=6
+                self.normal_frame = (self.normal_frame + 1) % 8
 
-        elif self.status == 2:
-            self.action_frame = 5
-            self.normal_frame = (self.normal_frame + 1) % 7
-            if self.normal_frame==0:
-                self.status = 0
-        elif self.status == 3:
-            self.action_frame = 3
-            self.normal_frame = (self.normal_frame + 1) % 10
-            if self.normal_frame==0:
-                self.status = 0
+            elif self.status == 2:
+                self.action_frame = 5
+                self.normal_frame = (self.normal_frame + 1) % 7
+                if self.normal_frame==0:
+                    self.status = 0
+            elif self.status == 3:
+                self.action_frame = 3
+                self.normal_frame = (self.normal_frame + 1) % 10
+                if self.normal_frame==0:
+                    self.status = 0
 
 
 
@@ -97,6 +105,7 @@ class Player:
             250,
             250)
 
+        # 좌표 test
         self.font.draw(self.x, self.y, f'{self.x:.2f},{self.y:.2f}', (255, 0, 0))
         pass
 
@@ -157,9 +166,12 @@ class Player:
 
     def short_press_action(self):
         self.status = 2
+        collider_instance = collider.Collider()
+        collider_instance.enemey_take_damage(30)
 
     def long_press_action(self):
         self.status = 3
+
 
     def move(self):
 
