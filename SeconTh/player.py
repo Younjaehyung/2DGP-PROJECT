@@ -8,7 +8,7 @@ class Player:
         self.attack_stat = random.randint(10,30)
         self.hp=random.randint(40,100)
         self.speed=random.randint(100,150)
-
+        self.job = random.randint(1,4)
         self.cooltime = 2
         self.is_key_down = False
         self.key_pressed_time = None
@@ -23,10 +23,18 @@ class Player:
         self.prevstatus=0
         self.normal_frame = 0
         self.action_frame=7
-        #self.image = load_image("resource/Knight/Knight with shadows/Knight.png")
-        #self.image = load_image("resource/Soldier/Soldier with shadows/Soldier.png")
-        #self.image = load_image("resource/Lancer/Lancer with shadows/Lancer.png")
-        self.image = load_image("resource/Armored Axeman/Armored Axeman with shadows/Armored Axeman.png")
+
+        self.wait_time = get_time()
+        self.image = None
+
+        if self.job == 1:
+            self.image = load_image("resource/Knight/Knight with shadows/Knight.png")
+        elif self.job == 2:
+            self.image = load_image("resource/Soldier/Soldier with shadows/Soldier.png")
+        elif self.job == 3:
+            self.image = load_image("resource/Lancer/Lancer with shadows/Lancer.png")
+        elif self.job == 4:
+            self.image = load_image("resource/Armored Axeman/Armored Axeman with shadows/Armored Axeman.png")
         #self.image = load_image("resource/plalyer_move.png")
 
     def update(self):
@@ -55,10 +63,12 @@ class Player:
 
 
         if self.status==0:
-            self.action_frame=6
-            self.normal_frame = (self.normal_frame + 1) % 6
+            self.action_frame=7
+            if get_time() - self.wait_time > 0.3:
+                self.wait_time=get_time()
+                self.normal_frame = (self.normal_frame + 1) % 6
         elif self.status==1:
-            self.action_frame=5
+            self.action_frame=6
             self.normal_frame = (self.normal_frame + 1) % 8
 
         elif self.status == 2:
@@ -71,6 +81,7 @@ class Player:
             self.normal_frame = (self.normal_frame + 1) % 10
             if self.normal_frame==0:
                 self.status = 0
+
 
 
 
@@ -142,6 +153,8 @@ class Player:
 
 
 
+
+
     def short_press_action(self):
         self.status = 2
 
@@ -151,13 +164,8 @@ class Player:
     def move(self):
 
 
-
-
-
-
-
-        self.x += (self.speed/50) * self.handle_x
-        self.y += (self.speed/50) * self.handle_y
+        self.x += (self.speed/20) * self.handle_x
+        self.y += (self.speed/20) * self.handle_y
 
 
     def reset(self):
