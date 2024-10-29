@@ -4,6 +4,51 @@ import os
 from pico2d import *
 import pygame
 import collider
+from state_machine import *
+
+class Idle:
+    @staticmethod
+    def enter(boy,e):
+        boy.start_time = get_time()     #현재 시간으 기록
+
+        #움직이다가 멈춘 경우
+        if left_up(e) or right_down(e):
+            boy.action = 2
+            boy.face_dir = -1
+        elif right_up(e) or left_down(e) or start_event(e):
+            boy.action = 3
+            boy.face_dir = 1
+        elif time_out(e):
+            if boy.dir >0:
+                boy.action = 3
+                boy.face_dir = 1
+            elif boy.dir < 0:
+                boy.action = 2
+                boy.face_dir = -1
+
+        boy.frame = 0
+        boy.dir = 0
+        pass
+
+    @staticmethod
+    def exit(boy,e):
+        pass
+
+    @staticmethod
+    def draw(boy):
+        boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y)
+        pass
+
+    @staticmethod
+    def do(boy):
+        boy.frame = (boy.frame + 1) % 8
+        if get_time() - boy.start_time > 5:
+            #이벤트를 발생
+            boy.state_machine.add_event(('TIME_OUT',0))
+        pass
+
+
+
 
 class Player:
     def __init__(self):
@@ -27,27 +72,48 @@ class Player:
         self.normal_frame = 0
         self.action_frame=8
 
+        self.state_machine = StateMachine(self)  # 어떤 객체를 위한 상태 머신인지 알려줄 필요가 있다
+        self.state_machine.start(Idle)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
+
+        self.state_machine.set_transitions({
+            Idle: {right_down: Run, left_down: Run, left_up: Run, right_up: Run, a_down: AutoRun, time_out: Sleep},
+            Run: {right_down: Idle, left_down: Idle, right_up: Idle, left_up: Idle},
+            Attack: {right_down: Run, left_down: Run, right_up: Run, left_up: Run, space_down: Idle},
+            Dead: {right_down: Run, left_down: Run, right_up: Run, left_up: Run, time_out: Idle}
+
+        })
+
         self.wait_time = get_time()
-        base_path = "resource"
+        #base_path = "resource"
+        base_path = os.path.dirname(os.path.abspath(__file__))
         job_paths = {
             1: "Knight/Knight with shadows/Knight.png",
             2: "Soldier/Soldier with shadows/Soldier.png",
             3: "Lancer/Lancer with shadows/Lancer.png",
             4: "Armored Axeman/Armored Axeman with shadows/Armored Axeman.png"
         }
-        # self.image = load_image("resource/plalyer_move.png")
-        image_path = f"resource/{job_paths.get(self.job, '')}"
-        # 파일이 존재하는지 확인
+
+        # Pygame 이미지 경로
+        image_path = os.path.join(base_path, "resource", job_paths.get(self.job, ''))
+        print(f"Image path: {image_path}")  # 경로 확인용
+
+        # 경로 및 파일 존재 여부 확인
+        if not os.path.exists(image_path):
+            print(f"Error: File does not exist at {image_path}")
+            return
+
+        # pico2d에서 이미지 로드
         self.image = load_image(image_path)
 
-        base_path = os.path.dirname(os.path.abspath(__file__))
-        image_path = os.path.join(base_path, "resource", job_paths.get(self.job, ''))
-
-        self.colliderImage = pygame.image.load(image_path).convert_alpha()
-        self.rect = self.image.get_rect(topleft=(x, y))
+        # Pygame에서 이미지 로드
+        try:
+            self.colliderImage = pygame.image.load(image_path).convert_alpha()
+            self.rect = self.colliderImage.get_rect(topleft=(self.x, self.y))
+        except pygame.error as e:
+            print(f"Error loading image with pygame: {e}")
 
     def update(self):
-
+        self.state_machine.update()
 
 
         #self.attack()
@@ -161,8 +227,8 @@ class Player:
 
 
 
-
-
+    def take_damage(self, damage):
+        self.hp -= damage/30
 
     def short_press_action(self):
         self.status = 2

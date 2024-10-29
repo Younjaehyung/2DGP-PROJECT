@@ -1,23 +1,24 @@
 from monster import*
 from player import*
 import time
-
+import collider
 
 class GameWorld:
     def __init__(self):
-        self.worldL = load_image("resource/mapMain.png")
-        self.worldR =load_image("resource/mapMain.png")
-        self.worldT =load_image("resource/mapMain.png")
-        self.worldB =load_image("resource/mapMain.png")
-        self.worldmain = load_image("resource/mapMain.png")
+        self.BackGround = load_image("resource/BlackMap.png")
+        self.worldL = load_image("resource/leftmap.png")
+        self.worldR =load_image("resource/rightmap.png")
+        self.worldT =load_image("resource/topmap.png")
+        self.worldB =load_image("resource/bottommap.png")
+        self.worldmain = load_image("resource/mainmap.png")
 
         self.worldmap =None
 
         self.screenSize_W=1200
         self.screenSize_H=800
 
-        self.mapSize_W=800
-        self.mapSize_H=600
+        self.mapSize_W=576
+        self.mapSize_H=576
 
 
         self.worldT = load_image("resource/mapT.png")
@@ -45,6 +46,10 @@ class GameWorld:
         self.player = Player()
         self.playerLife=10
         self.playerWhere=0
+
+        collider_instance = collider.Collider()
+        collider_instance.enemies = self.enemies  # 적 객체 리스트 할당
+        collider_instance.player = self.player  # 플레이어 객체 할당
     def handle_event(self,event):
         if not self.resetflag:
             self.player.handle_event(event)
@@ -62,6 +67,7 @@ class GameWorld:
         pass
 
     def render(self):
+
         self.worldrender()
         self.player.render()
         for _enemy in self.enemies:
@@ -100,8 +106,8 @@ class GameWorld:
         elif self.playerWhere == 4:
             self.worldmap=self.worldB
             pass
-
-        self.worldmap.clip_draw(0, 0, 800, 600, self.mapSize_W // 2, self.mapSize_H // 2, 1200, 800)
+        self.BackGround.clip_draw(0,0,1200,800,600,400)
+        self.worldmap.clip_draw(0, 0, 576, 576, 576/2+96,576/2-112,800,800)
 
         pass
     def enterfield(self):
@@ -123,6 +129,8 @@ class GameWorld:
         self.playerLife-=1
         self.stage += 1
         self.playerTime=30
+
+
 
     def resetplayer2(self):
         self.player = Player()

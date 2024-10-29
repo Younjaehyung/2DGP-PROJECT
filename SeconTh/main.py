@@ -19,8 +19,8 @@ def gameobject_draw():
     update_canvas()
 
 def handle_input():
-
         global running
+
         events = get_events()
         if game.resetflag==2:
             for event in events:
