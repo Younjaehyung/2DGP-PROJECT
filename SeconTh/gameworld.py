@@ -120,7 +120,8 @@ class GameWorld:
         self.start_time = time.perf_counter()
         self.playerLife-=1
         self.stage += 1
-        self.playerTime=30
+        self.player = Player()
+
 
     def reset_enemy(self):
         self.enemiesL = [MonsterL() for i in range(self.stage * 5 * self.penalty)]
@@ -145,17 +146,23 @@ class GameWorld:
     def check_game(self):
 
 
-            #2
-        #1  #0  #3
-            #4
 
-        if  self.player.state_machine.cur_state != Dead and (self.playerTime <= 0 or self.player.hp <= 0):
+        if  (self.player.state_machine.cur_state != Dead and self.player.state_machine.cur_state != Death)and (self.playerTime <= 0 or self.player.hp <= 0):
             self.player.state_machine.add_event(('DEAD',0))
         elif self.player.state_machine.cur_state == Death :
             self.reset_player()
             return
+
+
         else :
+
             # ////////맵 이동 좌표/////////
+
+            #     2
+            # 1  #0  #3
+            #     4
+
+
             if self.playerWhere==0:
                 if self.player.x <= 20 and 350 <= self.player.y <= 450:
                     self.playerWhere = 1

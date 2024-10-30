@@ -149,9 +149,6 @@ class Run:
 
 class Spawn:
 
-
-
-
     @staticmethod
     def enter(player, e):
         player.normal_frame = 0
