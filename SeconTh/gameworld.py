@@ -86,9 +86,9 @@ class GameWorld:
         current_time = time.perf_counter()  # 현재 시간
         self.playerTime =  self.playerTotalTime- (current_time - self.start_time)
         if self.playerTime<10:
-            self.font.draw(400, 500, f'{self.playerTime:.2f}', (255, 0, 0))
+            self.font.draw(950, 600, f'{self.playerTime:.2f}', (255, 0, 0))
         else:
-            self.font.draw(400, 500, f'{self.playerTime:.2f}', (185, 240, 100))
+            self.font.draw(950, 600, f'{self.playerTime:.2f}', (185, 240, 100))
 
     def world_render(self):
         if self.playerWhere == 0:
