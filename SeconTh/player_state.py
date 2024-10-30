@@ -141,7 +141,7 @@ class Run:
         player.y += (player.speed / 20) * player.handle_y
 
 
-        
+
 
         pass
 

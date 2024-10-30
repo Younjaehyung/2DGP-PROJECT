@@ -107,7 +107,7 @@ class GameWorld:
             self.worldmap=self.worldB
             pass
         self.BackGround.clip_draw(0,0,1200,800,600,400)
-        self.worldmap.clip_draw(0, 0, 576, 576, 576/2+96,576/2+96,800,800)
+        self.worldmap.clip_draw(0, 0, 576, 576, 400,400,800,800)
 
         pass
     def enterfield(self):
@@ -199,34 +199,34 @@ class GameWorld:
 
 
         if self.playerWhere==0:
-            if self.player.x <= 0 and 350 <= self.player.y <= 450:
+            if self.player.x <= 20 and 350 <= self.player.y <= 450:
                 self.playerWhere = 1
-                self.player.x = 780
-            if self.player.x >= 800 and 350 <= self.player.y <= 450:
+                self.player.x = 770
+            if self.player.x >= 780 and 350 <= self.player.y <= 450:
                 self.playerWhere = 3
-                self.player.x = 20
-            if self.player.y >= 800 and 350 <= self.player.x <= 450:
+                self.player.x = 30
+            if self.player.y >= 780 and 350 <= self.player.x <= 450:
                 self.playerWhere = 2
-                self.player.y = 20
-            if self.player.y <= 0 and 350 <= self.player.x <= 450:
+                self.player.y = 30
+            if self.player.y <= 20 and 350 <= self.player.x <= 450:
                 self.playerWhere = 4
-                self.player.y = 780
+                self.player.y = 770
         elif self.playerWhere==1:
-            if self.player.x >= 800 and 350 <= self.player.y <= 450:
+            if self.player.x >= 780 and 350 <= self.player.y <= 450:
                 self.playerWhere = 0
-                self.player.x = 20
+                self.player.x = 30
         elif self.playerWhere==2:
-            if self.player.y <= 0 and 350 <= self.player.x <= 450:
+            if self.player.y <= 20 and 350 <= self.player.x <= 450:
                 self.playerWhere = 0
-                self.player.y = 780
+                self.player.y = 770
         elif self.playerWhere==3:
-            if self.player.x <= 0 and 350 <= self.player.y <= 450:
+            if self.player.x <= 20 and 350 <= self.player.y <= 450:
                 self.playerWhere = 0
-                self.player.x = 780
+                self.player.x = 770
         elif self.playerWhere==4:
-            if self.player.y >= 800 and 350 <= self.player.x <= 450:
+            if self.player.y >= 780 and 350 <= self.player.x <= 450:
                 self.playerWhere = 0
-                self.player.y = 20
+                self.player.y = 30
 
 
 
