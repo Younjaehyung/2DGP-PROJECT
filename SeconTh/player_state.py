@@ -5,6 +5,8 @@ class Idle:
     @staticmethod
     def enter(player,e):
 
+        player.handle_x = 0
+        player.handle_y = 0
         player.normal_frame=0
         player.action_frame=7
         pass
@@ -79,13 +81,13 @@ class Run:
     @staticmethod
     def enter(player,e):
         if right_down(e) or left_up(e):  # 오른쪽으로 RUN
-            player.handle_x += 1
+            player.handle_x = 1
         elif left_down(e) or right_up(e):  # 왼쪽으로 RUN
-            player.handle_x -= 1
-        elif up_down(e) or right_up(e):  # 위으로 RUN
-            player.handle_y += 1
-        elif down_down(e) or right_up(e):  # 아래로 RUN
-            player.handle_y -= 1
+            player.handle_x = -1
+        if up_down(e) or down_up(e):  # 위으로 RUN
+            player.handle_y = 1
+        elif down_down(e) or up_up(e):  # 아래로 RUN
+            player.handle_y = -1
 
         player.normal_frame=0
         player.action_frame=6
