@@ -141,8 +141,7 @@ class Run:
         player.y += (player.speed / 20) * player.handle_y
 
 
-        if player.handle_x ==0 and player.handle_y ==0:
-            player.state_machine.add_event(('Idle', 0))
+        
 
         pass
 
