@@ -218,6 +218,7 @@ class Dead:
     def enter(player, e):
         player.normal_frame = 0
         player.action_frame = 0
+        player.dead_time =get_time()
         pass
 
     @staticmethod
@@ -241,7 +242,43 @@ class Dead:
 
     @staticmethod
     def do(player):
-        player.normal_frame = (player.normal_frame + 1) % 4
+        if get_time()-player.dead_time > 0.5:
+            player.normal_frame = (player.normal_frame + 1) % 4
+            player.dead_time =get_time()
 
+        if player.normal_frame == 3:
+            player.state_machine.add_event(('TIME_OUT', 0))
+
+        pass
+
+
+class Death:
+    @staticmethod
+    def enter(player, e):
+        player.normal_frame = 0
+        player.action_frame = 0
+        pass
+
+    @staticmethod
+    def exit(player, e):
+        pass
+
+    @staticmethod
+    def draw(player):
+        player.image.clip_composite_draw(
+            player.normal_frame * 100,  # 이미지의 왼쪽 상단 x좌표
+            player.action_frame * 100,  # 이미지의 왼쪽 상단 y좌표
+            100,
+            100,
+            player.flip_y,
+            player.flip_x,
+            player.x,
+            player.y,
+            250,
+            250)
+        pass
+
+    @staticmethod
+    def do(player):
 
         pass

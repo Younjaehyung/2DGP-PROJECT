@@ -27,14 +27,16 @@ class Player:
         self.flip_y = 0
 
         self.status = 0 #0 idle 1 move 2 attack 3 spec attack 4 death 5 none
-        self.prevstatus=0
+
+        self.normal_frame = 0
+        self.action_frame = 8
 
         self.shnormal_frame = 0
         self.lhnormal_frame = 0
         self.spawn_time =0
+        self.dead_time = 0
 
-        self.normal_frame = 0
-        self.action_frame=8
+
 
         self.heal_image = load_image("resource/Heal_Effect.png")
         self.laser_image = load_image("resource/LASER_Effect.png")
@@ -54,7 +56,7 @@ class Player:
             Run: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run,Idle_event : Idle,z_down: Attack,Dead_event : Dead},
             Attack: {right_down: Run, left_down: Run, right_up: Run, left_up: Run , Dead_event : Dead},
             Spawn:{time_out : Idle},
-            Dead: {}
+            Dead: {time_out : Death }, Death: {}
 
         })
 

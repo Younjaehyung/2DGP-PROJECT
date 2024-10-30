@@ -48,6 +48,7 @@ class GameWorld:
         collider_instance.enemies = self.enemies  # 적 객체 리스트 할당
         collider_instance.player = self.player  # 플레이어 객체 할당
     def handle_event(self,event):
+
         if not self.resetflag:
             self.player.handle_event(event)
 
@@ -107,9 +108,7 @@ class GameWorld:
         self.worldmap.clip_draw(0, 0, 576, 576, 400,400,800,800)
 
         pass
-    def enterfield(self):
 
-        pass
     def resetmapsize(self,w,h):
         self.mapSize_W=w
         self.mapSize_H=h
@@ -131,8 +130,6 @@ class GameWorld:
 
     def resetplayer2(self):
         self.player = Player()
-        self.player.handle_y = 0
-        self.player.handle_x = 0
 
 
     def resetenemy(self):
@@ -169,61 +166,51 @@ class GameWorld:
 
 
     def checkplayer(self):
-        if self.playerTime <= 0 or self.player.hp <= 0:
-            self.resetflag = 2
-            self.resetplayer()
-            return
-        elif self.resetflag == 2:
+
+        if self.resetflag == 2:
             self.resetplayer2()
             self.resetflag = 0
 
             #2
         #1  #0  #3
             #4
-        if self.player.x < 0:
-            self.player.x += (self.player.speed / 50)
-        if self.player.x > self.mapSize_W:
-            self.player.x -=(self.player.speed / 50)
-        if self.player.y < 0:
-            self.player.y += (self.player.speed / 50)
-        if self.player.y > self.mapSize_H:
-            self.player.y -= (self.player.speed / 50)
 
-        map_left = 10
-        map_right = self.mapSize_W - 10
-        map_top = self.mapSize_H - 10
-        map_bottom = 10
-
-
-        if self.playerWhere==0:
-            if self.player.x <= 20 and 350 <= self.player.y <= 450:
-                self.playerWhere = 1
-                self.player.x = 770
-            if self.player.x >= 780 and 350 <= self.player.y <= 450:
-                self.playerWhere = 3
-                self.player.x = 30
-            if self.player.y >= 780 and 350 <= self.player.x <= 450:
-                self.playerWhere = 2
-                self.player.y = 30
-            if self.player.y <= 20 and 350 <= self.player.x <= 450:
-                self.playerWhere = 4
-                self.player.y = 770
-        elif self.playerWhere==1:
-            if self.player.x >= 780 and 350 <= self.player.y <= 450:
-                self.playerWhere = 0
-                self.player.x = 30
-        elif self.playerWhere==2:
-            if self.player.y <= 20 and 350 <= self.player.x <= 450:
-                self.playerWhere = 0
-                self.player.y = 770
-        elif self.playerWhere==3:
-            if self.player.x <= 20 and 350 <= self.player.y <= 450:
-                self.playerWhere = 0
-                self.player.x = 770
-        elif self.playerWhere==4:
-            if self.player.y >= 780 and 350 <= self.player.x <= 450:
-                self.playerWhere = 0
-                self.player.y = 30
+        if  self.player.state_machine.cur_state != Dead and (self.playerTime <= 0 or self.player.hp <= 0):
+            self.player.state_machine.add_event(('DEAD',0))
+        elif self.player.state_machine.cur_state == Death :
+            self.resetplayer()
+            self.resetflag = 2  #?>?? 뭐지
+        else :
+            # ////////맵 이동 좌표/////////
+            if self.playerWhere==0:
+                if self.player.x <= 20 and 350 <= self.player.y <= 450:
+                    self.playerWhere = 1
+                    self.player.x = 770
+                if self.player.x >= 780 and 350 <= self.player.y <= 450:
+                    self.playerWhere = 3
+                    self.player.x = 30
+                if self.player.y >= 780 and 350 <= self.player.x <= 450:
+                    self.playerWhere = 2
+                    self.player.y = 30
+                if self.player.y <= 20 and 350 <= self.player.x <= 450:
+                    self.playerWhere = 4
+                    self.player.y = 770
+            elif self.playerWhere==1:
+                if self.player.x >= 780 and 350 <= self.player.y <= 450:
+                    self.playerWhere = 0
+                    self.player.x = 30
+            elif self.playerWhere==2:
+                if self.player.y <= 20 and 350 <= self.player.x <= 450:
+                    self.playerWhere = 0
+                    self.player.y = 770
+            elif self.playerWhere==3:
+                if self.player.x <= 20 and 350 <= self.player.y <= 450:
+                    self.playerWhere = 0
+                    self.player.x = 770
+            elif self.playerWhere==4:
+                if self.player.y >= 780 and 350 <= self.player.x <= 450:
+                    self.playerWhere = 0
+                    self.player.y = 30
 
 
 
