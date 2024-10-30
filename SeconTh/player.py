@@ -16,9 +16,8 @@ class Player:
         self.speed=random.randint(100,150)
         self.job = random.randint(1,4)
 
-        self.cooltime = 2
-        self.is_key_down = False
-        self.key_pressed_time = None
+
+        self.keydown =[0,0,0,0]
 
         self.handle_x = 0
         self.handle_y = 0
@@ -52,7 +51,7 @@ class Player:
 
 
         self.state_machine.set_transitions({
-            Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run ,z_down: Attack, Dead_event : Dead},
+            Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,z_down: Attack, Dead_event : Dead},
             Run: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run,Idle_event : Idle,z_down: Attack,Dead_event : Dead},
             Attack: {right_down: Run, left_down: Run, right_up: Run, left_up: Run , Dead_event : Dead},
             Spawn:{time_out : Idle},

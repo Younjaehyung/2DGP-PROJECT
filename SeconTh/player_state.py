@@ -83,6 +83,12 @@ class Attack:
 class Run:
     @staticmethod
     def enter(player,e):
+
+        if time_out(e):
+            player.normal_frame = 0
+            player.action_frame = 6
+            return
+
         if right_down(e) or left_up(e):  # 오른쪽으로 RUN
             player.handle_x += 1
             if right_down(e):
@@ -108,6 +114,7 @@ class Run:
             if down_down(e):
                 print("down_down")
             else : print ("up_up")
+
 
 
         player.normal_frame=0
@@ -160,6 +167,7 @@ class Spawn:
 
     @staticmethod
     def exit(player, e):
+
         pass
 
     @staticmethod
