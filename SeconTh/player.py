@@ -108,6 +108,9 @@ class Player:
             self.flip_y = 0
         self.state_machine.draw()
         self.font.draw(self.x, self.y, f'{self.x:.2f},{self.y:.2f}', (255, 0, 0))
+        self.font.draw(self.x, self.y + 50, f'{self.attack_stat}', (255, 0, 0))
+        self.font.draw(self.x, self.y + 100, f'{self.hp}', (255, 0, 0))
+        self.font.draw(self.x, self.y + 150, f'{self.speed}', (255, 0, 0))
 
         if get_time() - self.wait_time > 0.1:
             self.wait_time = get_time()

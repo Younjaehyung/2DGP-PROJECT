@@ -8,7 +8,7 @@ class GameWorld:
         self.BackGround = load_image("resource/BlackMap.png")
         self.worldL = load_image("resource/leftmap.png")
         self.worldR =load_image("resource/rightmap.png")
-        self.worldT =load_image("resource/topmap.png")
+        self.worldT = load_image("resource/topmap.png")
         self.worldB =load_image("resource/bottommap.png")
         self.worldmain = load_image("resource/mainmap.png")
 
@@ -19,9 +19,6 @@ class GameWorld:
 
         self.mapSize_W=576
         self.mapSize_H=576
-
-
-        self.worldT = load_image("resource/mapT.png")
 
         self.font = load_font('resource/DungeonFont.ttf', 70)  # 24는 폰트 크기
 
