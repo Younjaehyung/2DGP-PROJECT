@@ -7,7 +7,7 @@ class Idle:
 
     @staticmethod
     def enter(player,e):
-
+        print('idle')
         player.handle_x = 0
         player.handle_y = 0
         player.normal_frame=0
@@ -115,6 +115,26 @@ class Run:
                 print("down_down")
             else : print ("up_up")
 
+        if down_down(e):
+            player.keydown[3] = 1
+        elif down_up(e):
+            player.keydown[3] = 0
+
+        if right_down(e):
+            player.keydown[2] = 1
+        elif right_up(e):
+            player.keydown[2] = 0
+
+        if up_down(e):
+            player.keydown[1] = 1
+        elif up_up(e):
+            player.keydown[1] = 0
+
+        if left_down(e):
+            player.keydown[0] = 1
+        elif left_up(e):
+            player.keydown[0] = 0
+
 
 
         player.normal_frame=0
@@ -149,7 +169,8 @@ class Run:
         player.x += (player.speed / 20) * player.handle_x
         player.y += (player.speed / 20) * player.handle_y
 
-
+        if not player.keydown[0] and not player.keydown[1] and not player.keydown[2] and not player.keydown[3]  :
+            player.state_machine.add_event(('Idle', 0))
 
 
         pass
