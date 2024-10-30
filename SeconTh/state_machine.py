@@ -11,6 +11,9 @@ def time_out(e):
 def start_event(e): #start 가상의 이벤트
     return e[0] == 'START'
 
+def z_down(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_z
+
 def Idle_event(e): #start 가상의 이벤트
     return e[0] == 'Idle'
 
@@ -38,8 +41,8 @@ def down_down(e):
 def down_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_DOWN
 
-def z_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_z
+def Dead_event(e):
+    return e[0] == 'DEAD'
 
 
 # 상태 머신을 처리 관리 해주는 클래스

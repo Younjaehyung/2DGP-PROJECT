@@ -28,26 +28,44 @@ class Player:
 
         self.status = 0 #0 idle 1 move 2 attack 3 spec attack 4 death 5 none
         self.prevstatus=0
+
+        self.shnormal_frame = 0
+        self.lhnormal_frame = 0
+        self.spawn_time =0
+
         self.normal_frame = 0
         self.action_frame=8
 
+        self.heal_image = load_image("resource/Heal_Effect.png")
+        self.laser_image = load_image("resource/LASER_Effect.png")
+        self.wait_time = get_time()
+        # base_path = "resource"
+
+        self.image_action = {1: 7, 2: 8, 3: 7, 4: 6}
+
+
         self.state_machine = StateMachine(self)  # 어떤 객체를 위한 상태 머신인지 알려줄 필요가 있다
-        self.state_machine.start(Idle)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
+        self.state_machine.start(Spawn)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
+
+
 
         self.state_machine.set_transitions({
-            Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run ,z_down: Attack},
-            Run: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run,Idle_event : Idle,z_down: Attack},
-            Attack: {right_down: Run, left_down: Run, right_up: Run, left_up: Run},
+            Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run ,z_down: Attack, Dead_event : Dead},
+            Run: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run,Idle_event : Idle,z_down: Attack,Dead_event : Dead},
+            Attack: {right_down: Run, left_down: Run, right_up: Run, left_up: Run , Dead_event : Dead},
+            Spawn:{time_out : Idle},
             Dead: {}
 
         })
 
-        self.wait_time = get_time()
-        #base_path = "resource"
+
+
+
+
         base_path = os.path.dirname(os.path.abspath(__file__))
         job_paths = {
             1: "Knight/Knight with shadows/Knight.png",
-            2: "Soldier/Soldier with shadows/Soldier.png",
+            2: "Knight Templar/Knight Templar with shadows/Knight Templar.png",
             3: "Lancer/Lancer with shadows/Lancer.png",
             4: "Armored Axeman/Armored Axeman with shadows/Armored Axeman.png"
         }
@@ -73,6 +91,9 @@ class Player:
 
     def update(self):
         self.state_machine.update()
+        if self.hp<=0:
+            self.state_machine.add_event(('DEAD', 0))
+
         pass
     def render(self):
 
