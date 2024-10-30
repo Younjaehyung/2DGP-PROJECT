@@ -107,7 +107,7 @@ class GameWorld:
             self.worldmap=self.worldB
             pass
         self.BackGround.clip_draw(0,0,1200,800,600,400)
-        self.worldmap.clip_draw(0, 0, 576, 576, 576/2+96,576/2-112,800,800)
+        self.worldmap.clip_draw(0, 0, 576, 576, 576/2+96,576/2+96,800,800)
 
         pass
     def enterfield(self):
