@@ -35,8 +35,8 @@ class Player:
         self.state_machine.start(Idle)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
 
         self.state_machine.set_transitions({
-            Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run, left_up: Run, right_up: Run,up_up: Run, down_up: Run ,z_down: Attack},
-            Run: {right_down: Idle, left_down: Idle, down_down: Idle, up_down: Idle,right_up: Idle, left_up: Idle, down_up: Idle, up_up : Idle, z_down: Attack},
+            Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run ,z_down: Attack},
+            Run: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run,Idle_event : Idle,z_down: Attack},
             Attack: {right_down: Run, left_down: Run, right_up: Run, left_up: Run},
             Dead: {}
 

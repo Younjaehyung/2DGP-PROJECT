@@ -11,6 +11,9 @@ def time_out(e):
 def start_event(e): #start 가상의 이벤트
     return e[0] == 'START'
 
+def Idle_event(e): #start 가상의 이벤트
+    return e[0] == 'Idle'
+
 def right_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_RIGHT
 
@@ -36,7 +39,7 @@ def down_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_DOWN
 
 def z_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_a
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_z
 
 
 # 상태 머신을 처리 관리 해주는 클래스
@@ -55,7 +58,7 @@ class StateMachine:
 
             for check_event, next_state in self.transitions[self.cur_state].items():
                 if check_event(e): # e가 지금 check_event으로 들어오면? space_donw(e) ?
-                    self.cur_state.exit(self.o,e)
+                    self.cur_state.exit(self.o, e)
                     print(f'EXIT from {self.cur_state}')
                     self.cur_state = next_state
                     self.cur_state.enter(self.o,e)
