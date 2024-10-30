@@ -22,19 +22,14 @@ def handle_input():
         global running
 
         events = get_events()
-        if game.resetflag==2:
-            for event in events:
-                print('pass')
-                pass
-            return
-        else:
-            for event in events:
-             if event.type == SDL_QUIT:
-                  running = False
-             elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-                  running = False
-             else :
-                  game.handle_event(event)
+
+        for event in events:
+         if event.type == SDL_QUIT:
+              running = False
+         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+              running = False
+         else :
+              game.handle_event(event)
 
 
 def initialize():
@@ -43,7 +38,7 @@ def initialize():
     global mapW
 
     game = GameWorld()
-    game.resetmapsize(mapW,mapH)
+    game.reset_mapsize(mapW,mapH)
 
 
 

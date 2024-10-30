@@ -23,8 +23,8 @@ class GameWorld:
         self.font = load_font('resource/DungeonFont.ttf', 70)  # 24는 폰트 크기
 
         self.text = "0"
-        self.Check=0
-        self.resetflag=False
+
+
         self.enemies =[]
         self.enemiesL=[]
         self.enemiesR = []
@@ -49,14 +49,16 @@ class GameWorld:
         collider_instance.player = self.player  # 플레이어 객체 할당
     def handle_event(self,event):
 
-        if not self.resetflag:
-            self.player.handle_event(event)
+        self.player.handle_event(event)
+
+    def reset_mapsize(self,w,h):
+        self.mapSize_W=w
+        self.mapSize_H=h
 
 
     def update(self):
-        self.resetevent()
-        self.checkstage()   #1 검사
-        self.checkplayer()
+
+        self.check_game()
         self.player.update()
 
                             #2 player update
@@ -66,7 +68,7 @@ class GameWorld:
 
     def render(self):
 
-        self.worldrender()
+        self.world_render()
         self.player.render()
         for _enemy in self.enemies:
             if self.player.y > _enemy:
@@ -75,12 +77,12 @@ class GameWorld:
             else:
                 #_enemy.render()
                 self.player.render()
-        self.playertimer()
+        self.player_timer()
 
         pass
 
 
-    def playertimer(self):
+    def player_timer(self):
         current_time = time.perf_counter()  # 현재 시간
         self.playerTime =  self.playerTotalTime- (current_time - self.start_time)
         if self.playerTime<10:
@@ -88,7 +90,7 @@ class GameWorld:
         else:
             self.font.draw(400, 500, f'{self.playerTime:.2f}', (185, 240, 100))
 
-    def worldrender(self):
+    def world_render(self):
         if self.playerWhere == 0:
             self.worldmap=self.worldmain
             pass
@@ -109,16 +111,10 @@ class GameWorld:
 
         pass
 
-    def resetmapsize(self,w,h):
-        self.mapSize_W=w
-        self.mapSize_H=h
 
-    def resetevent(self):
-        if self.resetflag:
-            self.resetflag=False
-        else: return
 
-    def resetplayer(self):
+
+    def reset_player(self):
        # self.player = None
         self.playerWhere = 0
         self.start_time = time.perf_counter()
@@ -126,28 +122,14 @@ class GameWorld:
         self.stage += 1
         self.playerTime=30
 
-
-
-    def resetplayer2(self):
-        self.player = Player()
-
-
-    def resetenemy(self):
+    def reset_enemy(self):
         self.enemiesL = [MonsterL() for i in range(self.stage * 5 * self.penalty)]
         self.enemiesR = [MonsterR() for i in range(self.stage * 5 * self.penalty)]
         self.enemiesT = [MonsterT() for i in range(self.stage * 5 * self.penalty)]
         self.enemiesB = [MonsterB() for i in range(self.stage * 5 * self.penalty)]
 
         self.enemies = [self.enemiesL, self.enemiesR, self.enemiesT, self.enemiesB]
-
-    def checkstage(self):
-
-        if self.player.hp <= 0 <= self.playerTime:
-            self.penalty +=1
-        elif self.player.hp>=0 and self.checkmonster():
-            pass
-
-    def checkmonster(self):
+    def check_monster(self):
 
         checking_empty=1
         for enemy in self.enemies:
@@ -160,16 +142,8 @@ class GameWorld:
             return 0    #존재하면 0 반환
 
 
-    def killplayer(self):
-        self.player.hp=0
-        pass
+    def check_game(self):
 
-
-    def checkplayer(self):
-
-        if self.resetflag == 2:
-            self.resetplayer2()
-            self.resetflag = 0
 
             #2
         #1  #0  #3
@@ -178,8 +152,8 @@ class GameWorld:
         if  self.player.state_machine.cur_state != Dead and (self.playerTime <= 0 or self.player.hp <= 0):
             self.player.state_machine.add_event(('DEAD',0))
         elif self.player.state_machine.cur_state == Death :
-            self.resetplayer()
-            self.resetflag = 2  #?>?? 뭐지
+            self.reset_player()
+            return
         else :
             # ////////맵 이동 좌표/////////
             if self.playerWhere==0:
