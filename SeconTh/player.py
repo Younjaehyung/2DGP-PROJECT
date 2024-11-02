@@ -34,7 +34,7 @@ class Player:
         self.lhnormal_frame = 0
         self.spawn_time =0
         self.dead_time = 0
-
+        self.attack_time = 0
 
 
         self.heal_image = load_image("resource/Heal_Effect.png")
@@ -53,7 +53,7 @@ class Player:
         self.state_machine.set_transitions({
             Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,z_down: Attack, Dead_event : Dead},
             Run: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run,Idle_event : Idle,z_down: Attack,Dead_event : Dead},
-            Attack: {right_down: Run, left_down: Run, right_up: Run, left_up: Run , Dead_event : Dead},
+            Attack: { Dead_event : Dead},
             Spawn:{time_out : Idle},
             Dead: {time_out : Death }, Death: {}
 

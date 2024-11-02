@@ -44,8 +44,8 @@ class Idle:
 class Attack:
     @staticmethod
     def enter(player,e):
-        player.status = 2
         player.action_frame = 5
+        player.attack_time= get_time()
         pass
 
     @staticmethod
@@ -71,9 +71,10 @@ class Attack:
     def do(player):
         player.normal_frame = (player.normal_frame + 1) % 7
         if player.normal_frame == 0:
-            player.status = 0
+            player.state_machine.add_event(('TIME_OUT', 0))
+        #player.short_press_action()
 
-        player.long_press_action()
+
 
         pass
 
