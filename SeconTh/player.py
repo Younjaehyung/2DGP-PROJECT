@@ -30,6 +30,8 @@ class Player:
         self.normal_frame = 0
         self.action_frame = 8
 
+        self.Rect = pygame.Rect(self.x-50, self.y+50, 100, 100)    #좌측 상단 xy 가로 세로 길이
+
         self.shnormal_frame = 0
         self.lhnormal_frame = 0
         self.spawn_time =0
@@ -65,19 +67,25 @@ class Player:
 
         base_path = os.path.dirname(os.path.abspath(__file__))
         job_paths = {
-            1: "Knight/Knight with shadows/Knight.png",
-            2: "Knight Templar/Knight Templar with shadows/Knight Templar.png",
-            3: "Lancer/Lancer with shadows/Lancer.png",
-            4: "Armored Axeman/Armored Axeman with shadows/Armored Axeman.png"
+            #1: "Knight/Knight with shadows/Knight.png",
+            #2: "Knight Templar/Knight Templar with shadows/Knight Templar.png",
+            #3: "Lancer/Lancer with shadows/Lancer.png",
+            #4: "Armored Axeman/Armored Axeman with shadows/Armored Axeman.png"
+            1: "Hero_Sword.png",
+            2: "Hero_Spear.png",
+            3: "Hero_Lancer.png",
+            4: "Hero_Axe.png"
+
         }
 
         # Pygame 이미지 경로
         image_path = os.path.join(base_path, "resource", job_paths.get(self.job, ''))
         print(f"Image path: {image_path}")  # 경로 확인용
-
+        image_path2 = os.path.join(base_path, "resource")
         # 경로 및 파일 존재 여부 확인
-        if not os.path.exists(image_path):
+        if not os.path.exists(image_path2):
             print(f"Error: File does not exist at {image_path}")
+
             return
 
         # pico2d에서 이미지 로드
@@ -92,6 +100,10 @@ class Player:
 
     def update(self):
         self.state_machine.update()
+        self.Rect = pygame.Rect(self.x - 32, self.y + 32, 64, 64)
+        print(self.Rect.x, self.Rect.y, self.Rect.width, self.Rect.height)
+
+
         if self.hp<=0:
             self.state_machine.add_event(('DEAD', 0))
 
@@ -112,6 +124,11 @@ class Player:
         self.font.draw(self.x, self.y + 50, f'{self.attack_stat}', (255, 0, 0))
         self.font.draw(self.x, self.y + 100, f'{self.hp}', (255, 0, 0))
         self.font.draw(self.x, self.y + 150, f'{self.speed}', (255, 0, 0))
+
+        self.font.draw(self.x-50, self.y+50, f'〮', (0, 255, 0))
+        self.font.draw(self.x - 50, self.y - 50, f'〮', (0, 255, 0))
+        self.font.draw(self.x + 50, self.y - 50, f'〮', (0, 255, 0))
+        self.font.draw(self.x + 50, self.y + 50, f'〮', (0, 255, 0))
 
         if get_time() - self.wait_time > 0.1:
             self.wait_time = get_time()
