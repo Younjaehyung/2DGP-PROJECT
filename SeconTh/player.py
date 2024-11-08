@@ -144,11 +144,15 @@ class Player:
 
 
     def take_damage(self, damage):
-        self.hp -= damage/30
+        self.hp -= damage
 
-    def short_press_action(self):
-        collider_instance = collider.Collider()
-        collider_instance.enemey_take_damage(30)
+    def handle_collision(self, group, other):
+        if group == 'player:enemies':
+            if other.state_machine.cur_state == 'Dead':
+                pass
+            elif other.state_machine.cur_state == 'Attack':
+                self.take_damage(other.Attack_damage)
+            else :  self.take_damage(other.Idle_damage)
 
     def readjust_box(self,width,height):
         self.Rect=pygame.Rect(self.x - width, self.y + height, width*2, height)
