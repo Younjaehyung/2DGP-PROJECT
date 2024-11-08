@@ -22,10 +22,10 @@ class Player:
             self.attack_width=30
             self.attack_height = 30
         elif self.job == 2:
-            self.attack_width = 50
+            self.attack_width = 80
             self.attack_height = 10
         elif self.job == 3:
-            self.attack_width = 50
+            self.attack_width = 70
             self.attack_height = 10
         elif self.job == 4:
             self.attack_width = 30
@@ -182,4 +182,4 @@ class Player:
 
 
         self.Weapon_Rect = pygame.Rect(self.x - self.attack_width/2+(self.dir * self.attack_width/2),
-                                       self.y + self.attack_height/2, self.attack_width, self.attack_height)
+                                       self.y + self.attack_height/2 - 20, self.attack_width, self.attack_height)
