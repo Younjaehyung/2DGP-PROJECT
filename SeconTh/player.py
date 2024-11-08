@@ -15,7 +15,21 @@ class Player:
         self.hp=random.randint(40,100)
         self.speed=random.randint(100,150)
         self.job = random.randint(1,4)
-
+        self.attack_width = None
+        self.attack_height = None
+        self.dir = 1
+        if self.job == 1:
+            self.attack_width=20
+            self.attack_height = 20
+        elif self.job == 2:
+            self.attack_width = 30
+            self.attack_height = 10
+        elif self.job == 3:
+            self.attack_width = 30
+            self.attack_height = 10
+        elif self.job == 4:
+            self.attack_width = 10
+            self.attack_height = 30
 
         self.keydown =[0,0,0,0]
 
@@ -135,6 +149,13 @@ class Player:
         self.font.draw(self.Rect.left + self.Rect.width, self.Rect.top - self.Rect.height, f'.', (0, 255, 0))
         self.font.draw(self.Rect.left + self.Rect.width, self.Rect.top, f'.', (0, 255, 0))
         self.font.draw(self.x, self.y, f'.', (0, 255, 0))
+
+        draw_rectangle(self.x - self.attack_width/2+(self.dir * self.attack_width/2),
+                                       self.y + self.attack_height/2,
+                       self.x - self.attack_width/2+(self.dir * self.attack_width/2)+self.attack_width,
+                       self.y + self.attack_height/2+self.attack_height)
+        draw_rectangle(100,100,200,200)
+
         if get_time() - self.wait_time > 0.1:
             self.wait_time = get_time()
 
@@ -159,3 +180,7 @@ class Player:
 
     def readjust_box(self,width,height):
         self.Rect=pygame.Rect(self.x - width, self.y + height, width*2, height)
+
+
+        self.Weapon_Rect = pygame.Rect(self.x - self.attack_width/2+(self.dir * self.attack_width/2),
+                                       self.y + self.attack_height/2, self.attack_width, self.attack_height)
