@@ -30,7 +30,7 @@ class Player:
         self.normal_frame = 0
         self.action_frame = 8
 
-        self.Rect = pygame.Rect(self.x-50, self.y+50, 100, 100)    #좌측 상단 xy 가로 세로 길이
+        self.Rect = None    #좌측 상단 xy 가로 세로 길이
 
         self.shnormal_frame = 0
         self.lhnormal_frame = 0
@@ -102,7 +102,7 @@ class Player:
 
     def update(self):
         self.state_machine.update()
-        self.Rect = pygame.Rect(self.x - 32, self.y + 32, 64, 64)
+        self.readjust_box(32,64)
         print(self.Rect.x, self.Rect.y, self.Rect.width, self.Rect.height)
 
 
@@ -127,11 +127,11 @@ class Player:
         self.font.draw(self.x, self.y + 100, f'{self.hp}', (255, 0, 0))
         self.font.draw(self.x, self.y + 150, f'{self.speed}', (255, 0, 0))
         #┌┐└┘
-        self.font.draw(self.x-50, self.y+50, f'┌', (0, 255, 0))
-        self.font.draw(self.x - 50, self.y - 50, f'└', (0, 255, 0))
-        self.font.draw(self.x + 50, self.y - 50, f'┘', (0, 255, 0))
-        self.font.draw(self.x + 50, self.y + 50, f'┐', (0, 255, 0))
-
+        self.font.draw(self.Rect.left, self.Rect.top, f'.', (0, 255, 0))
+        self.font.draw(self.Rect.left, self.Rect.top  -self.Rect.height, f'.', (0, 255, 0))
+        self.font.draw(self.Rect.left + self.Rect.width, self.Rect.top - self.Rect.height, f'.', (0, 255, 0))
+        self.font.draw(self.Rect.left + self.Rect.width, self.Rect.top, f'.', (0, 255, 0))
+        self.font.draw(self.x, self.y, f'.', (0, 255, 0))
         if get_time() - self.wait_time > 0.1:
             self.wait_time = get_time()
 
@@ -149,3 +149,6 @@ class Player:
     def short_press_action(self):
         collider_instance = collider.Collider()
         collider_instance.enemey_take_damage(30)
+
+    def readjust_box(self,width,height):
+        self.Rect=pygame.Rect(self.x - width, self.y + height, width*2, height)
