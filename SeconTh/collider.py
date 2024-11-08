@@ -40,8 +40,8 @@ class CollisionManager:
         for pairs in self.collision_pairs.values():
             if o in pairs[0]:
                 pairs[0].remove(o)
-        if o in pairs[1]:
-            pairs[1].remove(o)
+            if o in pairs[1]:
+                pairs[1].remove(o)
 
 
 

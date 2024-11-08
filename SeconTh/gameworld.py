@@ -44,12 +44,9 @@ class GameWorld:
         self.playerLife=10
         self.playerWhere=0
 
-        CollisionManager().add_collision_pair('boy:ball', self.player, None)
-        for enemies in self.enemies:
-            CollisionManager().add_collision_pair('boy:ball', None, enemies)
+        CollisionManager().add_collision_pair('player:enemies', self.player, None)
 
-
-def handle_event(self,event):
+    def handle_event(self,event):
 
         self.player.handle_event(event)
 
@@ -62,7 +59,6 @@ def handle_event(self,event):
 
         self.check_game()
         self.player.update()
-        CollisionManager().add_collision_pair()
                             #2 player update
                             #3 monster update
                             #4 gamelogic update
@@ -131,7 +127,7 @@ def handle_event(self,event):
                 CollisionManager().remove_collision_object(o)
                 del o
                 return
-        raise ValueError('Cannot delete non existing object'
+        raise ValueError('Cannot delete non existing object')
 
     def reset_enemy(self):
         self.enemiesL = [MonsterL() for i in range(self.stage * 5 * self.penalty)]
@@ -155,16 +151,14 @@ def handle_event(self,event):
 
     def check_game(self):
 
-
-
         if  (self.player.state_machine.cur_state != Dead and self.player.state_machine.cur_state != Death)and (self.playerTime <= 0 or self.player.hp <= 0):
             self.player.state_machine.add_event(('DEAD',0))
         elif self.player.state_machine.cur_state == Death :
             self.reset_player()
 
-            CollisionManager().add_collision_pair('boy:ball', self.player, None)
+            CollisionManager().add_collision_pair('player:enemies', self.player, None)
             for enemies in self.enemies:
-                CollisionManager().add_collision_pair('boy:ball', None, enemies)
+                CollisionManager().add_collision_pair('player:enemies', None, enemies)
 
             return
 
@@ -181,15 +175,35 @@ def handle_event(self,event):
                 if self.player.x <= 20 and 350 <= self.player.y <= 450:
                     self.playerWhere = 1
                     self.player.x = 770
+                    CollisionManager().collision_pairs.clear()
+                    CollisionManager().add_collision_pair('player:enemies', self.player, None)
+                    for enemies in self.enemiesL:
+                        CollisionManager().add_collision_pair('player:enemies', None, enemies)
+
                 if self.player.x >= 780 and 350 <= self.player.y <= 450:
                     self.playerWhere = 3
                     self.player.x = 30
+                    CollisionManager().collision_pairs.clear()
+                    CollisionManager().add_collision_pair('player:enemies', self.player, None)
+                    for enemies in self.enemiesR:
+                        CollisionManager().add_collision_pair('player:enemies', None, enemies)
+
                 if self.player.y >= 780 and 350 <= self.player.x <= 450:
                     self.playerWhere = 2
                     self.player.y = 30
+                    CollisionManager().collision_pairs.clear()
+                    CollisionManager().add_collision_pair('player:enemies', self.player, None)
+                    for enemies in self.enemiesB:
+                        CollisionManager().add_collision_pair('player:enemies', None, enemies)
+
                 if self.player.y <= 20 and 350 <= self.player.x <= 450:
                     self.playerWhere = 4
                     self.player.y = 770
+                    CollisionManager().collision_pairs.clear()
+                    CollisionManager().add_collision_pair('player:enemies', self.player, None)
+                    for enemies in self.enemiesT:
+                        CollisionManager().add_collision_pair('player:enemies', None, enemies)
+
             elif self.playerWhere==1:
                 if self.player.x >= 780 and 350 <= self.player.y <= 450:
                     self.playerWhere = 0
