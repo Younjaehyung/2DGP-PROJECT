@@ -8,10 +8,12 @@ class Idle:
     @staticmethod
     def enter(player,e):
         print('idle')
+
         if z_down(e):
+            player.attack_status = 1
             player.action_frame = 5
         else:
-
+            player.attack_status = 0
             player.action_frame=7
 
         player.handle_x = 0
@@ -56,8 +58,10 @@ class Run:
     def enter(player,e):
 
         if z_down(e):
+            player.attack_status = 1
             player.action_frame=5
         else:
+            player.attack_status = 0
             player.action_frame = 6
 
         if right_down(e) or left_up(e):  # 오른쪽으로 RUN

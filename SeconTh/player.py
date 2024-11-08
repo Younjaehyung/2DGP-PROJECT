@@ -24,13 +24,18 @@ class Player:
         self.font = load_font('resource/DungeonFont.ttf', 70)
         self.flip_x='H'
         self.flip_y = 0
-
-        self.status = 0 #0 idle 1 move 2 attack 3 spec attack 4 death 5 none
-
         self.normal_frame = 0
         self.action_frame = 8
 
+        self.status = 0 #0 idle 1 move 2 attack 3 spec attack 4 death 5 none
+        self.attack_status = 0
+
+
+        #Idle
         self.Rect = None    #좌측 상단 xy 가로 세로 길이
+        #Attack(weapon)
+        self.Weapon_Rect = None
+
 
         self.shnormal_frame = 0
         self.lhnormal_frame = 0
@@ -49,8 +54,6 @@ class Player:
 
         self.state_machine = StateMachine(self)  # 어떤 객체를 위한 상태 머신인지 알려줄 필요가 있다
         self.state_machine.start(Spawn)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
-
-
 
         self.state_machine.set_transitions({
             Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,z_down: Idle,time_out: Idle, Dead_event : Dead},
