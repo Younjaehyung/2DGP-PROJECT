@@ -225,7 +225,7 @@ class Dead:
     @staticmethod
     def enter(player, e):
         player.normal_frame = 0
-        player.action_frame = 0
+        player.action_frame = 1
         player.dead_time =get_time()
         pass
 
