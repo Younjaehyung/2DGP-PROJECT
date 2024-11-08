@@ -60,7 +60,7 @@ class GameWorld:
 
         self.check_game()
         self.player.update()
-
+        self.handle_collisions()
                             #2 player update
                             #3 monster update
                             #4 gamelogic update
