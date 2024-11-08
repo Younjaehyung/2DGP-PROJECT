@@ -24,7 +24,7 @@ class GameWorld:
 
         self.text = "0"
 
-
+        self.Gameobjects = [[], []]
         self.enemies =[]
         self.enemiesL=[]
         self.enemiesR = []
@@ -124,6 +124,14 @@ class GameWorld:
         self.stage += 1
         self.player = Player()
 
+    def remove_object(self,o):
+        for layer in self.Gameobjects:
+            if o in layer:
+                layer.remove(o)
+                remove_collision_object(o)
+                del o
+                return
+        raise ValueError('Cannot delete non existing object'
 
     def reset_enemy(self):
         self.enemiesL = [MonsterL() for i in range(self.stage * 5 * self.penalty)]
