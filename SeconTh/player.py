@@ -19,17 +19,17 @@ class Player:
         self.attack_height = None
         self.dir = 1
         if self.job == 1:
-            self.attack_width=20
-            self.attack_height = 20
+            self.attack_width=30
+            self.attack_height = 30
         elif self.job == 2:
-            self.attack_width = 30
+            self.attack_width = 50
             self.attack_height = 10
         elif self.job == 3:
-            self.attack_width = 30
+            self.attack_width = 50
             self.attack_height = 10
         elif self.job == 4:
-            self.attack_width = 10
-            self.attack_height = 30
+            self.attack_width = 30
+            self.attack_height = 50
 
         self.keydown =[0,0,0,0]
 
@@ -119,8 +119,8 @@ class Player:
 
     def update(self):
         self.state_machine.update()
-        self.readjust_box(16,64)
-        print(self.Rect.x, self.Rect.y, self.Rect.width, self.Rect.height)
+        self.readjust_box(32,48)
+        print(self.x - 32/2, self.y + 48, 32, 48)
 
 
         if self.hp<=0:
@@ -132,8 +132,10 @@ class Player:
 
         if self.handle_x<0:
             self.flip_x ='h'
+            self.dir = -1
         elif self.handle_x>0:
             self.flip_x = 'H'
+            self.dir = 1
         if self.handle_y < 0:
             self.flip_y = 0
         elif self.handle_y > 0:
@@ -144,12 +146,9 @@ class Player:
         self.font.draw(self.x, self.y + 100, f'{self.hp}', (255, 0, 0))
         self.font.draw(self.x, self.y + 150, f'{self.speed}', (255, 0, 0))
         #┌┐└┘
-        self.font.draw(self.Rect.left, self.Rect.top, f'.', (0, 255, 0))
-        self.font.draw(self.Rect.left, self.Rect.top  -self.Rect.height, f'.', (0, 255, 0))
-        self.font.draw(self.Rect.left + self.Rect.width, self.Rect.top - self.Rect.height, f'.', (0, 255, 0))
-        self.font.draw(self.Rect.left + self.Rect.width, self.Rect.top, f'.', (0, 255, 0))
-        self.font.draw(self.x, self.y, f'.', (0, 255, 0))
 
+        draw_rectangle(self.Rect.left, self.Rect.top,self.x + self.Rect.width,self.y - self.Rect.height)
+        draw_rectangle(self.x-2, self.y+2, self.x+2, self.y-2)
         draw_rectangle(self.x - self.attack_width/2+(self.dir * self.attack_width/2),
                                        self.y + self.attack_height/2,
                        self.x - self.attack_width/2+(self.dir * self.attack_width/2)+self.attack_width,
@@ -179,7 +178,7 @@ class Player:
             else :  self.take_damage(other.Idle_damage)
 
     def readjust_box(self,width,height):
-        self.Rect=pygame.Rect(self.x - width, self.y + height, width*2, height)
+        self.Rect=pygame.Rect(self.x - (width/2), self.y + height, width/2, height)
 
 
         self.Weapon_Rect = pygame.Rect(self.x - self.attack_width/2+(self.dir * self.attack_width/2),
