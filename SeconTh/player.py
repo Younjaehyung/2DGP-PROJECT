@@ -102,7 +102,7 @@ class Player:
 
     def update(self):
         self.state_machine.update()
-        self.readjust_box(32,64)
+        self.readjust_box(16,64)
         print(self.Rect.x, self.Rect.y, self.Rect.width, self.Rect.height)
 
 
