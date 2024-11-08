@@ -1,7 +1,7 @@
 from monster import*
 from player import*
 import time
-import collider
+from collider import*
 
 class GameWorld:
     def __init__(self):
@@ -47,6 +47,8 @@ class GameWorld:
         collider_instance = collider.Collider()
         collider_instance.enemies = self.enemies  # 적 객체 리스트 할당
         collider_instance.player = self.player  # 플레이어 객체 할당
+
+
     def handle_event(self,event):
 
         self.player.handle_event(event)
@@ -60,7 +62,7 @@ class GameWorld:
 
         self.check_game()
         self.player.update()
-        self.handle_collisions()
+        CollisionManager().add_collision_pair()
                             #2 player update
                             #3 monster update
                             #4 gamelogic update

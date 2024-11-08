@@ -36,6 +36,13 @@ class CollisionManager:
         if b:
             self.collision_pairs[group][1].append(b)
 
+    def remove_collision_object(self,o):
+        for pairs in self.collision_pairs.values():
+            if o in pairs[0]:
+                pairs[0].remove(o)
+        if o in pairs[1]:
+            pairs[1].remove(o)
+
     def handle_collisions(self):
         for group, pairs in self.collision_pairs.items():
             for a in pairs[0]:
