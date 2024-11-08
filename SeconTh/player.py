@@ -53,9 +53,11 @@ class Player:
 
 
         self.state_machine.set_transitions({
-            Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,z_down: Attack, Dead_event : Dead},
-            Run: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run,Idle_event : Idle,z_down: Attack,Dead_event : Dead},
-            Attack: {right_down: Attack, left_down: Attack, right_up: Attack, left_up: Attack ,time_out : Idle, Dead_event : Dead},
+            Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,z_down: Idle,time_out: Idle, Dead_event : Dead},
+            Run: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run,
+                  Idle_event : Idle,z_down: Run,time_out: Run,Dead_event : Dead},
+
+            #Attack: {right_down: Attack, left_down: Attack, right_up: Attack, left_up: Attack ,time_out : Idle, Dead_event : Dead},
             Spawn:{time_out : Idle},
             Dead: {time_out : Death }, Death: {}
 
@@ -124,11 +126,11 @@ class Player:
         self.font.draw(self.x, self.y + 50, f'{self.attack_stat}', (255, 0, 0))
         self.font.draw(self.x, self.y + 100, f'{self.hp}', (255, 0, 0))
         self.font.draw(self.x, self.y + 150, f'{self.speed}', (255, 0, 0))
-
-        self.font.draw(self.x-50, self.y+50, f'〮', (0, 255, 0))
-        self.font.draw(self.x - 50, self.y - 50, f'〮', (0, 255, 0))
-        self.font.draw(self.x + 50, self.y - 50, f'〮', (0, 255, 0))
-        self.font.draw(self.x + 50, self.y + 50, f'〮', (0, 255, 0))
+        #┌┐└┘
+        self.font.draw(self.x-50, self.y+50, f'┌', (0, 255, 0))
+        self.font.draw(self.x - 50, self.y - 50, f'└', (0, 255, 0))
+        self.font.draw(self.x + 50, self.y - 50, f'┘', (0, 255, 0))
+        self.font.draw(self.x + 50, self.y + 50, f'┐', (0, 255, 0))
 
         if get_time() - self.wait_time > 0.1:
             self.wait_time = get_time()

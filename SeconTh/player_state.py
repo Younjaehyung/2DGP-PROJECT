@@ -8,14 +8,20 @@ class Idle:
     @staticmethod
     def enter(player,e):
         print('idle')
+        if z_down(e):
+            player.action_frame = 5
+        else:
+
+            player.action_frame=7
+
         player.handle_x = 0
         player.handle_y = 0
-        player.normal_frame=0
-        player.action_frame=7
+        player.normal_frame = 0
         pass
 
     @staticmethod
     def exit(player,e):
+
         pass
 
     @staticmethod
@@ -35,99 +41,13 @@ class Idle:
 
     @staticmethod
     def do(player):
+
         player.normal_frame = (player.normal_frame + 1) % 6
-        pass
-
-
-
-
-class Attack:
-    @staticmethod
-    def enter(player,e):
-        player.action_frame = 5
-        player.attack_time= get_time()
-
-
-        if right_down(e) or left_up(e):  # 오른쪽으로 RUN
-            player.handle_x += 1
-            if right_down(e):
-                print("right_down")
-            else : print ("left_up")
-
-        if left_down(e) or right_up(e) :  # 왼쪽으로 RUN
-            player.handle_x -= 1
-            if left_down(e):
-                print("left_down")
-            else:
-                print("right_up")
-
-        if up_down(e) or down_up(e):  # 위으로 RUN
-            player.handle_y += 1
-            if up_down(e):
-                print("up_down")
-            else:
-                print("down_up")
-
-        if down_down(e) or up_up(e):  # 아래로 RUN
-            player.handle_y -= 1
-            if down_down(e):
-                print("down_down")
-            else : print ("up_up")
-
-        if down_down(e):
-            player.keydown[3] = 1
-        elif down_up(e):
-            player.keydown[3] = 0
-
-        if right_down(e):
-            player.keydown[2] = 1
-        elif right_up(e):
-            player.keydown[2] = 0
-
-        if up_down(e):
-            player.keydown[1] = 1
-        elif up_up(e):
-            player.keydown[1] = 0
-
-        if left_down(e):
-            player.keydown[0] = 1
-        elif left_up(e):
-            player.keydown[0] = 0
-
-
-        pass
-
-    @staticmethod
-    def exit(player,e):
-        pass
-
-    @staticmethod
-    def draw(player):
-        player.image.clip_composite_draw(
-            player.normal_frame * 100,  # 이미지의 왼쪽 상단 x좌표
-            player.action_frame * 100,  # 이미지의 왼쪽 상단 y좌표
-            100,
-            100,
-            player.flip_y,
-            player.flip_x,
-            player.x,
-            player.y,
-            250,
-            250)
-        pass
-
-    @staticmethod
-    def do(player):
-        player.normal_frame = (player.normal_frame + 1) % 7
-        if player.normal_frame == 0:
+        if player.action_frame== 5 and player.normal_frame == 0:
             player.state_machine.add_event(('TIME_OUT', 0))
-        #player.short_press_action()
+            return
 
-
-        player.x += (player.speed / 20) * player.handle_x
-        player.y += (player.speed / 20) * player.handle_y
         pass
-
 
 
 
@@ -135,10 +55,10 @@ class Run:
     @staticmethod
     def enter(player,e):
 
-        if time_out(e):
-            player.normal_frame = 0
+        if z_down(e):
+            player.action_frame=5
+        else:
             player.action_frame = 6
-            return
 
         if right_down(e) or left_up(e):  # 오른쪽으로 RUN
             player.handle_x += 1
@@ -186,10 +106,7 @@ class Run:
         elif left_up(e):
             player.keydown[0] = 0
 
-
-
-        player.normal_frame=0
-        player.action_frame=6
+        player.normal_frame = 0
         pass
 
     @staticmethod
@@ -214,7 +131,13 @@ class Run:
 
     @staticmethod
     def do(player):
-        player.normal_frame = (player.normal_frame + 1) % 8
+        if player.action_frame == 5:
+            player.normal_frame = (player.normal_frame + 1) % 6
+            if player.normal_frame == 0:
+                player.state_machine.add_event(('TIME_OUT', 0))
+                return
+        else :
+            player.normal_frame = (player.normal_frame + 1) % 8
 
 
         player.x += (player.speed / 20) * player.handle_x
