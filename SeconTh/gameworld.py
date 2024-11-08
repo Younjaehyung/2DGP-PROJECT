@@ -58,6 +58,11 @@ class GameWorld:
     def update(self):
 
         self.check_game()
+        for layer in self.Gameobjects:
+            for obj in layer:
+                if obj.level == 0:
+                    obj.update()
+
         self.player.update()
                             #2 player update
                             #3 monster update
@@ -69,14 +74,16 @@ class GameWorld:
         self.world_render()
 
         for _enemy in self.enemies:
-            if self.player.y < _enemy.y:
-                _enemy.render()
+            if _enemy.level == 0:
+                if self.player.y < _enemy.y:
+                    _enemy.render()
 
         self.player.render()
 
         for _enemy in self.enemies:
-            if self.player.y > _enemy.y:
-                _enemy.render()
+            if _enemy.level == 0:
+                if self.player.y > _enemy.y:
+                    _enemy.render()
         self.player_timer()
 
         pass
