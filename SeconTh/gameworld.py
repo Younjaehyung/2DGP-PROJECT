@@ -67,14 +67,16 @@ class GameWorld:
     def render(self):
 
         self.world_render()
-        self.player.render()
+
         for _enemy in self.enemies:
-            if self.player.y > _enemy:
-                self.player.render()
-                #_enemy.render()
-            else:
-                #_enemy.render()
-                self.player.render()
+            if self.player.y < _enemy.y:
+                _enemy.render()
+
+        self.player.render()
+
+        for _enemy in self.enemies:
+            if self.player.y > _enemy.y:
+                _enemy.render()
         self.player_timer()
 
         pass
