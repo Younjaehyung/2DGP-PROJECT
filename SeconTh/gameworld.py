@@ -44,12 +44,12 @@ class GameWorld:
         self.playerLife=10
         self.playerWhere=0
 
-        collider_instance = collider.Collider()
-        collider_instance.enemies = self.enemies  # 적 객체 리스트 할당
-        collider_instance.player = self.player  # 플레이어 객체 할당
+        CollisionManager().add_collision_pair('boy:ball', self.player, None)
+        for enemies in self.enemies:
+            CollisionManager().add_collision_pair('boy:ball', None, enemies)
 
 
-    def handle_event(self,event):
+def handle_event(self,event):
 
         self.player.handle_event(event)
 
@@ -128,7 +128,7 @@ class GameWorld:
         for layer in self.Gameobjects:
             if o in layer:
                 layer.remove(o)
-                remove_collision_object(o)
+                CollisionManager().remove_collision_object(o)
                 del o
                 return
         raise ValueError('Cannot delete non existing object'
@@ -161,17 +161,21 @@ class GameWorld:
             self.player.state_machine.add_event(('DEAD',0))
         elif self.player.state_machine.cur_state == Death :
             self.reset_player()
+
+            CollisionManager().add_collision_pair('boy:ball', self.player, None)
+            for enemies in self.enemies:
+                CollisionManager().add_collision_pair('boy:ball', None, enemies)
+
             return
 
 
-        else :
 
+        else :
             # ////////맵 이동 좌표/////////
 
             #     2
             # 1  #0  #3
             #     4
-
 
             if self.playerWhere==0:
                 if self.player.x <= 20 and 350 <= self.player.y <= 450:
@@ -202,8 +206,6 @@ class GameWorld:
                 if self.player.y >= 780 and 350 <= self.player.x <= 450:
                     self.playerWhere = 0
                     self.player.y = 30
-
-
 
 
 
