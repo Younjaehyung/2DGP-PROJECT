@@ -48,8 +48,8 @@ class MonsterT(Monster):
         super().__init__()
         self.monster_type = 1
         self.health=100
-        # if image == None:
-        # Monster.image=load_image('run_animation.png')
+        if image == None:
+            Monster.image=load_image('resource/Slime/Slime.png')
         #self.image = load_image('run_animation.png')
 class MonsterB(Monster):
     image = None
@@ -57,8 +57,8 @@ class MonsterB(Monster):
         super().__init__()
         self.monster_type = 2
         self.health = 100
-        # if image == None:
-        # Monster.image=load_image('run_animation.png')
+        if image == None:
+            Monster.image=load_image('resource/Skeleton/Skeleton.png')
         #self.image = load_image('run_animation.png')
 class MonsterL(Monster):
     image = None
@@ -66,8 +66,8 @@ class MonsterL(Monster):
         super().__init__()
         self.monster_type = 3
         self.health = 100
-        # if image == None:
-        # Monster.image=load_image('run_animation.png')
+        if image == None:
+            Monster.image=load_image('resource/Werebear/Werebear.png')
         #self.image = load_image('run_animation.png')
 class MonsterR(Monster):
     image = None
@@ -75,6 +75,6 @@ class MonsterR(Monster):
         super().__init__()
         self.monster_type = 4
         self.health = 100
-        # if image == None:
-        # Monster.image=load_image('run_animation.png')
+        if image == None:
+            Monster.image=load_image('resource/Orc/Orc.png')
         #self.image = load_image('run_animation.png')
