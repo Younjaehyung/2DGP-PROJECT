@@ -42,9 +42,12 @@ class Monster:
         self.state_machine.draw()
 
     def update(self,playerwhere):
+        self.player_now = playerwhere
+        if self.monster_type is not self.player_now:
+            return
         print("AA")
         self.state_machine.update()
-        self.player_now = playerwhere
+
 
     def search_player(self):
         pass
@@ -55,33 +58,33 @@ class Monster:
 class MonsterT(Monster):
     def __init__(self):
         super().__init__()
-        self.monster_type = 1
+        self.monster_type = 2
         self.health=100
         self.image =load_image('resource/Monster/Mon_Slime_1.png')
-        print
+
         #self.image = load_image('run_animation.png')
 
 class MonsterB(Monster):
 
     def __init__(self):
         super().__init__()
-        self.monster_type = 2
+        self.monster_type = 4
         self.health = 100
-        #self.image =load_image('resource/Monster/Skeleton.png')
+        self.image =load_image('resource/Monster/Mon_Skeleton_1.png')
         #self.image = load_image('run_animation.png')
 
 class MonsterL(Monster):
     def __init__(self):
         super().__init__()
-        self.monster_type = 3
+        self.monster_type = 1
         self.health = 100
-        #self.image =load_image('resource/Monster/Werebear.png')
+        self.image =load_image('resource/Monster/Mon_Beast_1.png')
         #self.image = load_image('run_animation.png')
 
 class MonsterR(Monster):
     def __init__(self):
         super().__init__()
-        self.monster_type = 4
+        self.monster_type = 3
         self.health = 100
         self.image =load_image('resource/Monster/Mon_Orc_1.png')
         #self.image = load_image('run_animation.png')
