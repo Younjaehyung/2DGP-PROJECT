@@ -1,10 +1,9 @@
 from pico2d import load_image, get_time
 
 from state_machine import *
-
+from monster import *
 
 class Idle:
-
     @staticmethod
     def enter(player,e):
         print('idle')

@@ -21,13 +21,10 @@ class Monster:
         self.state_machine.start(Idle)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
 
         self.state_machine.set_transitions({
-            Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run, z_down: Idle, time_out: Idle,
-                   Dead_event: Dead},
-            Run: {right_down: Run, left_down: Run, down_down: Run, up_down: Run, right_up: Run, left_up: Run,
-                  down_up: Run, up_up: Run,
-                  Idle_event: Idle, z_down: Run, time_out: Run, Dead_event: Dead},
+            Idle: {time_out: Idle, Dead_event: Dead},
+            Run: {Idle_event: Idle,time_out: Run, Dead_event: Dead},
 
-            # Attack: {right_down: Attack, left_down: Attack, right_up: Attack, left_up: Attack ,time_out : Idle, Dead_event : Dead},
+            Attack: {time_out : Idle, Dead_event : Dead},
 
             Dead: {time_out: Death}, Death: {}
 
@@ -49,8 +46,9 @@ class MonsterT(Monster):
         self.monster_type = 1
         self.health=100
         if image == None:
-            Monster.image=load_image('resource/Slime/Slime.png')
+            Monster.image=load_image('resource/Monster/Mon_Slime_1.png')
         #self.image = load_image('run_animation.png')
+
 class MonsterB(Monster):
     image = None
     def __init__(self):
@@ -58,8 +56,9 @@ class MonsterB(Monster):
         self.monster_type = 2
         self.health = 100
         if image == None:
-            Monster.image=load_image('resource/Skeleton/Skeleton.png')
+            Monster.image=load_image('resource/Monster/Skeleton.png')
         #self.image = load_image('run_animation.png')
+
 class MonsterL(Monster):
     image = None
     def __init__(self):
@@ -67,8 +66,9 @@ class MonsterL(Monster):
         self.monster_type = 3
         self.health = 100
         if image == None:
-            Monster.image=load_image('resource/Werebear/Werebear.png')
+            Monster.image=load_image('resource/Monster/Werebear.png')
         #self.image = load_image('run_animation.png')
+
 class MonsterR(Monster):
     image = None
     def __init__(self):
@@ -76,5 +76,5 @@ class MonsterR(Monster):
         self.monster_type = 4
         self.health = 100
         if image == None:
-            Monster.image=load_image('resource/Orc/Orc.png')
+            Monster.image=load_image('resource/Monster/Mon_Orc_1.png')
         #self.image = load_image('run_animation.png')
