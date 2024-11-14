@@ -1,25 +1,19 @@
 from pico2d import load_image, get_time
-
 from state_machine import *
-from monster import *
+
+from sdl2 import *
+
 
 class Idle:
     @staticmethod
     def enter(player,e):
         print('idle')
 
-        if z_down(e):
-            player.attack_status = 1
-            player.action_frame = 5
-            player.attack_status=1
-        else:
-            player.attack_status = 0
-            player.action_frame=7
-            player.attack_status = 0
 
         player.handle_x = 0
         player.handle_y = 0
         player.normal_frame = 0
+        player.action_frame = 4
         pass
 
     @staticmethod
@@ -40,15 +34,15 @@ class Idle:
             player.y,
             250,
             250)
+
+
         pass
 
     @staticmethod
     def do(player):
 
         player.normal_frame = (player.normal_frame + 1) % 6
-        if player.action_frame== 5 and player.normal_frame == 0:
-            player.state_machine.add_event(('TIME_OUT', 0))
-            return
+        print("=============MONSTER PRING")
 
         pass
 

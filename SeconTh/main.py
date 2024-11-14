@@ -39,7 +39,7 @@ def initialize():
 
     game = GameWorld()
     game.reset_mapsize(mapW,mapH)
-
+    game.Init()
 
 
 mapH=800

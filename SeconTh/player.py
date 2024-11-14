@@ -1,10 +1,11 @@
 import random
 import time
 import os
-from player_state import *
+
 from pico2d import *
 import pygame
 import collider
+from player_state import *
 from state_machine import *
 
 
@@ -49,7 +50,7 @@ class Player:
         self.Rect = None    #좌측 상단 xy 가로 세로 길이
         #Attack(weapon)
         self.Weapon_Rect = None
-
+        self.level = 0
 
         self.shnormal_frame = 0
         self.lhnormal_frame = 0

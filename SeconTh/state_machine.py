@@ -45,6 +45,13 @@ def Dead_event(e):
     return e[0] == 'DEAD'
 
 
+def Monster_Searching(e):
+    return e[0]=='INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_SPACE
+
+def Monster_time_out(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_z
+
+
 # 상태 머신을 처리 관리 해주는 클래스
 class StateMachine:
     def __init__(self, o):

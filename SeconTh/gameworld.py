@@ -24,7 +24,7 @@ class GameWorld:
 
         self.text = "0"
 
-        self.Gameobjects = [[], []]
+        self.Gameobjects =[[] for _ in range(4)]
         self.enemies =[]
         self.enemiesL=[]
         self.enemiesR = []
@@ -45,6 +45,13 @@ class GameWorld:
         self.playerWhere=0
 
         CollisionManager().add_collision_pair('player:enemies', self.player, None)
+    def Init(self):
+        self.reset_player()
+        self.reset_enemy()
+
+        self.add_object(self.player,0)
+        self.add_objects(self.enemies,1)
+
 
     def handle_event(self,event):
 
@@ -54,14 +61,19 @@ class GameWorld:
         self.mapSize_W=w
         self.mapSize_H=h
 
+    def add_object(self,o, depth=0):
+        self.Gameobjects[depth].append(o)
+
+    def add_objects(self,ol, depth=0):
+        self.Gameobjects[depth] += ol
+
 
     def update(self):
 
         self.check_game()
         for layer in self.Gameobjects:
             for obj in layer:
-                if obj.level == 0:
-                    obj.update()
+                pass
 
         self.player.update()
                             #2 player update
@@ -73,17 +85,14 @@ class GameWorld:
 
         self.world_render()
 
-        for _enemy in self.enemies:
-            if _enemy.level == 0:
-                if self.player.y < _enemy.y:
-                    _enemy.render()
+
+
 
         self.player.render()
 
         for _enemy in self.enemies:
-            if _enemy.level == 0:
-                if self.player.y > _enemy.y:
-                    _enemy.render()
+            for i in _enemy :
+                i.render()
         self.player_timer()
 
         pass
@@ -138,6 +147,9 @@ class GameWorld:
                 return
         raise ValueError('Cannot delete non existing object')
 
+    def monster_spawn(self):
+        pass
+
     def reset_enemy(self):
         self.enemiesL = [MonsterL() for i in range(self.stage * 5 * self.penalty)]
         self.enemiesR = [MonsterR() for i in range(self.stage * 5 * self.penalty)]
@@ -149,25 +161,25 @@ class GameWorld:
 
         checking_empty=1
         for enemy in self.enemies:
-            if enemy.health >= 0 :
-                checking_empty=0
+            for i in enemy:
+                if i.health >= 0 :
+                    pass
 
-        if checking_empty==1:
-            return 1    #아무도 없으면 1 반환
-        else:
-            return 0    #존재하면 0 반환
 
 
     def check_game(self):
 
         if  (self.player.state_machine.cur_state != Dead and self.player.state_machine.cur_state != Death)and (self.playerTime <= 0 or self.player.hp <= 0):
             self.player.state_machine.add_event(('DEAD',0))
+
         elif self.player.state_machine.cur_state == Death :
             self.reset_player()
+            self.reset_enemy()
+            self.Gameobjects.clear()
+            self.add_object(self.player)
+            for i in self.enemies:
+                self.Gameobjects.append(i)
 
-            CollisionManager().add_collision_pair('player:enemies', self.player, None)
-            for enemies in self.enemies:
-                CollisionManager().add_collision_pair('player:enemies', None, enemies)
 
             return
 
