@@ -1,6 +1,6 @@
 from pico2d import load_image, get_time
 from state_machine import *
-
+import math
 from sdl2 import *
 
 
@@ -47,8 +47,8 @@ class Idle:
         player.normal_frame = (player.normal_frame + 1) % 6
         print("=============MONSTER PRING")
 
-        if player.search_player():
-            player.state_machine.add_event(('SEARCH', 0))
+        # if player.search_player():
+        #     player.state_machine.add_event(('SEARCH', 0))
 
         pass
 
@@ -88,19 +88,30 @@ class Run:
 
     @staticmethod
     def do(player):
-
-
         if player.Attack_status == 1:
             player.normal_frame = (player.normal_frame + 1) % 6
         else:
             player.normal_frame = (player.normal_frame + 1) % 8
+
+            # 플레이어를 추적하는 로직 추가
+
+        target_x, target_y = player.targetx, player.targety
+
+        # 적과 플레이어 사이의 벡터 계산
+        player.handle_x = target_x - player.x
+        player.handle_y = target_y - player.y
+        distance = math.sqrt(player.handle_x ** 2 + player.handle_u ** 2)
+
+        # 거리 계산 후 방향 정규화 및 이동
+        if distance != 0:
+            player.handle_x /= distance
+            player.handle_y /= distance
 
 
         player.x += (player.speed / 20) * player.handle_x
         player.y += (player.speed / 20) * player.handle_y
 
         pass
-
 
 class Dead:
     @staticmethod

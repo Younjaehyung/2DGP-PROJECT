@@ -52,3 +52,4 @@ class CollisionManager:
                     if collide(a, b):
                         a.handle_collision(group, b)
                         b.handle_collision(group, a)
+

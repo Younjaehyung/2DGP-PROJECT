@@ -16,6 +16,12 @@ class Monster:
         self.speed=0
         self.dead_time = 0
 
+        self.Rect =None
+        self.Weapon_Rect =None
+
+        self.targetx =0
+        self.targety =0
+
         self.health=0
         self.time=0
         self.player_now=0
@@ -48,16 +54,34 @@ class Monster:
 
         if self.monster_type is not self.player_now:
             return
-        print("AA")
+
         self.state_machine.update()
-
-
-    def search_player(self):
-
-        pass
+        self.readjust_box(32,48)
 
     def attack(self):
         pass
+
+    def search_player(self,o):
+        self.targetx, self.targety = o
+
+    def handle_collision(self, group, other):
+        if group == 'player:enemies' and self.monster_type is self.player_now:
+            if other.state_machine.cur_state == 'Dead':
+                pass
+            elif other.attack_status == 1:
+                self.take_damage(other.attack_stat)
+        if group == 'player:search'and self.monster_type is self.player_now:
+            self.search_player((other.x,other.y))
+
+
+
+    def readjust_box(self,width,height):
+        self.Rect=pygame.Rect(self.x - (width/2), self.y + height, width/2, height)
+
+
+        self.Weapon_Rect = pygame.Rect(self.x - 15+(self.dir *  15),
+                                       self.y + 5, 30, 30)
+
 
 class MonsterT(Monster):
     def __init__(self):

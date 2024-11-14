@@ -44,7 +44,7 @@ class GameWorld:
         self.playerLife=10
         self.playerWhere=0
 
-        CollisionManager().add_collision_pair('player:enemies', self.player, None)
+
     def init(self):
         self.reset_player()
         self.reset_enemy()
@@ -204,50 +204,62 @@ class GameWorld:
                     self.playerWhere = 1
                     self.player.x = 770
                     CollisionManager().collision_pairs.clear()
+                    CollisionManager().add_collision_pair('player:search', self.player, None)
                     CollisionManager().add_collision_pair('player:enemies', self.player, None)
                     for enemies in self.enemiesL:
                         CollisionManager().add_collision_pair('player:enemies', None, enemies)
+                        CollisionManager().add_collision_pair('player:search', None, enemies)
 
                 if self.player.x >= 780 and 350 <= self.player.y <= 450:
                     self.playerWhere = 3
                     self.player.x = 30
                     CollisionManager().collision_pairs.clear()
+                    CollisionManager().add_collision_pair('player:search', self.player, None)
                     CollisionManager().add_collision_pair('player:enemies', self.player, None)
                     for enemies in self.enemiesR:
                         CollisionManager().add_collision_pair('player:enemies', None, enemies)
+                        CollisionManager().add_collision_pair('player:search', None, enemies)
 
                 if self.player.y >= 780 and 350 <= self.player.x <= 450:
                     self.playerWhere = 2
                     self.player.y = 30
                     CollisionManager().collision_pairs.clear()
+                    CollisionManager().add_collision_pair('player:search', self.player, None)
                     CollisionManager().add_collision_pair('player:enemies', self.player, None)
                     for enemies in self.enemiesB:
                         CollisionManager().add_collision_pair('player:enemies', None, enemies)
+                        CollisionManager().add_collision_pair('player:search', None, enemies)
 
                 if self.player.y <= 20 and 350 <= self.player.x <= 450:
                     self.playerWhere = 4
                     self.player.y = 770
                     CollisionManager().collision_pairs.clear()
+                    CollisionManager().add_collision_pair('player:search', self.player, None)
                     CollisionManager().add_collision_pair('player:enemies', self.player, None)
                     for enemies in self.enemiesT:
                         CollisionManager().add_collision_pair('player:enemies', None, enemies)
+                        CollisionManager().add_collision_pair('player:search', None, enemies)
 
             elif self.playerWhere==1:
                 if self.player.x >= 780 and 350 <= self.player.y <= 450:
                     self.playerWhere = 0
                     self.player.x = 30
+                    CollisionManager().collision_pairs.clear()
             elif self.playerWhere==2:
                 if self.player.y <= 20 and 350 <= self.player.x <= 450:
                     self.playerWhere = 0
                     self.player.y = 770
+                    CollisionManager().collision_pairs.clear()
             elif self.playerWhere==3:
                 if self.player.x <= 20 and 350 <= self.player.y <= 450:
                     self.playerWhere = 0
                     self.player.x = 770
+                    CollisionManager().collision_pairs.clear()
             elif self.playerWhere==4:
                 if self.player.y >= 780 and 350 <= self.player.x <= 450:
                     self.playerWhere = 0
                     self.player.y = 30
+                    CollisionManager().collision_pairs.clear()
 
 
 
