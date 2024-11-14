@@ -24,7 +24,7 @@ class GameWorld:
 
         self.text = "0"
 
-        self.Gameobjects =[[] for _ in range(4)]
+        self.Gameobjects =[[] for _ in range(5)]
         self.enemies =[]
         self.enemiesL=[]
         self.enemiesR = []
@@ -45,13 +45,11 @@ class GameWorld:
         self.playerWhere=0
 
         CollisionManager().add_collision_pair('player:enemies', self.player, None)
-    def Init(self):
+    def init(self):
         self.reset_player()
         self.reset_enemy()
-
-        self.add_object(self.player,0)
-        self.add_objects(self.enemies,1)
-
+        print(len(self.Gameobjects[1]))
+        print(len(self.Gameobjects[0]))
 
     def handle_event(self,event):
 
@@ -72,10 +70,12 @@ class GameWorld:
 
         self.check_game()
         for layer in self.Gameobjects:
+            print(3)
             for obj in layer:
-                pass
 
-        self.player.update()
+                obj.update(self.playerWhere)
+
+
                             #2 player update
                             #3 monster update
                             #4 gamelogic update
@@ -87,12 +87,12 @@ class GameWorld:
 
 
 
+        for layer in self.Gameobjects:
+            for obj in layer:
+                obj.render()
 
-        self.player.render()
 
-        for _enemy in self.enemies:
-            for i in _enemy :
-                i.render()
+
         self.player_timer()
 
         pass
@@ -136,7 +136,9 @@ class GameWorld:
         self.start_time = time.perf_counter()
         self.playerLife-=1
         self.stage += 1
+        self.remove_object(self.player)
         self.player = Player()
+        self.add_object(self.player)
 
     def remove_object(self,o):
         for layer in self.Gameobjects:
@@ -145,18 +147,25 @@ class GameWorld:
                 CollisionManager().remove_collision_object(o)
                 del o
                 return
-        raise ValueError('Cannot delete non existing object')
+        #raise ValueError('Cannot delete non existing object')
 
     def monster_spawn(self):
         pass
 
     def reset_enemy(self):
+        for i in range(4):
+            self.Gameobjects[i+1].clear()
+
         self.enemiesL = [MonsterL() for i in range(self.stage * 5 * self.penalty)]
         self.enemiesR = [MonsterR() for i in range(self.stage * 5 * self.penalty)]
         self.enemiesT = [MonsterT() for i in range(self.stage * 5 * self.penalty)]
         self.enemiesB = [MonsterB() for i in range(self.stage * 5 * self.penalty)]
 
-        self.enemies = [self.enemiesL, self.enemiesR, self.enemiesT, self.enemiesB]
+        self.Gameobjects[1]=self.enemiesL
+        self.Gameobjects[2]=self.enemiesR
+        self.Gameobjects[3]=self.enemiesT
+        self.Gameobjects[4]=self.enemiesB
+
     def check_monster(self):
 
         checking_empty=1
@@ -175,10 +184,8 @@ class GameWorld:
         elif self.player.state_machine.cur_state == Death :
             self.reset_player()
             self.reset_enemy()
-            self.Gameobjects.clear()
-            self.add_object(self.player)
-            for i in self.enemies:
-                self.Gameobjects.append(i)
+
+
 
 
             return

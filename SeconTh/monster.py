@@ -16,13 +16,14 @@ class Monster:
         self.speed=0
         self.health=0
         self.time=0
-        self.level=0
+        self.player_now=0
         self.Attack_status=0 #0 : 기본 상태
         self.image=load_image('resource/Monster/Mon_Slime_1.png')
         self.normal_frame = 0
         self.action_frame =0
         self.flip_x='H'
         self.flip_y = 0
+        self.monster_type = 1
 
         self.state_machine = StateMachine(self)  # 어떤 객체를 위한 상태 머신인지 알려줄 필요가 있다
         self.state_machine.start(Idle)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
@@ -36,11 +37,14 @@ class Monster:
 
 
     def render(self):
+        if self.monster_type is not self.player_now:
+            return
         self.state_machine.draw()
 
-    def update(self):
+    def update(self,playerwhere):
         print("AA")
         self.state_machine.update()
+        self.player_now = playerwhere
 
     def search_player(self):
         pass

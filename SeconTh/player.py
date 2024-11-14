@@ -41,7 +41,7 @@ class Player:
         self.flip_y = 0
         self.normal_frame = 0
         self.action_frame = 8
-
+        self.player_now=0
         self.status = 0 #0 idle 1 move 2 attack 3 spec attack 4 death 5 none
         self.attack_status = 0
 
@@ -118,11 +118,11 @@ class Player:
         except pygame.error as e:
             print(f"Error loading image with pygame: {e}")
 
-    def update(self):
+    def update(self,player_now):
         self.state_machine.update()
         self.readjust_box(32,48)
         print(self.x - 32/2, self.y + 48, 32, 48)
-
+        self.player_now = player_now
 
         if self.hp<=0:
             self.state_machine.add_event(('DEAD', 0))

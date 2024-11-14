@@ -23,6 +23,8 @@ class Idle:
 
     @staticmethod
     def draw(player):
+
+
         player.image.clip_composite_draw(
             player.normal_frame * 100,  # 이미지의 왼쪽 상단 x좌표
             player.action_frame * 100,  # 이미지의 왼쪽 상단 y좌표
@@ -40,6 +42,7 @@ class Idle:
 
     @staticmethod
     def do(player):
+
 
         player.normal_frame = (player.normal_frame + 1) % 6
         print("=============MONSTER PRING")
