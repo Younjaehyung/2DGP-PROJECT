@@ -72,6 +72,7 @@ class Monster:
                 self.take_damage(other.attack_stat)
         if group == 'player:search'and self.monster_type is self.player_now:
             self.search_player((other.x,other.y))
+            print("CCCCC")
 
 
 

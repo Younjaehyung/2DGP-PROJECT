@@ -12,6 +12,15 @@ def collide(a, b):
     if bottom_a > top_b: return False
     return True
 
+def collide_ATTACK(a, b):
+    left_a, bottom_a, right_a, top_a = a.Rect
+    left_b, bottom_b, right_b, top_b = b.Weapon_Rect
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if top_a < bottom_b: return False
+    if bottom_a > top_b: return False
+    return True
+
 
 class CollisionManager:
     _instance = None
@@ -50,6 +59,14 @@ class CollisionManager:
             for a in pairs[0]:
                 for b in pairs[1]:
                     if collide(a, b):
+                        a.handle_collision(group, b)
+                        b.handle_collision(group, a)
+
+    def handle_collisions_ATTACK(self):
+        for group, pairs in self.collision_pairs.items():
+            for a in pairs[0]:
+                for b in pairs[1]:
+                    if collide_ATTACK(a, b):
                         a.handle_collision(group, b)
                         b.handle_collision(group, a)
 

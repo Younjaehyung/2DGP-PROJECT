@@ -75,6 +75,7 @@ class GameWorld:
 
                 obj.update(self.playerWhere)
 
+        CollisionManager().handle_collisions()
 
                             #2 player update
                             #3 monster update
