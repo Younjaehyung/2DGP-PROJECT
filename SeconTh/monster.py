@@ -14,6 +14,8 @@ class Monster:
         self.dir=0
         self.damage=0
         self.speed=0
+        self.dead_time = 0
+
         self.health=0
         self.time=0
         self.player_now=0
@@ -29,7 +31,7 @@ class Monster:
         self.state_machine.start(Idle)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
 
         self.state_machine.set_transitions({
-            Idle: {time_out: Idle, Dead_event: Dead},
+            Idle: {Search_event : Run,time_out: Idle, Dead_event: Dead},
             Run: {Idle_event: Idle,time_out: Run, Dead_event: Dead},
             Dead: {time_out: Death}, Death: {}
 
@@ -43,6 +45,7 @@ class Monster:
 
     def update(self,playerwhere):
         self.player_now = playerwhere
+
         if self.monster_type is not self.player_now:
             return
         print("AA")
@@ -50,6 +53,7 @@ class Monster:
 
 
     def search_player(self):
+
         pass
 
     def attack(self):

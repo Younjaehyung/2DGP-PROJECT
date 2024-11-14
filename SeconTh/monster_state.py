@@ -47,6 +47,9 @@ class Idle:
         player.normal_frame = (player.normal_frame + 1) % 6
         print("=============MONSTER PRING")
 
+        if player.search_player():
+            player.state_machine.add_event(('SEARCH', 0))
+
         pass
 
 
@@ -55,61 +58,11 @@ class Run:
     @staticmethod
     def enter(player,e):
 
-        if z_down(e):
-            player.attack_status = 1
-            player.action_frame=5
-            player.attack_status = 1
-        else:
-            player.attack_status = 0
-            player.action_frame = 6
-            player.attack_status = 0
+        if Search_event(e):
+            player.Attack_status = 1
+            player.action_frame =2
 
-        if right_down(e) or left_up(e):  # 오른쪽으로 RUN
-            player.handle_x += 1
-            if right_down(e):
-                print("right_down")
-            else : print ("left_up")
-
-        if left_down(e) or right_up(e) :  # 왼쪽으로 RUN
-            player.handle_x -= 1
-            if left_down(e):
-                print("left_down")
-            else:
-                print("right_up")
-
-        if up_down(e) or down_up(e):  # 위으로 RUN
-            player.handle_y += 1
-            if up_down(e):
-                print("up_down")
-            else:
-                print("down_up")
-
-        if down_down(e) or up_up(e):  # 아래로 RUN
-            player.handle_y -= 1
-            if down_down(e):
-                print("down_down")
-            else : print ("up_up")
-
-        if down_down(e):
-            player.keydown[3] = 1
-        elif down_up(e):
-            player.keydown[3] = 0
-
-        if right_down(e):
-            player.keydown[2] = 1
-        elif right_up(e):
-            player.keydown[2] = 0
-
-        if up_down(e):
-            player.keydown[1] = 1
-        elif up_up(e):
-            player.keydown[1] = 0
-
-        if left_down(e):
-            player.keydown[0] = 1
-        elif left_up(e):
-            player.keydown[0] = 0
-
+        player.action_frame = 1
         player.normal_frame = 0
         pass
 
@@ -135,21 +88,16 @@ class Run:
 
     @staticmethod
     def do(player):
-        if player.action_frame == 5:
+
+
+        if player.Attack_status == 1:
             player.normal_frame = (player.normal_frame + 1) % 6
-            if player.normal_frame == 0:
-                player.state_machine.add_event(('TIME_OUT', 0))
-                return
-        else :
+        else:
             player.normal_frame = (player.normal_frame + 1) % 8
 
 
         player.x += (player.speed / 20) * player.handle_x
         player.y += (player.speed / 20) * player.handle_y
-
-        if not player.keydown[0] and not player.keydown[1] and not player.keydown[2] and not player.keydown[3]  :
-            player.state_machine.add_event(('Idle', 0))
-
 
         pass
 
