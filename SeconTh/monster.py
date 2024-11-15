@@ -13,7 +13,7 @@ class Monster:
         self.frame=0
         self.dir=0
         self.damage=0
-        self.speed=10
+        self.speed=20
         self.dead_time = 0
 
         self.width = 32
@@ -37,7 +37,7 @@ class Monster:
         self.handle_y=0
 
         self.state_machine = StateMachine(self)  # 어떤 객체를 위한 상태 머신인지 알려줄 필요가 있다
-        self.state_machine.start(Run)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
+        self.state_machine.start(Idle)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
 
         self.state_machine.set_transitions({
             Idle: {Search_event : Run,time_out: Idle, Dead_event: Dead},
@@ -85,11 +85,11 @@ class Monster:
         if group == 'enemies:palayera' and self.monster_type is self.player_now and other.attack_status == 1:
             #print("CC")
             pass
-        if group == 'palayera:search' and self.monster_type is self.player_now and other.attack_status == 1:
+        if group == 'palayera:search' and self.monster_type is self.player_now:
             self.search_player((other.x, other.y))
 
-            if self.state_machine.cur_state == 'Idle':
-                self.state_machine.add_event(('Search_event', 0))
+            #if self.state_machine.cur_state == 'Idle':
+            self.state_machine.add_event(('SEARCH', 0))
 
 
     def search_box(self):
