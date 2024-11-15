@@ -83,10 +83,15 @@ class Monster:
             pass
 
         if group == 'enemies:palayera' and self.monster_type is self.player_now and other.attack_status == 1:
-                print("CC")
+            #print("CC")
+            pass
+        if group == 'palayera:search' and self.monster_type is self.player_now and other.attack_status == 1:
+            if self.state_machine.cur_state == 'Idle':
+                self.state_machine.add_event(('Search_event', 0))
 
 
-
+    def search_box(self):
+        return self.x, self.y,150
 
     def return_body_box(self):
         return self.x - (self.width/2), self.y - self.height,self.x + (self.width/2),  self.y+self.height

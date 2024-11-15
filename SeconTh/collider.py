@@ -14,6 +14,17 @@ def collide(a, b):
     if bottom_a > top_b: return False
     return True
 
+def collide_SEARCH(a, b):
+
+    left_a, bottom_a, right_a, top_a = a.return_body_box()
+
+    ax = (left_a+right_a)/2
+    ay = (bottom_a+top_a)/2
+
+    rx, ry ,r= b.search_box()
+
+    return ((ax-rx)*(ax-rx)+(ay-ry)*(ay-ry)) <= r*r
+
 def collide_ATTACK(a, b):
     left_a, bottom_a, right_a, top_a = a.return_body_box()
     left_b, bottom_b, right_b, top_b = b.return_weapon_box()
@@ -38,6 +49,7 @@ class CollisionManager:
             self.initialized = True
             self.collision_pairs = {}
             self.collision_pairs_A = {}
+            self.collision_pairs_S = {}
 
     def add_collision_pair(self,group, a, b):
         if group not in self.collision_pairs:
@@ -56,6 +68,15 @@ class CollisionManager:
             self.collision_pairs_A[group][0].append(a)
         if b:
             self.collision_pairs_A[group][1].append(b)
+
+    def add_collision_pair_s(self,group, a, b):
+        if group not in self.collision_pairs_S:
+            print(f'Added new group {group}')
+            self.collision_pairs_S[group] = [[], []]
+        if a:
+            self.collision_pairs_S[group][0].append(a)
+        if b:
+            self.collision_pairs_S[group][1].append(b)
 
 
 
@@ -87,6 +108,15 @@ class CollisionManager:
             for a in pairs[0]:
                 for b in pairs[1]:
                     if collide_ATTACK(a, b):
+
+                        a.handle_collision(group, b)
+                        b.handle_collision(group, a)
+
+    def handle_collisions_s(self):
+        for group, pairs in self.collision_pairs_S.items():
+            for a in pairs[0]:
+                for b in pairs[1]:
+                    if collide_SEARCH(a, b):
 
                         a.handle_collision(group, b)
                         b.handle_collision(group, a)
