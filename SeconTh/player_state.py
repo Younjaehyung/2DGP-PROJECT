@@ -62,11 +62,11 @@ class Run:
         if z_down(e):
             player.attack_status = 1
             player.action_frame=5
-            player.attack_status = 1
+
         else:
             player.attack_status = 0
             player.action_frame = 6
-            player.attack_status = 0
+
 
         if right_down(e) or left_up(e):  # 오른쪽으로 RUN
             player.handle_x += 1

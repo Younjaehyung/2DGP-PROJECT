@@ -210,11 +210,11 @@ class GameWorld:
                     CollisionManager().collision_pairs_A.clear()
                     CollisionManager().add_collision_pair('player:search', self.player, None)
                     CollisionManager().add_collision_pair('player:enemies', self.player, None)
-                    CollisionManager().add_collision_pair_a('palayera:enemies', self.player, None)
+                    CollisionManager().add_collision_pair_a('palayera:enemies', None, self.player)
                     for enemies in self.enemiesL:
                         CollisionManager().add_collision_pair('player:enemies', None, enemies)
                         CollisionManager().add_collision_pair('player:search', None, enemies)
-                        CollisionManager().add_collision_pair_a('palayera:enemies', None, enemies)
+                        CollisionManager().add_collision_pair_a('palayera:enemies',  enemies, None)
 
                 if self.player.x >= 780 and 350 <= self.player.y <= 450:
                     self.playerWhere = 3
@@ -223,11 +223,11 @@ class GameWorld:
                     CollisionManager().collision_pairs_A.clear()
                     CollisionManager().add_collision_pair('player:search', self.player, None)
                     CollisionManager().add_collision_pair('player:enemies', self.player, None)
-                    CollisionManager().add_collision_pair_a('palayera:enemies', self.player, None)
-                    for enemies in self.enemiesL:
+                    CollisionManager().add_collision_pair_a('palayera:enemies', None, self.player)
+                    for enemies in self.enemiesR:
                         CollisionManager().add_collision_pair('player:enemies', None, enemies)
                         CollisionManager().add_collision_pair('player:search', None, enemies)
-                        CollisionManager().add_collision_pair_a('palayera:enemies', None, enemies)
+                        CollisionManager().add_collision_pair_a('palayera:enemies',  enemies, None)
 
                 if self.player.y >= 780 and 350 <= self.player.x <= 450:
                     self.playerWhere = 2
@@ -236,11 +236,11 @@ class GameWorld:
                     CollisionManager().collision_pairs_A.clear()
                     CollisionManager().add_collision_pair('player:search', self.player, None)
                     CollisionManager().add_collision_pair('player:enemies', self.player, None)
-                    CollisionManager().add_collision_pair_a('palayera:enemies', self.player, None)
-                    for enemies in self.enemiesL:
+                    CollisionManager().add_collision_pair_a('palayera:enemies', None, self.player)
+                    for enemies in self.enemiesT:
                         CollisionManager().add_collision_pair('player:enemies', None, enemies)
                         CollisionManager().add_collision_pair('player:search', None, enemies)
-                        CollisionManager().add_collision_pair_a('palayera:enemies', None, enemies)
+                        CollisionManager().add_collision_pair_a('palayera:enemies',  enemies, None)
 
                 if self.player.y <= 20 and 350 <= self.player.x <= 450:
                     self.playerWhere = 4
@@ -249,11 +249,11 @@ class GameWorld:
                     CollisionManager().collision_pairs_A.clear()
                     CollisionManager().add_collision_pair('player:search', self.player, None)
                     CollisionManager().add_collision_pair('player:enemies', self.player, None)
-                    CollisionManager().add_collision_pair_a('palayera:enemies', self.player, None)
-                    for enemies in self.enemiesL:
+                    CollisionManager().add_collision_pair_a('palayera:enemies',None, self.player)
+                    for enemies in self.enemiesB:
                         CollisionManager().add_collision_pair('player:enemies', None, enemies)
                         CollisionManager().add_collision_pair('player:search', None, enemies)
-                        CollisionManager().add_collision_pair_a('palayera:enemies', None, enemies)
+                        CollisionManager().add_collision_pair_a('palayera:enemies', enemies, None)
 
             elif self.playerWhere==1:
                 if self.player.x >= 780 and 350 <= self.player.y <= 450:

@@ -48,6 +48,9 @@ class Monster:
         if self.monster_type is not self.player_now:
             return
         self.state_machine.draw()
+        draw_rectangle(self.Rect.x, self.Rect.y, self.Rect.x + 32, self.Rect.y - 48)
+        draw_rectangle(self.x - 15+(self.dir *  15),
+                                       self.y + 5, self.x +15 + (self.dir * 15),self.y-25)
 
     def update(self,playerwhere):
         self.player_now = playerwhere
@@ -57,6 +60,7 @@ class Monster:
 
         self.state_machine.update()
         self.readjust_box(32,48)
+
 
     def attack(self):
         pass
@@ -70,12 +74,15 @@ class Monster:
                 pass
             elif other.attack_status == 1:
                 self.take_damage(other.attack_stat)
+                print("CCCCC")
         if group == 'player:search'and self.monster_type is self.player_now:
             self.search_player((other.x,other.y))
 
         if group == 'palayera: enemies' and self.monster_type is self.player_now:
+                print("CC")
 
-            print("CCCCC")
+        print("===========FFF")
+
 
 
 
