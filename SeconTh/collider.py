@@ -85,6 +85,7 @@ class CollisionManager:
             for a in pairs[0]:
                 for b in pairs[1]:
                     if collide_ATTACK(a, b):
+                        print("CCCAA2")
                         a.handle_collision(group, b)
                         b.handle_collision(group, a)
 

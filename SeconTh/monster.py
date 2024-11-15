@@ -16,8 +16,8 @@ class Monster:
         self.speed=0
         self.dead_time = 0
 
-        self.Rect =None
-        self.Weapon_Rect =None
+        self.width = 32
+        self.height = 48
 
         self.targetx =0
         self.targety =0
@@ -48,9 +48,9 @@ class Monster:
         if self.monster_type is not self.player_now:
             return
         self.state_machine.draw()
-        draw_rectangle(self.Rect.x, self.Rect.y, self.Rect.x + 32, self.Rect.y - 48)
-        draw_rectangle(self.x - 15+(self.dir *  15),
-                                       self.y + 5, self.x +15 + (self.dir * 15),self.y-25)
+        draw_rectangle(self.Rect.x, self.Rect.y, self.Rect.x + 16, self.Rect.y - 48)
+        draw_rectangle(self.Weapon_Rect.x ,self.Weapon_Rect.y ,
+                       self.Weapon_Rect.x +30,self.Weapon_Rect.y-30 )
 
     def update(self,playerwhere):
         self.player_now = playerwhere
@@ -59,7 +59,7 @@ class Monster:
             return
 
         self.state_machine.update()
-        self.readjust_box(32,48)
+
 
 
     def attack(self):
@@ -84,14 +84,11 @@ class Monster:
         print("==========")
 
 
+    def return_body_box(self):
+        return self.x - (self.width/2), self.y + self.height,self.x - (self.width/2)+ (self.width/2),  self.y
 
-
-    def readjust_box(self,width,height):
-        self.Rect=pygame.Rect(self.x - (width/2), self.y + height, width/2, height)
-
-
-        self.Weapon_Rect = pygame.Rect(self.x - 15+(self.dir *  15),
-                                       self.y + 5, 30, 30)
+    def return_weapon_box(self):
+        return self.x - 15+(self.dir *  15),self.y + 5, self.x - 15+(self.dir *  15)+30,self.y -25
 
 
 class MonsterT(Monster):

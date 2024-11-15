@@ -58,6 +58,9 @@ class Player:
         self.dead_time = 0
         self.attack_time = 0
 
+        self.width=32
+        self.height=48
+
 
         self.heal_image = load_image("resource/Heal_Effect.png")
         self.laser_image = load_image("resource/LASER_Effect.png")
@@ -120,7 +123,7 @@ class Player:
 
     def update(self,player_now):
         self.state_machine.update()
-        self.readjust_box(32,48)
+
         print(self.x - 32/2, self.y + 48, 32, 48)
         self.player_now = player_now
 
@@ -182,10 +185,9 @@ class Player:
 
             print("CCCCC")
 
-    def readjust_box(self,width,height):
-        self.Rect=pygame.Rect(self.x - (width/2), self.y + height, width/2, height)
+    def return_body_box(self):
+        return self.x - (self.width / 2), self.y + self.height, self.x - (self.width / 2) + (self.width / 2), self.y
 
-
-        self.Weapon_Rect = pygame.Rect(self.x - self.attack_width/2+(self.dir * self.attack_width/2),
-                                       self.y + self.attack_height/2 - 20, self.attack_width, self.attack_height)
+    def return_weapon_box(self):
+        return self.x - 15 + (self.dir * 15), self.y + 5, self.x - 15 + (self.dir * 15) + 30, self.y - 25
 
