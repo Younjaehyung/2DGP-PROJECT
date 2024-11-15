@@ -178,6 +178,10 @@ class Player:
                 self.take_damage(other.Attack_damage)
             else :  self.take_damage(other.Idle_damage)
 
+        if group == 'palayera: enemies' and self.player_now is other.monster_type:
+
+            print("CCCCC")
+
     def readjust_box(self,width,height):
         self.Rect=pygame.Rect(self.x - (width/2), self.y + height, width/2, height)
 
