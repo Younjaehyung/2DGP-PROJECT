@@ -13,7 +13,7 @@ class Monster:
         self.frame=0
         self.dir=0
         self.damage=0
-        self.speed=0
+        self.speed=10
         self.dead_time = 0
 
         self.width = 32
@@ -33,8 +33,11 @@ class Monster:
         self.flip_y = 0
         self.monster_type = 1
 
+        self.handle_x=0
+        self.handle_y=0
+
         self.state_machine = StateMachine(self)  # 어떤 객체를 위한 상태 머신인지 알려줄 필요가 있다
-        self.state_machine.start(Idle)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
+        self.state_machine.start(Run)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
 
         self.state_machine.set_transitions({
             Idle: {Search_event : Run,time_out: Idle, Dead_event: Dead},

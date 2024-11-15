@@ -201,6 +201,7 @@ class GameWorld:
                     CollisionManager().add_collision_pair('player:enemies', self.player, None)
                     CollisionManager().add_collision_pair_a('palayera:enemies', self.player, None)
                     CollisionManager().add_collision_pair_a('enemies:palayera', None, self.player)
+
                     for enemies in self.enemiesL:
                         CollisionManager().add_collision_pair('player:enemies', None, enemies)
                         CollisionManager().add_collision_pair('player:search', None, enemies)

@@ -7,8 +7,6 @@ from sdl2 import *
 class Idle:
     @staticmethod
     def enter(player,e):
-        print('idle')
-
 
         player.handle_x = 0
         player.handle_y = 0
@@ -63,6 +61,7 @@ class Run:
 
         player.action_frame = 1
         player.normal_frame = 0
+        player.Attack_status = 1
         pass
 
     @staticmethod
@@ -99,7 +98,7 @@ class Run:
         # 적과 플레이어 사이의 벡터 계산
         player.handle_x = target_x - player.x
         player.handle_y = target_y - player.y
-        distance = math.sqrt(player.handle_x ** 2 + player.handle_u ** 2)
+        distance = math.sqrt(player.handle_x ** 2 + player.handle_y ** 2)
 
         # 거리 계산 후 방향 정규화 및 이동
         if distance != 0:
@@ -107,8 +106,8 @@ class Run:
             player.handle_y /= distance
 
 
-        player.x += (player.speed / 20) * player.handle_x
-        player.y += (player.speed / 20) * player.handle_y
+        player.x -= (player.speed / 20) * player.handle_x
+        player.y -= (player.speed / 20) * player.handle_y
 
         pass
 
