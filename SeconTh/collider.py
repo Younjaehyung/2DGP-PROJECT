@@ -35,6 +35,7 @@ class CollisionManager:
         if not hasattr(self, 'initialized'):
             self.initialized = True
             self.collision_pairs = {}
+            self.collision_pairs_A = {}
 
     def add_collision_pair(self,group, a, b):
         if group not in self.collision_pairs:
@@ -44,6 +45,18 @@ class CollisionManager:
             self.collision_pairs[group][0].append(a)
         if b:
             self.collision_pairs[group][1].append(b)
+
+    def add_collision_pair_a(self,group, a, b):
+        if group not in self.collision_pairs_A:
+            print(f'Added new group {group}')
+        self.collision_pairs[group] = [[], []]
+        if a:
+            self.collision_pairs[group][0].append(a)
+        if b:
+            self.collision_pairs[group][1].append(b)
+
+
+
 
     def remove_collision_object(self,o):
         for pairs in self.collision_pairs.values():
@@ -62,8 +75,8 @@ class CollisionManager:
                         a.handle_collision(group, b)
                         b.handle_collision(group, a)
 
-    def handle_collisions_ATTACK(self):
-        for group, pairs in self.collision_pairs.items():
+    def handle_collisions_a(self):
+        for group, pairs in self.collision_pairs_A.items():
             for a in pairs[0]:
                 for b in pairs[1]:
                     if collide_ATTACK(a, b):
