@@ -86,6 +86,8 @@ class Monster:
             #print("CC")
             pass
         if group == 'palayera:search' and self.monster_type is self.player_now and other.attack_status == 1:
+            self.search_player((other.x, other.y))
+
             if self.state_machine.cur_state == 'Idle':
                 self.state_machine.add_event(('Search_event', 0))
 

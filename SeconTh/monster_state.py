@@ -11,7 +11,7 @@ class Idle:
         player.handle_x = 0
         player.handle_y = 0
         player.normal_frame = 0
-        player.action_frame = 4
+        player.action_frame = 5
         pass
 
     @staticmethod
@@ -59,7 +59,7 @@ class Run:
             player.Attack_status = 1
             player.action_frame =2
 
-        player.action_frame = 1
+        player.action_frame = 4
         player.normal_frame = 0
 
         pass
