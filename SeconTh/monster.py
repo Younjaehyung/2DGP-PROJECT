@@ -71,16 +71,18 @@ class Monster:
         if group == 'player:enemies' and self.monster_type is self.player_now:
             if other.state_machine.cur_state == 'Dead':
                 pass
-            elif other.attack_status == 1:
-                self.take_damage(other.attack_stat)
-                print("CCCCC")
+
         if group == 'player:search'and self.monster_type is self.player_now:
             self.search_player((other.x,other.y))
 
-        if group == 'palayera: enemies' and self.monster_type is self.player_now:
+        if group == 'palayera:enemies' and self.monster_type is self.player_now:
+                #print("CC")
+            pass
+
+        if group == 'enemies:palayera' and self.monster_type is self.player_now and other.attack_status == 1:
                 print("CC")
 
-        print("==========")
+
 
 
     def return_body_box(self):

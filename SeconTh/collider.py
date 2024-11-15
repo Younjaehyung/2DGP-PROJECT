@@ -12,7 +12,6 @@ def collide(a, b):
     if right_a < left_b: return False
     if top_a < bottom_b: return False
     if bottom_a > top_b: return False
-    print("CCCAA")
     return True
 
 def collide_ATTACK(a, b):
@@ -88,7 +87,7 @@ class CollisionManager:
             for a in pairs[0]:
                 for b in pairs[1]:
                     if collide_ATTACK(a, b):
-                        print("CCCAA2")
+
                         a.handle_collision(group, b)
                         b.handle_collision(group, a)
 

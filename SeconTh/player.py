@@ -180,9 +180,13 @@ class Player:
                 #self.take_damage(other.Idle_damage)
                 pass
 
-        if group == 'palayera: enemies' and self.player_now is other.monster_type:
-
-            print("CCCCC")
+        if group == 'palayera:enemies':
+            #self.take_damage(10)
+            #print("-HEL")
+            pass
+        if group == 'enemies:palayera':
+            pass
+            #print("")
 
     def return_body_box(self):
         return self.x - (self.width/2), self.y - self.height,self.x ,  self.y+self.height

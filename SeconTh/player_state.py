@@ -12,11 +12,11 @@ class Idle:
         if z_down(e):
             player.attack_status = 1
             player.action_frame = 5
-            player.attack_status=1
+
         else:
             player.attack_status = 0
             player.action_frame=7
-            player.attack_status = 0
+
 
         player.handle_x = 0
         player.handle_y = 0
