@@ -61,7 +61,7 @@ class Run:
 
         player.action_frame = 1
         player.normal_frame = 0
-        player.Attack_status = 1
+
         pass
 
     @staticmethod
@@ -106,8 +106,8 @@ class Run:
             player.handle_y /= distance
 
 
-        player.x -= (player.speed / 20) * player.handle_x
-        player.y -= (player.speed / 20) * player.handle_y
+        player.x += (player.speed / 20) * player.handle_x
+        player.y += (player.speed / 20) * player.handle_y
 
         pass
 
