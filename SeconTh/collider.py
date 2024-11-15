@@ -49,11 +49,11 @@ class CollisionManager:
     def add_collision_pair_a(self,group, a, b):
         if group not in self.collision_pairs_A:
             print(f'Added new group {group}')
-        self.collision_pairs[group] = [[], []]
+        self.collision_pairs_A[group] = [[], []]
         if a:
-            self.collision_pairs[group][0].append(a)
+            self.collision_pairs_A[group][0].append(a)
         if b:
-            self.collision_pairs[group][1].append(b)
+            self.collision_pairs_A[group][1].append(b)
 
 
 
@@ -68,6 +68,7 @@ class CollisionManager:
 
 
     def handle_collisions(self):
+
         for group, pairs in self.collision_pairs.items():
             for a in pairs[0]:
                 for b in pairs[1]:
@@ -82,4 +83,5 @@ class CollisionManager:
                     if collide_ATTACK(a, b):
                         a.handle_collision(group, b)
                         b.handle_collision(group, a)
+
 
