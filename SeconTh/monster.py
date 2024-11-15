@@ -84,7 +84,7 @@ class Monster:
 
 
     def return_body_box(self):
-        return self.x - (self.width/2), self.y + self.height,self.x ,  self.y- self.height
+        return self.x - (self.width/2), self.y - self.height,self.x + (self.width/2),  self.y+self.height
 
     def return_weapon_box(self):
         return self.x - 15+(self.dir *  15),self.y + 5, self.x - 15+(self.dir *  15)+30,self.y -25

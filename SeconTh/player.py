@@ -174,16 +174,18 @@ class Player:
             if other.state_machine.cur_state == 'Dead':
                 pass
             elif other.state_machine.cur_state == 'Attack':
-                self.take_damage(other.Attack_damage)
-            else :  self.take_damage(other.Idle_damage)
+                #self.take_damage(other.Attack_damage)
+                pass
+            else :
+                #self.take_damage(other.Idle_damage)
+                pass
 
         if group == 'palayera: enemies' and self.player_now is other.monster_type:
 
             print("CCCCC")
 
     def return_body_box(self):
-        return self.x - (self.width/2), self.y + self.height,self.x ,  self.y- self.height
-
+        return self.x - (self.width/2), self.y - self.height,self.x ,  self.y+self.height
     def return_weapon_box(self):
         return self.x - 15 + (self.dir * 15), self.y + 5, self.x - 15 + (self.dir * 15) + 30, self.y - 25
 
