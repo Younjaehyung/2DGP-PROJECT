@@ -4,17 +4,20 @@ import monster
 
 
 def collide(a, b):
-    left_a, bottom_a, right_a, top_a = a.Rect
-    left_b, bottom_b, right_b, top_b = b.Rect
+
+    left_a, bottom_a, right_a, top_a = a.return_body_box()
+    left_b, bottom_b, right_b, top_b = b.return_body_box()
+
     if left_a > right_b: return False
     if right_a < left_b: return False
     if top_a < bottom_b: return False
     if bottom_a > top_b: return False
+    print("CCCAA")
     return True
 
 def collide_ATTACK(a, b):
-    left_a, bottom_a, right_a, top_a = a.Rect
-    left_b, bottom_b, right_b, top_b = b.Weapon_Rect
+    left_a, bottom_a, right_a, top_a = a.return_body_box()
+    left_b, bottom_b, right_b, top_b = b.return_weapon_box()
     if left_a > right_b: return False
     if right_a < left_b: return False
     if top_a < bottom_b: return False
@@ -76,7 +79,7 @@ class CollisionManager:
                 for b in pairs[1]:
 
                     if collide(a, b):
-                        print("CCCAA")
+
                         a.handle_collision(group, b)
                         b.handle_collision(group, a)
 

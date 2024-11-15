@@ -48,9 +48,8 @@ class Monster:
         if self.monster_type is not self.player_now:
             return
         self.state_machine.draw()
-        draw_rectangle(self.Rect.x, self.Rect.y, self.Rect.x + 16, self.Rect.y - 48)
-        draw_rectangle(self.Weapon_Rect.x ,self.Weapon_Rect.y ,
-                       self.Weapon_Rect.x +30,self.Weapon_Rect.y-30 )
+        draw_rectangle(*self.return_body_box())
+        draw_rectangle(*self.return_weapon_box())
 
     def update(self,playerwhere):
         self.player_now = playerwhere
@@ -85,7 +84,7 @@ class Monster:
 
 
     def return_body_box(self):
-        return self.x - (self.width/2), self.y + self.height,self.x - (self.width/2)+ (self.width/2),  self.y
+        return self.x - (self.width/2), self.y + self.height,self.x ,  self.y- self.height
 
     def return_weapon_box(self):
         return self.x - 15+(self.dir *  15),self.y + 5, self.x - 15+(self.dir *  15)+30,self.y -25

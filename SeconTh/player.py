@@ -151,12 +151,8 @@ class Player:
         self.font.draw(self.x, self.y + 150, f'{self.speed}', (255, 0, 0))
         #┌┐└┘
 
-        draw_rectangle(self.Rect.left, self.Rect.top,self.x + self.Rect.width,self.y - self.Rect.height)
-        draw_rectangle(self.x-2, self.y+2, self.x+2, self.y-2)
-        draw_rectangle(self.x - self.attack_width/2+(self.dir * self.attack_width/2),
-                                       self.y + self.attack_height/2,
-                       self.x - self.attack_width/2+(self.dir * self.attack_width/2)+self.attack_width,
-                       self.y + self.attack_height/2+self.attack_height)
+        draw_rectangle(*self.return_body_box())
+        draw_rectangle(*self.return_weapon_box())
         draw_rectangle(100,100,200,200)
 
         if get_time() - self.wait_time > 0.1:
@@ -186,7 +182,7 @@ class Player:
             print("CCCCC")
 
     def return_body_box(self):
-        return self.x - (self.width / 2), self.y + self.height, self.x - (self.width / 2) + (self.width / 2), self.y
+        return self.x - (self.width/2), self.y + self.height,self.x ,  self.y- self.height
 
     def return_weapon_box(self):
         return self.x - 15 + (self.dir * 15), self.y + 5, self.x - 15 + (self.dir * 15) + 30, self.y - 25
