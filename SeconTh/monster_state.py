@@ -45,7 +45,6 @@ class Idle:
 
 
         player.normal_frame = (player.normal_frame + 1) % 6
-        print("=============MONSTER PRING")
 
         # if player.search_player():
         #     player.state_machine.add_event(('SEARCH', 0))

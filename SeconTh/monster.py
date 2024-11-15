@@ -81,7 +81,7 @@ class Monster:
         if group == 'palayera: enemies' and self.monster_type is self.player_now:
                 print("CC")
 
-        print("===========FFF")
+        print("==========")
 
 
 
