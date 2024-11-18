@@ -15,10 +15,10 @@ class Monster:
         self.damage=0
         self.speed=20
         self.dead_time = 0
-
+        self.health = 200
         self.width = 32
         self.height = 48
-
+        self.type = "monster"
         self.targetx =0
         self.targety =0
 
@@ -79,17 +79,22 @@ class Monster:
             self.search_player((other.x,other.y))
 
         if group == 'palayera:enemies' and self.monster_type is self.player_now:
-                #print("CC")
+            print("ATTACK PEOPLE")
             pass
 
-        if group == 'enemies:palayera' and self.monster_type is self.player_now and other.attack_status == 1:
-            #print("CC")
+        if group == 'enemies:palayera' and (self.monster_type is self.player_now )and other.attack_status == 1:
+            self.health-= 10  #플레이어가 적을 공격
+
+            print(f'{self.health} distance :')
+            print("ATTACK MONSTER")
             pass
         if group == 'palayera:search' and self.monster_type is self.player_now:
             self.search_player((other.x, other.y))
 
             #if self.state_machine.cur_state == 'Idle':
             self.state_machine.add_event(('SEARCH', 0))
+        else:
+            self.state_machine.add_event(('Idle', 0))
 
 
     def search_box(self):

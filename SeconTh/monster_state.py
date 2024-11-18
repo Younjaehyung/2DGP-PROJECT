@@ -105,6 +105,11 @@ class Run:
             player.handle_x /= distance
             player.handle_y /= distance
 
+        if player.handle_x >0:
+            player.flip_x = 'H'
+
+        else:
+            player.flip_x = 'h'
 
         player.x += (player.speed / 20) * player.handle_x
         player.y += (player.speed / 20) * player.handle_y

@@ -34,6 +34,8 @@ class Player:
 
         self.keydown =[0,0,0,0]
 
+        self.type = "player"
+
         self.handle_x = 0
         self.handle_y = 0
         self.font = load_font('resource/DungeonFont.ttf', 70)
@@ -177,12 +179,12 @@ class Player:
                 #self.take_damage(other.Attack_damage)
                 pass
             else :
-                #self.take_damage(other.Idle_damage)
+                self.hp -=3
                 pass
 
-        if group == 'palayera:enemies':
-            #self.take_damage(10)
-            #print("-HEL")
+        if group == 'palayera:enemies': #적이 플레이어 공격
+            self.hp -=1
+            print("-HEL")
             pass
         if group == 'enemies:palayera':
             pass

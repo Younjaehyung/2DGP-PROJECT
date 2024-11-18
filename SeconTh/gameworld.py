@@ -153,25 +153,26 @@ class GameWorld:
         for i in range(4):
             self.Gameobjects[i+1].clear()
 
-        self.enemiesL = [MonsterL() for i in range(self.stage * 5 * self.penalty)]
-        self.enemiesR = [MonsterR() for i in range(self.stage * 5 * self.penalty)]
-        self.enemiesT = [MonsterT() for i in range(self.stage * 5 * self.penalty)]
-        self.enemiesB = [MonsterB() for i in range(self.stage * 5 * self.penalty)]
+        self.enemiesL = [MonsterL() for i in range(self.stage +2 * self.penalty)]
+        self.enemiesR = [MonsterR() for i in range(self.stage + 2 * self.penalty)]
+        self.enemiesT = [MonsterT() for i in range(self.stage + 2 * self.penalty)]
+        self.enemiesB = [MonsterB() for i in range(self.stage + 2 * self.penalty)]
         self.add_objects(self.enemiesL,1)
         self.add_objects(self.enemiesT, 2)
         self.add_objects(self.enemiesR, 3)
         self.add_objects(self.enemiesB, 4)
 
-    def check_monster(self):
-        checking_empty=1
-        for enemy in self.enemies:
-            for i in enemy:
-                if i.health >= 0 :
-                    pass
 
 
 
     def check_game(self):
+
+        for layer in self.Gameobjects:
+            for _enemey in layer:
+                if  _enemey.type =="monster" and _enemey.health <= 0:
+                    self.remove_object(_enemey)
+                    pass
+
 
         if  (self.player.state_machine.cur_state != Dead and self.player.state_machine.cur_state != Death)and (self.playerTime <= 0 or self.player.hp <= 0):
             self.player.state_machine.add_event(('DEAD',0))
