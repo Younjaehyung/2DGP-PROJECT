@@ -61,7 +61,7 @@ class Run:
 
         if z_down(e):
             player.attack_status = 1
-            player.action_frame=5
+            player.action_frame=3
 
         else:
             player.attack_status = 0
@@ -141,8 +141,8 @@ class Run:
     def do(player):
         speed = 1
 
-        if player.action_frame == 5:
-            player.normal_frame = (player.normal_frame + 1) % 6
+        if player.action_frame == 3:
+            player.normal_frame = (player.normal_frame + 1) % 8
             if player.job ==3:
                 speed = 3
             if player.normal_frame == 0:

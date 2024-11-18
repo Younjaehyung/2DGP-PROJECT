@@ -31,7 +31,7 @@ class Monster:
         self.normal_frame = 0
         self.action_frame =0
         self.current = 0
-
+        self.nowdead =0
         self.flip_x='H'
         self.flip_y = 0
         self.monster_type = 1
@@ -65,9 +65,10 @@ class Monster:
         if self.monster_type is not self.player_now:
             return
 
-        if self.health <= 0:
+        if self.health <= 0 and self.nowdead == 0:
             self.state_machine.add_event(('DEAD', 0))
             print("ATTACK!! MONSTER")
+            self.nowdead = 1
 
         self.state_machine.update()
 

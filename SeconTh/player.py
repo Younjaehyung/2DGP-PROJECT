@@ -15,7 +15,7 @@ class Player:
         self.attack_stat = random.randint(30,50)
         self.hp=random.randint(40,100)
         self.speed=random.randint(150,200)
-        self.job = random.randint(1,4)
+        self.job = 3 #random.randint(1,4)
         self.attack_width = None
         self.attack_height = None
         self.dir = 1
@@ -149,10 +149,10 @@ class Player:
         elif self.handle_y > 0:
             self.flip_y = 0
         self.state_machine.draw()
-        self.font.draw(self.x, self.y, f'{self.x:.2f},{self.y:.2f}', (255, 0, 0))
-        self.font.draw(self.x, self.y + 50, f'{self.attack_stat}', (255, 0, 0))
-        self.font.draw(self.x, self.y + 100, f'{self.hp}', (255, 0, 0))
-        self.font.draw(self.x, self.y + 150, f'{self.speed}', (255, 0, 0))
+        self.font.draw(self.x, self.y+50, f'{self.x:.2f},{self.y:.2f}', (255, 0, 0))
+        self.font.draw(self.x, self.y + 100, f'{self.attack_stat}', (255, 0, 0))
+        self.font.draw(self.x, self.y + 150, f'{self.hp}', (255, 0, 0))
+        self.font.draw(self.x, self.y + 200, f'{self.speed}', (255, 0, 0))
         #┌┐└┘
 
         draw_rectangle(*self.return_body_box())

@@ -200,7 +200,7 @@ class Dead:
             player.normal_frame = player.normal_frame + 1
             player.dead_time =get_time()
 
-        if player.normal_frame == 4:
+        if player.normal_frame == 5:
             player.state_machine.add_event(('TIME_OUT', 0))
 
         pass
