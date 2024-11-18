@@ -169,7 +169,8 @@ class GameWorld:
 
         for layer in self.Gameobjects:
             for _enemey in layer:
-                if  _enemey.type =="monster" and _enemey.health <= 0:
+
+                if  _enemey.type =="monster" and _enemey.state_machine.cur_state == "Death":
                     self.remove_object(_enemey)
                     pass
 

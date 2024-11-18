@@ -60,6 +60,10 @@ class Monster:
         if self.monster_type is not self.player_now:
             return
 
+        if self.health <= 0:
+            self.state_machine.add_event(('DEAD', 0))
+            print("ATTACK!! MONSTER")
+
         self.state_machine.update()
 
 
@@ -83,7 +87,7 @@ class Monster:
             pass
 
         if group == 'enemies:palayera' and (self.monster_type is self.player_now )and other.attack_status == 1:
-            self.health-= 10  #플레이어가 적을 공격
+            self.health-= 200  #플레이어가 적을 공격
 
             print(f'{self.health} distance :')
             print("ATTACK MONSTER")

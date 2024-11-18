@@ -88,6 +88,8 @@ class CollisionManager:
             if o in pairs[1]:
                 pairs[1].remove(o)
 
+    def remove_collision_object_A(self, o):
+
         for pairs in self.collision_pairs_A.values():
             if o in pairs[0]:
                 pairs[0].remove(o)

@@ -173,16 +173,11 @@ class Player:
 
     def handle_collision(self, group, other):
         if group == 'player:enemies':
-            if other.state_machine.cur_state == 'Dead':
-                pass
-            elif other.state_machine.cur_state == 'Attack':
-                #self.take_damage(other.Attack_damage)
-                pass
-            else :
-                self.hp -=3
-                pass
+            self.hp -=3
+            pass
 
-        if group == 'palayera:enemies': #적이 플레이어 공격
+
+        if group == 'palayera:enemies' and other.action_frame !=1: #적이 플레이어 공격
             self.hp -=1
             print("-HEL")
             pass
