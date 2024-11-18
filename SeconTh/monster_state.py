@@ -146,7 +146,7 @@ class Dead:
     @staticmethod
     def do(player):
         if get_time()-player.dead_time > 0.5:
-            player.normal_frame = (player.normal_frame + 1) % 4
+            player.normal_frame = player.normal_frame + 1
             player.dead_time =get_time()
 
         if player.normal_frame == 3:
