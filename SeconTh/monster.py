@@ -27,8 +27,11 @@ class Monster:
         self.player_now=0
         self.Attack_status=0 #0 : 기본 상태
         self.image=load_image('resource/Monster/Mon_Slime_1.png')
+
         self.normal_frame = 0
         self.action_frame =0
+        self.current = 2
+
         self.flip_x='H'
         self.flip_y = 0
         self.monster_type = 1
@@ -82,12 +85,17 @@ class Monster:
         if group == 'player:search'and self.monster_type is self.player_now:
             self.search_player((other.x,other.y))
 
-        if group == 'palayera:enemies' and self.monster_type is self.player_now:
-            print("ATTACK PEOPLE")
-            pass
+            if group == 'palayera:enemies' and self.monster_type is self.player_now:
+
+                self.action_frame =3
+                pass
+            else :
+
+                self.action_frame  =self.current
+                self.current = self.action_frame
 
         if group == 'enemies:palayera' and (self.monster_type is self.player_now )and other.attack_status == 1:
-            self.health-= 200  #플레이어가 적을 공격
+            self.health-= other.attack_stat #플레이어가 적을 공격
 
             print(f'{self.health} distance :')
             print("ATTACK MONSTER")

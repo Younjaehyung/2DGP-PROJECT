@@ -172,12 +172,12 @@ class Player:
         self.hp -= damage
 
     def handle_collision(self, group, other):
-        if group == 'player:enemies':
+        if group == 'player:enemies'and other.normal_frame ==3:
             self.hp -=3
             pass
 
 
-        if group == 'palayera:enemies' and other.action_frame !=1: #적이 플레이어 공격
+        if group == 'palayera:enemies' and other.action_frame !=1 and other.normal_frame ==3 :#적이 플레이어 공격
             self.hp -=1
             print("-HEL")
             pass
@@ -188,5 +188,11 @@ class Player:
     def return_body_box(self):
         return self.x - (self.width/2), self.y - self.height,self.x ,  self.y+self.height
     def return_weapon_box(self):
-        return self.x - 15 + (self.dir * 15), self.y + 5, self.x - 15 + (self.dir * 15) + 30, self.y - 25
-
+        if self.job == 1:
+            return self.x + (30 * self.dir) - 30, self.y + 5, self.x + (30 * self.dir) + 30, self.y - 25
+        if self.job == 2:
+            return self.x + (30 * self.dir) - 30, self.y + 5, self.x + (30 * self.dir) + 30, self.y - 25
+        if self.job == 3:
+            return self.x + (30 * self.dir) - 30, self.y + 5, self.x + (30 * self.dir) + 30, self.y - 25
+        if self.job == 4:
+            return self.x + (30 * self.dir) - 30, self.y + 5, self.x + (30 * self.dir) + 30, self.y - 25

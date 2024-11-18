@@ -139,8 +139,12 @@ class Run:
 
     @staticmethod
     def do(player):
+        speed = 1
+
         if player.action_frame == 5:
             player.normal_frame = (player.normal_frame + 1) % 6
+            if player.job ==3:
+                speed = 3
             if player.normal_frame == 0:
                 player.state_machine.add_event(('TIME_OUT', 0))
                 return
@@ -148,8 +152,8 @@ class Run:
             player.normal_frame = (player.normal_frame + 1) % 8
 
 
-        player.x += (player.speed / 20) * player.handle_x
-        player.y += (player.speed / 20) * player.handle_y
+        player.x += (player.speed / 20) * player.handle_x*speed
+        player.y += (player.speed / 20) * player.handle_y*speed
 
         if not player.keydown[0] and not player.keydown[1] and not player.keydown[2] and not player.keydown[3]  :
             player.state_machine.add_event(('Idle', 0))
