@@ -58,6 +58,7 @@ class Monster:
         draw_rectangle(*self.return_body_box())
         draw_rectangle(*self.return_weapon_box())
 
+
     def update(self,playerwhere):
         self.player_now = playerwhere
 

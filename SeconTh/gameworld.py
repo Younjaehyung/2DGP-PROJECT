@@ -170,8 +170,10 @@ class GameWorld:
         for layer in self.Gameobjects:
             for _enemey in layer:
 
-                if  _enemey.type =="monster" and _enemey.state_machine.cur_state == "Death":
+                if  _enemey.type =="monster" and _enemey.action_frame ==0 :
                     self.remove_object(_enemey)
+                    print("DELETE A")
+                    CollisionManager().remove_collision_object_A(_enemey)
                     pass
 
 
