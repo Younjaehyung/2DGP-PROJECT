@@ -30,7 +30,7 @@ class Monster:
 
         self.normal_frame = 0
         self.action_frame =0
-        self.current = 2
+        self.current = 0
 
         self.flip_x='H'
         self.flip_y = 0
@@ -43,8 +43,9 @@ class Monster:
         self.state_machine.start(Idle)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
 
         self.state_machine.set_transitions({
-            Idle: {Search_event : Run,time_out: Idle, Dead_event: Dead},
-            Run: {Idle_event: Idle,time_out: Run, Dead_event: Dead},
+            Idle: {Monster_Attack : Attack, Search_event : Run,time_out: Idle, Dead_event: Dead},
+            Run: {Monster_Attack : Attack, Idle_event: Idle,time_out: Run, Dead_event: Dead},
+            Attack : {time_out: Idle ,Dead_event: Dead},
             Dead: {time_out: Death}, Death: {}
 
         })
@@ -71,9 +72,6 @@ class Monster:
 
 
 
-    def attack(self):
-        pass
-
     def search_player(self,o):
         self.targetx, self.targety = o
 
@@ -82,23 +80,18 @@ class Monster:
             if other.state_machine.cur_state == 'Dead':
                 pass
 
-        if group == 'player:search'and self.monster_type is self.player_now:
-            self.search_player((other.x,other.y))
 
-            if group == 'palayera:enemies' and self.monster_type is self.player_now:
+        if group == 'palayera:enemies' and self.monster_type is self.player_now:
+            self.current = self.state_machine.cur_state
+            self.state_machine.add_event(('Monster_Attack', 0))
 
-                self.action_frame =3
-                pass
-            else :
-
-                self.action_frame  =self.current
-                self.current = self.action_frame
 
         if group == 'enemies:palayera' and (self.monster_type is self.player_now )and other.attack_status == 1:
             self.health-= other.attack_stat #플레이어가 적을 공격
 
+
             print(f'{self.health} distance :')
-            print("ATTACK MONSTER")
+
             pass
         if group == 'palayera:search' and self.monster_type is self.player_now:
             self.search_player((other.x, other.y))
@@ -116,7 +109,7 @@ class Monster:
         return self.x - (self.width/2), self.y - self.height,self.x + (self.width/2),  self.y+self.height
 
     def return_weapon_box(self):
-        return self.x - 15+(self.dir *  15),self.y + 5, self.x - 15+(self.dir *  15)+30,self.y -25
+        return self.x + (30 * self.dir) - 30, self.y + 5, self.x + (30 * self.dir) + 30, self.y - 25
 
 
 class MonsterT(Monster):
@@ -124,6 +117,7 @@ class MonsterT(Monster):
         super().__init__()
         self.monster_type = 2
         self.health=100
+        self.damage =1
         self.image =load_image('resource/Monster/Mon_Slime_1.png')
 
         #self.image = load_image('run_animation.png')
@@ -134,6 +128,7 @@ class MonsterB(Monster):
         super().__init__()
         self.monster_type = 4
         self.health = 100
+        self.damage=2
         self.image =load_image('resource/Monster/Mon_Skeleton_1.png')
         #self.image = load_image('run_animation.png')
 
@@ -142,6 +137,7 @@ class MonsterL(Monster):
         super().__init__()
         self.monster_type = 1
         self.health = 100
+        self.damage=2
         self.image =load_image('resource/Monster/Mon_Beast_1.png')
         #self.image = load_image('run_animation.png')
 
@@ -150,5 +146,6 @@ class MonsterR(Monster):
         super().__init__()
         self.monster_type = 3
         self.health = 100
+        self.damage=3
         self.image =load_image('resource/Monster/Mon_Orc_1.png')
         #self.image = load_image('run_animation.png')

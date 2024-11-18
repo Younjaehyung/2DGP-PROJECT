@@ -47,6 +47,9 @@ def Dead_event(e):
 def Search_event(e):
     return e[0] == 'SEARCH'
 
+def Monster_Attack(e):
+    return e[0] == 'Monster_Attack'
+
 def Monster_Searching(e):
     return e[0]=='INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_SPACE
 

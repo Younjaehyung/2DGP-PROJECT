@@ -53,6 +53,6 @@ while True:
     handle_input()
     gameobject_update()
     gameobject_draw()
-    delay(0.01)
+    delay(0.02)
 
 close_canvas()

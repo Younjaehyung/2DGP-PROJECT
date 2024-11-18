@@ -12,7 +12,7 @@ from state_machine import *
 class Player:
     def __init__(self):
         self.x ,self.y=400,400
-        self.attack_stat = random.randint(10,30)
+        self.attack_stat = random.randint(30,50)
         self.hp=random.randint(40,100)
         self.speed=random.randint(100,150)
         self.job = random.randint(1,4)
@@ -35,6 +35,8 @@ class Player:
         self.keydown =[0,0,0,0]
 
         self.type = "player"
+
+        self.current = 0
 
         self.handle_x = 0
         self.handle_y = 0
@@ -79,7 +81,7 @@ class Player:
             Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,z_down: Idle,time_out: Idle, Dead_event : Dead},
             Run: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run,
                   Idle_event : Idle,z_down: Run,time_out: Run,Dead_event : Dead},
-
+            
             #Attack: {right_down: Attack, left_down: Attack, right_up: Attack, left_up: Attack ,time_out : Idle, Dead_event : Dead},
             Spawn:{time_out : Idle},
             Dead: {time_out : Death }, Death: {}
@@ -173,12 +175,14 @@ class Player:
 
     def handle_collision(self, group, other):
         if group == 'player:enemies'and other.normal_frame ==3:
-            self.hp -=3
+            self.hp -= 1
+            self.action_frame = 0
             pass
 
 
-        if group == 'palayera:enemies' and other.action_frame !=1 and other.normal_frame ==3 :#적이 플레이어 공격
-            self.hp -=1
+        if group == 'palayera:enemies' and other.Attack_status ==1:#적이 플레이어 공격
+            self.hp -=other.damage
+            self.action_frame = 0
             print("-HEL")
             pass
         if group == 'enemies:palayera':
