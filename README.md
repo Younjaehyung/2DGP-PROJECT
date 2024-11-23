@@ -3,3 +3,6 @@
 
 1차 발표
 https://youtu.be/ylhNdLPqZVk
+
+2차 발표
+https://youtu.be/hDd47bpnzVA
