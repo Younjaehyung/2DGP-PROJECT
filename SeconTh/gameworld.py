@@ -13,7 +13,7 @@ class GameWorld:
         self.worldmain = load_image("resource/mainmap.png")
 
         self.worldmap =None
-
+        self.Boss = MonsterBoss()
         self.screenSize_W=1200
         self.screenSize_H=800
 
@@ -186,9 +186,26 @@ class GameWorld:
             self.reset_enemy()
 
             return
+        elif self.stage==10:
+            self.add_objects(self.Boss, 4)
+            CollisionManager().collision_pairs.clear()
+            CollisionManager().collision_pairs_A.clear()
+            CollisionManager().collision_pairs_S.clear()
+            CollisionManager().add_collision_pair('player:search', self.player, None)
+            CollisionManager().add_collision_pair('player:enemies', self.player, None)
+            CollisionManager().add_collision_pair_a('palayera:enemies', self.player, None)
+            CollisionManager().add_collision_pair_a('enemies:palayera', None, self.player)
+            CollisionManager().add_collision_pair_s('palayera:search', self.player, None)
 
-
-
+            CollisionManager().add_collision_pair('player:enemies', None, self.Boss)
+            CollisionManager().add_collision_pair('player:search', None, self.Boss)
+            CollisionManager().add_collision_pair_a('palayera:enemies', None, self.Boss)
+            CollisionManager().add_collision_pair_a('enemies:palayera', self.Boss, None)
+            CollisionManager().add_collision_pair_s('palayera:search', None, self.Boss)
+            return
+        elif self.stage==11:
+            return
+    
         else :
             # ////////맵 이동 좌표/////////
 

@@ -5,7 +5,6 @@ import gameworld
 from gameworld import GameWorld
 from Title import *
 start = False
-gametitle = Title()
 
 def gameobject_update():
 
@@ -57,9 +56,6 @@ mapW=1200
 open_canvas(mapW,mapH)
 initialize()
 
-while not start:
-    handle_input()
-    title_draw()
 
 
 while True:

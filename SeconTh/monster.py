@@ -151,3 +151,12 @@ class MonsterR(Monster):
         self.damage=3
         self.image =load_image('resource/Monster/Mon_Orc_1.png')
         #self.image = load_image('run_animation.png')
+
+class MonsterBoss(Monster):
+    def __init__(self):
+        super().__init__()
+        self.monster_type = 10
+        self.health = 1000
+        self.damage=2
+        self.image =load_image('resource/Monster/Mon_Orc_4.png')
+        #self.image = load_image('run_animation.png')
