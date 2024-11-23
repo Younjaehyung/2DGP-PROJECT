@@ -32,7 +32,7 @@ class GameWorld:
         self.enemiesB = []
 
         self.penalty=1
-        self.stage=8
+        self.stage=0
         self.EndStage = 0
 
         self.start_time = time.perf_counter()
@@ -41,7 +41,7 @@ class GameWorld:
 
         self.playerWhere = 0
         self.player = Player()
-        self.playerLife=11
+        self.playerLife=10
         self.playerWhere=0
 
 

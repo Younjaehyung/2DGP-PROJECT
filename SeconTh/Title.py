@@ -12,14 +12,14 @@ class Title:
        self.image2 = load_image("resource/title/title2.png")
        self.image3 = load_image("resource/title/title3.png")
        self.image4 = load_image("resource/title/title4.png")
-
+       
     def update(self):
         pass
 
     def draw(self):
-        self.image1.clip_draw(0, 0, 1200, 800, 400, 400, 800, 800)
-        self.image2.clip_draw(0,0,1200,800,400,400,800,800)
-        self.image3.clip_draw(0, 0, 1200, 800, 400, 400, 800, 800)
-        self.image4.clip_draw(0, 0, 1200, 800, 400, 400, 800, 800)
+        self.image1.clip_draw(0, 0, 1200, 800, 600,400)
+        self.image2.clip_draw(0, 0, 1200, 800, 600,400)
+        self.image3.clip_draw(0, 0, 1200, 800, 600,400)
+        self.image4.clip_draw(0, 0, 1200, 800, 600,400)
         pass
 
