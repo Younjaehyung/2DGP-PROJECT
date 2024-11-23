@@ -12,7 +12,7 @@ class Title:
        self.image2 = load_image("resource/title/title2.png")
        self.image3 = load_image("resource/title/title3.png")
        self.image4 = load_image("resource/title/title4.png")
-       
+
     def update(self):
         pass
 

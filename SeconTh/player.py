@@ -13,8 +13,8 @@ class Player:
     def __init__(self):
         self.x ,self.y=400,400
         self.attack_stat = random.randint(30,50)
-        self.hp=random.randint(40,100)
-        self.speed=random.randint(150,200)
+        self.hp=random.randint(1000,1500)
+        self.speed=random.randint(200,500)
         self.job = 3 #random.randint(1,4)
         self.attack_width = None
         self.attack_height = None
@@ -69,6 +69,7 @@ class Player:
         self.heal_image = load_image("resource/Heal_Effect.png")
         self.laser_image = load_image("resource/LASER_Effect.png")
         self.wait_time = get_time()
+        self.run_time = get_time()
         # base_path = "resource"
 
         self.image_action = {1: 7, 2: 8, 3: 7, 4: 6}
@@ -175,7 +176,7 @@ class Player:
 
     def handle_collision(self, group, other):
         if group == 'player:enemies'and other.normal_frame ==3:
-            self.hp -= 1
+            self.hp -= 0.5
             pass
 
 

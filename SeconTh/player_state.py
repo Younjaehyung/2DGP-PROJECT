@@ -68,6 +68,7 @@ class Run:
             player.action_frame = 6
 
 
+
         if right_down(e) or left_up(e):  # 오른쪽으로 RUN
             player.handle_x += 1
             if right_down(e):
@@ -139,7 +140,9 @@ class Run:
 
     @staticmethod
     def do(player):
-        speed = 1
+        speed=1
+
+
 
         if player.action_frame == 3:
             player.normal_frame = (player.normal_frame + 1) % 8
@@ -150,10 +153,19 @@ class Run:
                 return
         else :
             player.normal_frame = (player.normal_frame + 1) % 8
+        player2_x = player.x
+        player2_y = player.y
+        player2_x += (player.speed/5) * (get_time()-player.run_time) * player.handle_x*speed
+        player2_y += (player.speed/5) * (get_time()-player.run_time) * player.handle_y*speed
 
+        if player2_x >800 or player2_x <0:
+            pass
+        else:
 
-        player.x += (player.speed / 20) * player.handle_x*speed
-        player.y += (player.speed / 20) * player.handle_y*speed
+            player.x += (player.speed) * (get_time()-player.run_time) * player.handle_x*speed
+            player.y += (player.speed) * (get_time()-player.run_time) * player.handle_y*speed
+
+        player.run_time = get_time()
 
         if not player.keydown[0] and not player.keydown[1] and not player.keydown[2] and not player.keydown[3]  :
             player.state_machine.add_event(('Idle', 0))
