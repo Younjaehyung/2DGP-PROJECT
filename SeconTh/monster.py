@@ -155,7 +155,7 @@ class MonsterR(Monster):
 class MonsterBoss(Monster):
     def __init__(self):
         super().__init__()
-        self.monster_type = 10
+        self.monster_type = 0
         self.health = 1000
         self.damage=2
         self.image =load_image('resource/Monster/Mon_Orc_4.png')

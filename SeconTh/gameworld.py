@@ -32,7 +32,7 @@ class GameWorld:
         self.enemiesB = []
 
         self.penalty=1
-        self.stage=0
+        self.stage=8
         self.EndStage = 0
 
         self.start_time = time.perf_counter()
@@ -41,7 +41,7 @@ class GameWorld:
 
         self.playerWhere = 0
         self.player = Player()
-        self.playerLife=10
+        self.playerLife=11
         self.playerWhere=0
 
 
@@ -70,6 +70,7 @@ class GameWorld:
     def update(self):
 
         self.check_game()
+
         for layer in self.Gameobjects:
             for obj in layer:
 
@@ -151,19 +152,36 @@ class GameWorld:
 
     def reset_enemy(self):
         for i in range(4):
-            self.Gameobjects[i+1].clear()
+            self.Gameobjects[i + 1].clear()
 
-        self.enemiesL = [MonsterL() for i in range(self.stage +2 * self.penalty)]
-        self.enemiesR = [MonsterR() for i in range(self.stage + 2 * self.penalty)]
-        self.enemiesT = [MonsterT() for i in range(self.stage + 2 * self.penalty)]
-        self.enemiesB = [MonsterB() for i in range(self.stage + 2 * self.penalty)]
-        self.add_objects(self.enemiesL,1)
-        self.add_objects(self.enemiesT, 2)
-        self.add_objects(self.enemiesR, 3)
-        self.add_objects(self.enemiesB, 4)
+        if self.stage==10:
+
+            self.add_object(self.Boss, 1)
+            CollisionManager().collision_pairs.clear()
+            CollisionManager().collision_pairs_A.clear()
+            CollisionManager().collision_pairs_S.clear()
+            CollisionManager().add_collision_pair('player:search', self.player, None)
+            CollisionManager().add_collision_pair('player:enemies', self.player, None)
+            CollisionManager().add_collision_pair_a('palayera:enemies', self.player, None)
+            CollisionManager().add_collision_pair_a('enemies:palayera', None, self.player)
+            CollisionManager().add_collision_pair_s('palayera:search', self.player, None)
+
+            CollisionManager().add_collision_pair('player:enemies', None, self.Boss)
+            CollisionManager().add_collision_pair('player:search', None, self.Boss)
+            CollisionManager().add_collision_pair_a('palayera:enemies', None, self.Boss)
+            CollisionManager().add_collision_pair_a('enemies:palayera', self.Boss, None)
+            CollisionManager().add_collision_pair_s('palayera:search', None, self.Boss)
+        else:
 
 
-
+            self.enemiesL = [MonsterL() for i in range(self.stage + 2 * self.penalty)]
+            self.enemiesR = [MonsterR() for i in range(self.stage + 2 * self.penalty)]
+            self.enemiesT = [MonsterT() for i in range(self.stage + 2 * self.penalty)]
+            self.enemiesB = [MonsterB() for i in range(self.stage + 2 * self.penalty)]
+            self.add_objects(self.enemiesL, 1)
+            self.add_objects(self.enemiesT, 2)
+            self.add_objects(self.enemiesR, 3)
+            self.add_objects(self.enemiesB, 4)
 
     def check_game(self):
 
@@ -186,27 +204,8 @@ class GameWorld:
             self.reset_enemy()
 
             return
-        elif self.stage==10:
-            self.add_objects(self.Boss, 4)
-            CollisionManager().collision_pairs.clear()
-            CollisionManager().collision_pairs_A.clear()
-            CollisionManager().collision_pairs_S.clear()
-            CollisionManager().add_collision_pair('player:search', self.player, None)
-            CollisionManager().add_collision_pair('player:enemies', self.player, None)
-            CollisionManager().add_collision_pair_a('palayera:enemies', self.player, None)
-            CollisionManager().add_collision_pair_a('enemies:palayera', None, self.player)
-            CollisionManager().add_collision_pair_s('palayera:search', self.player, None)
 
-            CollisionManager().add_collision_pair('player:enemies', None, self.Boss)
-            CollisionManager().add_collision_pair('player:search', None, self.Boss)
-            CollisionManager().add_collision_pair_a('palayera:enemies', None, self.Boss)
-            CollisionManager().add_collision_pair_a('enemies:palayera', self.Boss, None)
-            CollisionManager().add_collision_pair_s('palayera:search', None, self.Boss)
-            return
-        elif self.stage==11:
-            return
-    
-        else :
+        elif self.stage!=10 :
             # ////////맵 이동 좌표/////////
 
             #     2
