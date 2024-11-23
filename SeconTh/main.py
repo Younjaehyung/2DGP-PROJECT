@@ -1,10 +1,11 @@
 import math
+from turtledemo.penrose import start
+
 from pico2d import *
 
 import gameworld
 from gameworld import GameWorld
 from Title import *
-start = False
 
 def gameobject_update():
 
@@ -28,8 +29,8 @@ def handle_input():
               running = False
          elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
               running = False
-         elif start ==False and event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
-              start = True
+         elif start ==True and event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
+              start = False
          else :
               game.handle_event(event)
 
@@ -42,12 +43,14 @@ def initialize():
     global game
     global mapH
     global mapW
-
-
+    global gametitle
+    global start
+    start = True
     game = GameWorld()
     game.reset_mapsize(mapW,mapH)
     game.init()
 
+    gametitle = Title()
 
 mapH=800
 mapW=1200
@@ -56,7 +59,9 @@ mapW=1200
 open_canvas(mapW,mapH)
 initialize()
 
-
+while start:
+    handle_input()
+    title_draw()
 
 while True:
     handle_input()
