@@ -44,6 +44,11 @@ def end_draw():
     gameend.draw()
     update_canvas()
 
+def end_draw2():
+    clear_canvas()
+    gameend.draw2()
+    update_canvas()
+
 def initialize():
     global game
     global mapH
@@ -62,7 +67,7 @@ def initialize():
     gameend = End()
 mapH=800
 mapW=1200
-
+endstate=0
 
 open_canvas(mapW,mapH)
 initialize()
@@ -75,11 +80,17 @@ while True:
     handle_input()
     gameobject_update()
     gameobject_draw()
-    if game.stage==11:
+    if game.stage==11 and game.playerLife ==0:
+        endstate=1
+        break
+    elif game.stage==11:
+        endstate=2
         break
     delay(0.02)
 while True:
     handle_input()
-    end_draw()
-
+    if endstate==1:
+        end_draw()
+    elif endstate==2:
+        end_draw2()
 close_canvas()

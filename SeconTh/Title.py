@@ -26,11 +26,19 @@ class Title:
 class End:
     def __init__(self):
        self.image = load_image("resource/BlackMap.png")
-       #self.image2 = load_image("resource/BlackMap.png")
+
+       self.image2 = load_image("resource/BlackMap.png")
+       self.imagem = load_image("resource/BlackMap.png")
+
+       self.imagep = load_image("resource/BlackMap.png")
     def update(self):
         pass
 
     def draw(self):
         self.image.clip_draw(0, 0, 1200, 800, 600,400)
-
+        # self.image.clip_draw(0, 0, 1200, 800, 600, 400)
+        pass
+    def draw2(self):
+        self.image2.clip_draw(0, 0, 1200, 800, 600,400)
+        #self.image.clip_draw(0, 0, 1200, 800, 600, 400)
         pass
