@@ -3,8 +3,9 @@ from pico2d import *
 
 import gameworld
 from gameworld import GameWorld
-
-
+from Title import *
+start = False
+gametitle = Title()
 
 def gameobject_update():
 
@@ -33,11 +34,16 @@ def handle_input():
          else :
               game.handle_event(event)
 
+def title_draw():
+    clear_canvas()
+    gametitle.draw()
+    update_canvas()
 
 def initialize():
     global game
     global mapH
     global mapW
+
 
     game = GameWorld()
     game.reset_mapsize(mapW,mapH)
@@ -46,20 +52,21 @@ def initialize():
 
 mapH=800
 mapW=1200
-#main_image =load_image('resource/BlackMap.png')
-start = False
+
+
 open_canvas(mapW,mapH)
 initialize()
 
+while not start:
+    handle_input()
+    title_draw()
+
 
 while True:
-    if start:
-        handle_input()
-        gameobject_update()
-        gameobject_draw()
-        delay(0.02)
-    else:
-        handle_input()
-        #main_image.clip_draw(0,0,1200,800)
+    handle_input()
+    gameobject_update()
+    gameobject_draw()
+    delay(0.02)
+
 
 close_canvas()
