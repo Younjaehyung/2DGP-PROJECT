@@ -39,19 +39,27 @@ def title_draw():
     gametitle.draw()
     update_canvas()
 
+def end_draw():
+    clear_canvas()
+    gameend.draw()
+    update_canvas()
+
 def initialize():
     global game
     global mapH
     global mapW
     global gametitle
     global start
+    global gameend
+    global end
+    end = False
     start = True
     game = GameWorld()
     game.reset_mapsize(mapW,mapH)
     game.init()
 
     gametitle = Title()
-
+    gameend = End()
 mapH=800
 mapW=1200
 
@@ -67,7 +75,11 @@ while True:
     handle_input()
     gameobject_update()
     gameobject_draw()
+    if game.stage==11:
+        break
     delay(0.02)
-
+while True:
+    handle_input()
+    end_draw()
 
 close_canvas()

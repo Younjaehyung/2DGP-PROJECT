@@ -82,6 +82,8 @@ class GameWorld:
                             #2 player update
                             #3 monster update
                             #4 gamelogic update
+
+
         pass
 
     def render(self):
@@ -204,6 +206,7 @@ class GameWorld:
             self.reset_enemy()
 
             return
+
 
         elif self.stage!=10 :
             # ////////맵 이동 좌표/////////

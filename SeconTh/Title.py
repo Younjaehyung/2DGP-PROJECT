@@ -23,3 +23,14 @@ class Title:
         self.image4.clip_draw(0, 0, 1200, 800, 600,400)
         pass
 
+class End:
+    def __init__(self):
+       self.image = load_image("resource/BlackMap.png")
+       #self.image2 = load_image("resource/BlackMap.png")
+    def update(self):
+        pass
+
+    def draw(self):
+        self.image.clip_draw(0, 0, 1200, 800, 600,400)
+
+        pass
