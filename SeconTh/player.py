@@ -14,7 +14,7 @@ class Player:
         self.x ,self.y=400,400
         self.attack_stat = random.randint(30,50)
         self.hp=random.randint(1000,1500)
-        self.speed=random.randint(200,500)
+        self.speed=random.randint(500,1000)
         self.job = 3 #random.randint(1,4)
         self.attack_width = None
         self.attack_height = None
@@ -127,8 +127,9 @@ class Player:
             print(f"Error loading image with pygame: {e}")
 
     def update(self,player_now):
-        self.state_machine.update()
 
+        self.state_machine.update()
+        self.run_time = get_time()
         print(self.x - 32/2, self.y + 48, 32, 48)
         self.player_now = player_now
 

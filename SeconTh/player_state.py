@@ -155,15 +155,15 @@ class Run:
             player.normal_frame = (player.normal_frame + 1) % 8
         player2_x = player.x
         player2_y = player.y
-        player2_x += (player.speed/5) * (get_time()-player.run_time) * player.handle_x*speed
-        player2_y += (player.speed/5) * (get_time()-player.run_time) * player.handle_y*speed
+        player2_x += (player.speed) * (get_time() - player.run_time) * player.handle_x*speed
+        player2_y += (player.speed) * (get_time() - player.run_time) * player.handle_y*speed
 
         if player2_x >800 or player2_x <0:
             pass
         else:
 
-            player.x += (player.speed) * (get_time()-player.run_time) * player.handle_x*speed
-            player.y += (player.speed) * (get_time()-player.run_time) * player.handle_y*speed
+            player.x += (player.speed) * (get_time() - player.run_time) * player.handle_x*speed
+            player.y += (player.speed) * (get_time() - player.run_time) * player.handle_y*speed
 
         player.run_time = get_time()
 
