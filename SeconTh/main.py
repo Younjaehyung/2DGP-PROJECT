@@ -74,6 +74,7 @@ initialize()
 
 while start:
     handle_input()
+    gametitle.update()
     title_draw()
 
 while True:
