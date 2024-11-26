@@ -39,6 +39,16 @@ class Monster:
         self.handle_x=0
         self.handle_y=0
 
+        self.die_time = 0
+        self.attack_time = 0
+        self.idle_time = 0
+        self.run_time = 0
+
+        self.die_frame = 0
+        self.attack_frame = 0
+        self.idle_frame = 0
+        self.run_frame= 0
+
         self.state_machine = StateMachine(self)  # 어떤 객체를 위한 상태 머신인지 알려줄 필요가 있다
         self.state_machine.start(Idle)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
 
