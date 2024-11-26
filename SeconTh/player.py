@@ -14,7 +14,7 @@ class Player:
         self.x ,self.y=400,400
         self.attack_stat = random.randint(30,50)
         self.hp=random.randint(1000,1500)
-        self.speed=random.randint(500,1000)
+        self.speed=random.randint(300,500)
         self.job = 3 #random.randint(1,4)
         self.attack_width = None
         self.attack_height = None
