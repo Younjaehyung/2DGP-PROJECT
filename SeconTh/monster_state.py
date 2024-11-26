@@ -32,8 +32,8 @@ class Idle:
             player.flip_x,
             player.x,
             player.y,
-            250,
-            250)
+            300,
+            300)
 
 
         pass
@@ -41,8 +41,9 @@ class Idle:
     @staticmethod
     def do(player):
 
-
-        player.normal_frame = (player.normal_frame + 1) % 6
+        if get_time()-player.idle_time > 0.15:
+            player.normal_frame = (player.normal_frame + 1) % 6
+            player.idle_time =get_time()
 
         # if player.search_player():
         #     player.state_machine.add_event(('SEARCH', 0))
@@ -80,14 +81,16 @@ class Run:
             player.flip_x,
             player.x,
             player.y,
-            250,
-            250)
+            300,
+            300)
         pass
 
     @staticmethod
     def do(player):
+        if get_time()-player.run_time > 0.2:
+            player.normal_frame = (player.normal_frame + 1) % 8
+            player.run_time =get_time()
 
-        player.normal_frame = (player.normal_frame + 1) % 8
 
             # 플레이어를 추적하는 로직 추가
 
@@ -149,18 +152,17 @@ class Attack:
             player.flip_x,
             player.x,
             player.y,
-            250,
-            250)
+            300,
+            300)
         pass
 
     @staticmethod
     def do(player):
-
-        player.normal_frame = (player.normal_frame + 1) % 6
-
+        if get_time()-player.attack_time > 0.2:
+            player.normal_frame = (player.normal_frame + 1) % 6
+            player.attack_time =get_time()
 
             # 플레이어를 추적하는 로직 추가
-
         if player.normal_frame == 0:
 
             player.state_machine.add_event(('TIME_OUT', 0))
@@ -173,6 +175,8 @@ class Dead:
         player.normal_frame = 0
         player.action_frame = 1
         player.dead_time =get_time()
+        player.fly_back_distance = 50  # 뒤로 날아가는 최대 거리
+        player.fly_back_speed = 3  # 뒤로 날아가는 속도
         pass
 
     @staticmethod
@@ -190,18 +194,24 @@ class Dead:
             player.flip_x,
             player.x,
             player.y,
-            250,
-            250)
+            300,
+            300)
         pass
 
     @staticmethod
     def do(player):
-        if get_time()-player.dead_time > 0.5:
+        if get_time()-player.dead_time > 0.1:
             player.normal_frame = player.normal_frame + 1
             player.dead_time =get_time()
 
         if player.normal_frame == 5:
             player.state_machine.add_event(('TIME_OUT', 0))
+
+
+        if player.fly_back_distance > 0:
+            fly_x = player.dir * -1 * player.fly_back_speed  # 반대 방향으로 이동
+            player.x += fly_x
+            player.fly_back_distance -= abs(fly_x)
 
         pass
 
@@ -228,8 +238,8 @@ class Death:
             player.flip_x,
             player.x,
             player.y,
-            250,
-            250)
+            300,
+            300)
         pass
 
     @staticmethod
