@@ -13,7 +13,7 @@ class Title:
         self.imagen2 = load_image("resource/title/title2.png")
         self.image3 = load_image("resource/title/title3.png")
         self.imagen3 = load_image("resource/title/title3.png")
-        self.image4 = load_image("resource/title/title4.png")
+        self.image4 = load_image("resource/Title2.png")
         self.title2_x = 600
         self.title2_nx = -600
         self.title3_x = 600
