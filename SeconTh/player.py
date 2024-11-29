@@ -15,22 +15,26 @@ class Player:
         self.attack_stat = random.randint(30,50)
         self.hp=random.randint(1000,1500)
         self.speed=random.randint(300,500)
-        self.job = 3 #random.randint(1,4)
+        self.job = random.randint(1,4)
         self.attack_width = None
         self.attack_height = None
         self.dir = 1
-        if self.job == 1:
+        if self.job == 1:       #칼
             self.attack_width=30
             self.attack_height = 30
-        elif self.job == 2:
+            self.Portrait_Num = random.randint(6, 7)
+        elif self.job == 2:     #스피어
             self.attack_width = 80
             self.attack_height = 10
-        elif self.job == 3:
+            self.Portrait_Num = random.randint(4, 5)
+        elif self.job == 3:     #렌서
             self.attack_width = 70
             self.attack_height = 10
-        elif self.job == 4:
+            self.Portrait_Num = random.randint(2, 3)
+        elif self.job == 4:     #도
             self.attack_width = 30
             self.attack_height = 50
+            self.Portrait_Num = random.randint(0, 1)
 
         self.keydown =[0,0,0,0]
 
@@ -194,10 +198,10 @@ class Player:
         return self.x - (self.width/2), self.y - self.height,self.x ,  self.y+self.height
     def return_weapon_box(self):
         if self.job == 1:
-            return self.x + (30 * self.dir) - 30, self.y + 5, self.x + (30 * self.dir) + 30, self.y - 25
+            return self.x + (30 * self.dir) - 45, self.y + 15, self.x + (30 * self.dir) + 30, self.y - 25
         if self.job == 2:
-            return self.x + (30 * self.dir) - 30, self.y + 5, self.x + (30 * self.dir) + 30, self.y - 25
+            return self.x + (30 * self.dir) - 45, self.y + 15, self.x + (30 * self.dir) + 30, self.y - 25
         if self.job == 3:
-            return self.x + (30 * self.dir) - 30, self.y + 5, self.x + (30 * self.dir) + 30, self.y - 25
+            return self.x + (30 * self.dir) - 45, self.y + 15, self.x + (30 * self.dir) + 30, self.y - 25
         if self.job == 4:
-            return self.x + (30 * self.dir) - 30, self.y + 5, self.x + (30 * self.dir) + 30, self.y - 25
+            return self.x + (30 * self.dir) - 45, self.y + 15, self.x + (30 * self.dir) + 30, self.y - 25
