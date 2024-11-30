@@ -31,7 +31,7 @@ def handle_input():
               running = False
          elif start ==True and event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
               start = False
-         else :
+         elif start == False:
               game.handle_event(event)
 
 def title_draw():
@@ -59,9 +59,7 @@ def initialize():
     global end
     end = False
     start = True
-    game = GameWorld()
-    game.reset_mapsize(mapW,mapH)
-    game.init()
+
 
     gametitle = Title()
     gameend = End()
@@ -77,6 +75,9 @@ while start:
     gametitle.update()
     title_draw()
 
+game = GameWorld()
+game.reset_mapsize(mapW,mapH)
+game.init()
 while True:
     handle_input()
     gameobject_update()
