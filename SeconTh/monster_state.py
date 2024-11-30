@@ -154,9 +154,6 @@ class Attack:
             player.normal_frame = (player.normal_frame + 1) % 6
             player.attack_time = get_time()
 
-        if player.health <= 0:
-            player.state_machine.add_event(('DEAD', 0))
-            return  # 상태 전환 후 더 이상 실행하지 않음
 
             # 플레이어를 추적하는 로직 추가
         if player.normal_frame == 0:

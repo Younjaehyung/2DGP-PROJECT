@@ -85,6 +85,7 @@ class Monster:
             print("ATTACK!! MONSTER")
             self.nowdead = 1
 
+
         self.state_machine.update()
 
 
@@ -104,8 +105,8 @@ class Monster:
 
 
         if group == 'enemies:palayera' and (self.monster_type is self.player_now )and other.attack_status == 1:
-            if other.normal_frame == 3 or other.normal_frame == 2:
-                self.health-= other.attack_stat #플레이어가 적을 공격
+            #if other.normal_frame == 3 or other.normal_frame == 2:
+            self.health-= other.attack_stat #플레이어가 적을 공격
 
 
             print(f'{self.health} distance :')
