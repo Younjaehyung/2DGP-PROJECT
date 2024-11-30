@@ -13,7 +13,7 @@ class Player:
     def __init__(self):
         self.x ,self.y=400,400
         self.attack_stat = random.randint(30,50)
-        self.hp=random.randint(1000,1500)
+        self.hp=random.randint(100,150)
         self.speed=random.randint(300,500)
         self.job = random.randint(1,4)
         self.attack_width = None
@@ -155,10 +155,10 @@ class Player:
         elif self.handle_y > 0:
             self.flip_y = 0
         self.state_machine.draw()
-        self.font.draw(self.x, self.y+50, f'{self.x:.2f},{self.y:.2f}', (255, 0, 0))
-        self.font.draw(self.x, self.y + 100, f'{self.attack_stat}', (255, 0, 0))
-        self.font.draw(self.x, self.y + 150, f'{self.hp}', (255, 0, 0))
-        self.font.draw(self.x, self.y + 200, f'{self.speed}', (255, 0, 0))
+        # self.font.draw(self.x, self.y+50, f'{self.x:.2f},{self.y:.2f}', (255, 0, 0))
+        # self.font.draw(self.x, self.y + 100, f'{self.attack_stat}', (255, 0, 0))
+        # self.font.draw(self.x, self.y + 150, f'{self.hp}', (255, 0, 0))
+        # self.font.draw(self.x, self.y + 200, f'{self.speed}', (255, 0, 0))
         #┌┐└┘
 
         draw_rectangle(*self.return_body_box())
@@ -198,10 +198,10 @@ class Player:
         return self.x - (self.width/2), self.y - self.height,self.x ,  self.y+self.height
     def return_weapon_box(self):
         if self.job == 1:
-            return self.x + (30 * self.dir) - 45, self.y + 15, self.x + (30 * self.dir) + 30, self.y - 25
+            return self.x + (30 * self.dir) - 55, self.y + 15, self.x + (30 * self.dir) + 30, self.y - 25
         if self.job == 2:
-            return self.x + (30 * self.dir) - 45, self.y + 15, self.x + (30 * self.dir) + 30, self.y - 25
+            return self.x + (30 * self.dir) - 55, self.y + 15, self.x + (30 * self.dir) + 30, self.y - 25
         if self.job == 3:
-            return self.x + (30 * self.dir) - 45, self.y + 15, self.x + (30 * self.dir) + 30, self.y - 25
+            return self.x + (30 * self.dir) - 55, self.y + 15, self.x + (30 * self.dir) + 30, self.y - 25
         if self.job == 4:
-            return self.x + (30 * self.dir) - 45, self.y + 15, self.x + (30 * self.dir) + 30, self.y - 25
+            return self.x + (30 * self.dir) - 55, self.y + 15, self.x + (30 * self.dir) + 30, self.y - 25
