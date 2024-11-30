@@ -30,6 +30,9 @@ class Monster:
         self.image=load_image('resource/Monster/Mon_Slime_2.png')
         self.image=load_image('resource/Monster/Mon_Slime_3.png')
 
+        self.sfx_image=load_image('resource/NewResource/SFXattack.png')
+        self.icon_image=load_image('resource/NewResource/Icon.png')
+
         self.normal_frame = 0
         self.action_frame =0
         self.current = 0
