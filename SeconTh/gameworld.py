@@ -6,23 +6,55 @@ from collider import*
 class GameWorld:
     def __init__(self):
         self.BackGround = load_image("resource/BlackMap.png")
-        self.worldL = load_image("resource/leftmap.png")
-        self.worldR =load_image("resource/rightmap.png")
-        self.worldT = load_image("resource/topmap.png")
-        self.worldB =load_image("resource/bottommap.png")
-        self.worldmain = load_image("resource/mainmap.png")
+        self.worldL = load_image("resource/NewResource/LMap.png")
+        self.worldR =load_image("resource/NewResource/RMap.png")
+        self.worldT = load_image("resource/NewResource/TMap.png")
+        self.worldB = load_image("resource/NewResource/BMap.png")
+        self.worldmain = load_image("resource/NewResource/CMap.png")
 
-        self.worldRB = load_image("resource/Right_bottom.png")
-        self.worldRT = load_image("resource/LEFT_bottom.png")
-        self.worldLB = load_image("resource/Right_top.png")     #무친사람아 오른쪽 왼쪽 구별못해!!!
+        self.worldRB = load_image("resource/NewResource/RBMap.png")
+        self.worldRT = load_image("resource/NewResource/RTMap.png")
+        self.worldLB = load_image("resource/NewResource/LBMap.png")
+        self.worldLT = load_image("resource/NewResource/LTMap.png")
 
-        self.UI = load_image("resource/post.png")
+        self.UI = load_image("resource/NewResource/MainUI.png")
         self.Portrait = load_image("resource/FACE.png")
 
         self.Obelisk = load_image("resource/Stone.png")
+        self.ObjLB = load_image("resource/NewResource/LBObj.png")
+        self.ObjR = load_image("resource/NewResource/RObj.png")
+        self.ObjRB = load_image("resource/NewResource/RBObj.png")
+        self.ObjRT = load_image("resource/NewResource/RTObj.png")
 
+        self.EnvL = load_image("resource/NewResource/LEnv.png")
+        self.EnvnL = load_image("resource/NewResource/LEnv.png")
+        self.EnvR = load_image("resource/NewResource/REnv.png")
+        self.EnvT = load_image("resource/NewResource/TEnv.png")
+        self.EnvB = load_image("resource/NewResource/BEnv.png")
+
+        self.Particle = load_image("resource/NewResource/dirParticlet.png")
+
+        #화면 전환 트렌지션
+        self.TransL = load_image("resource/NewResource/transition4.png")
+        self.TransT = load_image("resource/NewResource/transition2.png")
+        self.TransR = load_image("resource/NewResource/transition1.png")
+        self.TransB = load_image("resource/NewResource/transition5.png")
+        self.TransC = load_image("resource/NewResource/transition3.png")
+        self.TransD = load_image("resource/NewResource/transition6.png") #Default
+        self.TransNum = 0
+        self.Transx = -600
+        self.transition_active = False
+        self.current_transition = self.TransD
+
+        self.DieImg = load_image("resource/NewResource/DIE.png")
+        self.Die_active = False
+
+        self.EnvLx = -200
+        self.EnvLnx = 200
+        self.EnvLNum = 0
 
         self.worldmap =None
+
         self.Boss = MonsterBoss()
         self.screenSize_W=1200
         self.screenSize_H=800
@@ -31,6 +63,7 @@ class GameWorld:
         self.mapSize_H=576
 
         self.font = load_font('resource/DungeonFont.ttf', 70)  # 24는 폰트 크기
+        self.font2 = load_font('resource/NewResource/Freesentation-4Regular.ttf', 24)  # 24는 폰트 크기
 
         self.text = "0"
 
@@ -116,6 +149,7 @@ class GameWorld:
 
         self.world_render()
         self.object_render()
+
         self.UI_render()
         self.Portrait_render()
         for layer in self.Gameobjects:
@@ -124,14 +158,48 @@ class GameWorld:
 
         self.player_timer()
         self.player_coin()
+        self.Weather_render()
+        if self.transition_active:
+            self.Transition_render()
 
-        pass
 
 
+
+    def Weather_render(self):
+        if self.playerWhere == 1:
+            self.EnvLx += 5
+            self.EnvLnx += 5
+            if self.EnvLx > 200:
+                self.EnvLx = -200
+            if self.EnvLnx > 600:
+                self.EnvLnx = 200
+
+            self.EnvL.clip_draw(0, 0, 576, 576, 400,-self.EnvLx,800,800)
+            self.EnvnL.clip_draw(0, 0, 576, 576, 400,-self.EnvLx,800,800)
+        elif self.playerWhere == 2:
+            self.EnvT.clip_draw(0, 0, 576, 576, 400,400,800,800)
+        elif self.playerWhere == 3:
+            self.EnvR.clip_draw(0, 0, 576, 576, 400,400,800,800)
+        elif self.playerWhere == 4:
+            self.EnvB.clip_draw(0, 0, 576, 576, 400,400,800,800)
+
+
+    def Transition_render(self):
+        if self.transition_active:
+            self.Transx += 150  # x 좌표를 증가시켜 오른쪽으로 이동
+            self.current_transition.clip_draw(0, 0, 1200, 800, self.Transx, 400, 1200, 800)
+
+        if self.Transx > 1800:  # Transition 종료 조건
+            self.transition_active = False  # Transition 비활성화
+            self.Transx = -600  # x 좌표 초기화
     #UI그리기
     def UI_render(self):
         self.UI.clip_draw(0, 0, 224, 576, 1000, 400, 224*1.3, 576*1.3)
+        self.font2.draw(890, 400, f'Hp: {self.player.hp:.0f}', (250, 250, 250))
+        self.font2.draw(890, 375, f'ATK: {self.player.attack_stat:.0f}', (250, 250, 250))
+        self.font2.draw(890, 350, f'SPD: {self.player.speed:.0f}', (250, 250, 250))
         pass
+
 
     #포트레잇 그리기
     def Portrait_render(self):
@@ -155,45 +223,41 @@ class GameWorld:
         current_time = time.perf_counter()  # 현재 시간
         self.playerTime =  self.playerTotalTime- (current_time - self.start_time)
         if self.playerTime<10:
-            self.font.draw(950, 600, f'{self.playerTime:.2f}', (255, 0, 0))
+            self.font.draw(940, 545, f'{self.playerTime:.2f}', (60, 60, 60))
+            self.font.draw(930, 550, f'{self.playerTime:.2f}', (255, 0, 0))
         else:
-            self.font.draw(950, 600, f'{self.playerTime:.2f}', (185, 240, 100))
+            self.font.draw(940, 545, f'{self.playerTime:.2f}', (60, 60, 60))
+            self.font.draw(930, 550, f'{self.playerTime:.2f}', (185, 240, 100))
 
     def player_coin(self):
-        self.font.draw(950, 200, f'{self.PlayerCoin}', (247, 230, 0))
+        self.font.draw(975, 120, f'{self.PlayerCoin}', (247, 230, 0))
 
     def object_render(self):
         if self.playerWhere == 0:
             self.Obelisk.clip_draw(0 + ((self.stage-1)*128), 0, 128, 128, 400,410, 128*1.75, 128*1.75)
 
     def world_render(self):
-        if self.playerWhere == 0:
-            self.worldmap=self.worldmain
-            pass
-        elif self.playerWhere == 1:
-            self.worldmap=self.worldL
-            pass
-        elif self.playerWhere == 2:
-            self.worldmap=self.worldT
-            pass
-        elif self.playerWhere == 3:
-            self.worldmap=self.worldR
-            pass
-        elif self.playerWhere == 4:
-            self.worldmap=self.worldB
-            pass
-        elif self.playerWhere == 5:
-            self.worldmap=self.worldB
-            pass
-        elif self.playerWhere == 6:
-            self.worldmap=self.worldRT
-            pass
-        elif self.playerWhere == 7:
-            self.worldmap=self.worldLB
-            pass
-        elif self.playerWhere == 8:
-            self.worldmap=self.worldRB
-            pass
+        if self.Die_active:
+            self.worldmap = self.DieImg  # DieImg를 현재 맵으로 설정
+        else:
+            if self.playerWhere == 0:
+                self.worldmap = self.worldmain
+            elif self.playerWhere == 1:
+                self.worldmap = self.worldL
+            elif self.playerWhere == 2:
+                self.worldmap = self.worldT
+            elif self.playerWhere == 3:
+                self.worldmap = self.worldR
+            elif self.playerWhere == 4:
+                self.worldmap = self.worldB
+            elif self.playerWhere == 5:
+                self.worldmap = self.worldLT
+            elif self.playerWhere == 6:
+                self.worldmap = self.worldRT
+            elif self.playerWhere == 7:
+                self.worldmap = self.worldLB
+            elif self.playerWhere == 8:
+                self.worldmap = self.worldRB
         self.BackGround.clip_draw(0,0,1200,800,600,400)
         self.worldmap.clip_draw(0, 0, 576, 576, 400,400,800,800)
 
@@ -215,7 +279,7 @@ class GameWorld:
         self.player = Player()
         self.Portrait_Num = self.player.Portrait_Num
         self.add_object(self.player,0)
-
+        self.Die_active = False  # DieImg 비활성화
 
     def remove_object(self,o):
         for layer in self.Gameobjects:
@@ -254,7 +318,7 @@ class GameWorld:
         else:
 
                 # L
-                if self.enemyLNum > 4:
+                if self.enemyLNum > 4 and self.enemyLNum <= 6:
                     self.enemiesL = [MonsterL2() for _ in range(self.enemyLNum)]
                 elif self.enemyLNum > 7:
                     self.enemiesL = [MonsterL3() for _ in range(self.enemyLNum)]
@@ -262,7 +326,7 @@ class GameWorld:
                     self.enemiesL = [MonsterL() for _ in range(self.enemyLNum)]
 
                 # R
-                if self.enemyRNum > 4:
+                if self.enemyRNum > 4 and self.enemyRNum <= 6:
                     self.enemiesR = [MonsterR2() for _ in range(self.enemyRNum)]
                 elif self.enemyRNum > 7:
                     self.enemiesR = [MonsterR3() for _ in range(self.enemyRNum)]
@@ -270,7 +334,7 @@ class GameWorld:
                     self.enemiesR = [MonsterR() for _ in range(self.enemyRNum)]
 
                 # T
-                if self.enemyTNum > 4:
+                if self.enemyTNum > 4and self.enemyTNum <= 6:
                     self.enemiesT = [MonsterT2() for _ in range(self.enemyTNum)]
                 elif self.enemyTNum > 7:
                     self.enemiesT = [MonsterT3() for _ in range(self.enemyTNum)]
@@ -278,7 +342,7 @@ class GameWorld:
                     self.enemiesT = [MonsterT() for _ in range(self.enemyTNum)]
 
                 # B
-                if self.enemyBNum > 4:
+                if self.enemyBNum > 4 and self.enemyBNum <= 6:
                     self.enemiesB = [MonsterB2() for _ in range(self.enemyBNum)]
                 elif self.enemyBNum > 7:
                     self.enemiesB = [MonsterB3() for _ in range(self.enemyBNum)]
@@ -324,6 +388,9 @@ class GameWorld:
                     print("DELETE A")
 
         if  (self.player.state_machine.cur_state != Dead and self.player.state_machine.cur_state != Death)and (self.playerTime <= 0 or self.player.hp <= 0):
+            self.Die_active = True
+            self.player.x = 400
+            self.player.y = 300
             self.player.state_machine.add_event(('DEAD',0))
 
         elif self.player.state_machine.cur_state == Death :
@@ -345,6 +412,8 @@ class GameWorld:
                 if self.player.x <= 20 and 350 <= self.player.y <= 450:
                     self.playerWhere = 1
                     self.player.x = 770
+                    self.transition_active = True
+                    self.current_transition = self.TransL
                     CollisionManager().collision_pairs.clear()
                     CollisionManager().collision_pairs_A.clear()
                     CollisionManager().collision_pairs_S.clear()
@@ -363,6 +432,8 @@ class GameWorld:
                 if self.player.x >= 780 and 350 <= self.player.y <= 450:
                     self.playerWhere = 3
                     self.player.x = 30
+                    self.transition_active = True
+                    self.current_transition = self.TransR
                     CollisionManager().collision_pairs.clear()
                     CollisionManager().collision_pairs_A.clear()
                     CollisionManager().collision_pairs_S.clear()
@@ -381,6 +452,8 @@ class GameWorld:
                 if self.player.y >= 780 and 350 <= self.player.x <= 450:
                     self.playerWhere = 2
                     self.player.y = 30
+                    self.transition_active = True
+                    self.current_transition = self.TransT
                     CollisionManager().collision_pairs.clear()
                     CollisionManager().collision_pairs_A.clear()
                     CollisionManager().collision_pairs_S.clear()
@@ -399,6 +472,8 @@ class GameWorld:
                 if self.player.y <= 20 and 350 <= self.player.x <= 450:
                     self.playerWhere = 4
                     self.player.y = 770
+                    self.transition_active = True
+                    self.current_transition = self.TransB
                     CollisionManager().collision_pairs.clear()
                     CollisionManager().collision_pairs_A.clear()
                     CollisionManager().collision_pairs_S.clear()
@@ -417,67 +492,95 @@ class GameWorld:
             elif self.playerWhere==1:   #좌
                 if self.player.x >= 780 and 350 <= self.player.y <= 450:    #메인(우)로 이동
                     self.playerWhere = 0
+                    self.transition_active = True
+                    self.current_transition = self.TransC
                     self.player.x = 30
                     CollisionManager().collision_pairs.clear()
                 if self.player.y >= 780 and 350 <= self.player.x <= 450:
                     self.playerWhere = 5
                     self.player.y = 30
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
                 if self.player.y <= 20 and 350 <= self.player.x <= 450:
                     self.playerWhere = 7
                     self.player.y = 770
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
 
             elif self.playerWhere==2:   #상
                 if self.player.y <= 20 and 350 <= self.player.x <= 450:     #메인(하)로 이동
                     self.playerWhere = 0
+                    self.transition_active = True
+                    self.current_transition = self.TransC
                     self.player.y = 770
                     CollisionManager().collision_pairs.clear()
                 if self.player.x >= 780 and 350 <= self.player.y <= 450:    #상우로 이동
                     self.playerWhere = 6
                     self.player.x = 30
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
                 if self.player.x <= 20 and 350 <= self.player.y <= 450:     #상좌로 이동
                     self.playerWhere = 5
                     self.player.x = 770
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
 
             elif self.playerWhere==3:   #우
                 if self.player.x <= 20 and 350 <= self.player.y <= 450:     #메인(좌)으로 이동
                     self.playerWhere = 0
+                    self.transition_active = True
+                    self.current_transition = self.TransC
                     self.player.x = 770
                     CollisionManager().collision_pairs.clear()
                 if self.player.y >= 780 and 350 <= self.player.x <= 450:    #우상으로 이동
                     self.playerWhere = 6
                     self.player.y = 30
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
                 if self.player.y <= 20 and 350 <= self.player.x <= 450:     #우하로 이동
                     self.playerWhere = 8
                     self.player.y = 770
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
 
             elif self.playerWhere==4:   #하
                 if self.player.y >= 780 and 350 <= self.player.x <= 450:    #메인(상)으로 이동
                     self.playerWhere = 0
+                    self.transition_active = True
+                    self.current_transition = self.TransC
                     self.player.y = 30
                     CollisionManager().collision_pairs.clear()
                 if self.player.x >= 780 and 350 <= self.player.y <= 450:    #우하로 이동
                     self.playerWhere = 8
                     self.player.x = 30
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
                 if self.player.x <= 20 and 350 <= self.player.y <= 450:     #좌하로 이동
                     self.playerWhere = 7
                     self.player.x = 770
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
 
             elif self.playerWhere==5: #좌상
                 if self.player.x >= 780 and 350 <= self.player.y <= 450:    #메인(우)로 이동
                     self.playerWhere = 2
                     self.player.x = 30
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
                 if self.player.y <= 20 and 350 <= self.player.x <= 450:     #메인(하)로 이동
                     self.playerWhere = 1
                     self.player.y = 770
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
 
 
@@ -485,10 +588,14 @@ class GameWorld:
                 if self.player.x <= 20 and 350 <= self.player.y <= 450:     #상으로 이동
                     self.playerWhere = 2
                     self.player.x = 770
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
                 if self.player.y <= 20 and 350 <= self.player.x <= 450:     #메인(하)로 이동
                     self.playerWhere = 3
                     self.player.y = 770
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
 
 
@@ -497,18 +604,26 @@ class GameWorld:
                 if self.player.y >= 780 and 350 <= self.player.x <= 450:    #(상)으로 이동
                     self.playerWhere = 1
                     self.player.y = 30
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
                 if self.player.x >= 780 and 350 <= self.player.y <= 450:    #(우)로 이동
                     self.playerWhere = 4
                     self.player.x = 30
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
 
             elif self.playerWhere==8:   #우하
                 if self.player.x <= 20 and 350 <= self.player.y <= 450:     #메인(좌)으로 이동
                     self.playerWhere = 4
                     self.player.x = 770
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
                 if self.player.y >= 780 and 350 <= self.player.x <= 450:    #메인(상)으로 이동
                     self.playerWhere = 3
                     self.player.y = 30
+                    self.transition_active = True
+                    self.current_transition = self.TransD
                     CollisionManager().collision_pairs.clear()
