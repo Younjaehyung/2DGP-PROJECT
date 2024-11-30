@@ -83,10 +83,10 @@ class Player:
         self.state_machine.start(Spawn)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
 
         self.state_machine.set_transitions({
-            Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,z_down: Idle,time_out: Idle, Dead_event : Dead},
+            Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,z_down: Idle,time_out: Idle, Dead_event : Dead ,hit : Hit},
             Run: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run,
                   Idle_event : Idle,z_down: Run,time_out: Run,Dead_event : Dead},
-
+            Hit:{time_out : Idle},
             #Attack: {right_down: Attack, left_down: Attack, right_up: Attack, left_up: Attack ,time_out : Idle, Dead_event : Dead},
             Spawn:{time_out : Idle},
             Dead: {time_out : Death }, Death: {}
@@ -189,6 +189,7 @@ class Player:
         if group == 'palayera:enemies' and other.Attack_status ==1:#적이 플레이어 공격
             if other.normal_frame == 1:
                 self.hp -=other.damage
+                self.state_machine.add_event(('hit', 0))
             #self.state_machine.add_event(('TIME_OUT', 0))
             print("-HEL")
             pass

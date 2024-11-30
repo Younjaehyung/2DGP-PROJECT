@@ -56,7 +56,8 @@ def Monster_Searching(e):
 def Monster_time_out(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_z
 
-
+def hit(e):
+    return e[0] == 'hit'
 # 상태 머신을 처리 관리 해주는 클래스
 class StateMachine:
     def __init__(self, o):
