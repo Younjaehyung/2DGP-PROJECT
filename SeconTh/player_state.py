@@ -146,8 +146,14 @@ class Run:
 
         if player.action_frame == 3:
             player.normal_frame = (player.normal_frame + 1) % 8
+            if player.job ==1:
+                speed = 1
+            if player.job ==2:
+                speed = 2
             if player.job ==3:
                 speed = 3
+            if player.job ==4:
+                speed = 1
             if player.normal_frame == 0:
                 player.state_machine.add_event(('TIME_OUT', 0))
                 return
