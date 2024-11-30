@@ -181,12 +181,14 @@ class Player:
 
     def handle_collision(self, group, other):
         if group == 'player:enemies'and other.normal_frame ==3:
-            self.hp -= 0.5
+            if other.normal_frame == 1:
+                self.hp -= 0.5
             pass
 
 
         if group == 'palayera:enemies' and other.Attack_status ==1:#적이 플레이어 공격
-            self.hp -=other.damage
+            if other.normal_frame == 1:
+                self.hp -=other.damage
             #self.state_machine.add_event(('TIME_OUT', 0))
             print("-HEL")
             pass
