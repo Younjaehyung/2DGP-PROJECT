@@ -168,8 +168,8 @@ class Dead:
         player.normal_frame = 0
         player.action_frame = 1
         player.dead_time = get_time()
-        player.fly_back_distance = 50  # 뒤로 날아가는 최대 거리
-        player.fly_back_speed = 3  # 뒤로 날아가는 속도
+        player.fly_back_distance = 100  # 뒤로 날아가는 최대 거리
+        player.fly_back_speed = 5  # 뒤로 날아가는 속도
         player.sfx_frame = 0  # SFX 이미지의 초기 프레임
         player.sfx_time = get_time()  # SFX 애니메이션 시간 초기화
         pass
