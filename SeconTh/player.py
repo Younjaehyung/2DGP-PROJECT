@@ -10,33 +10,41 @@ from state_machine import *
 
 
 class Player:
-    def __init__(self):
-        self.x ,self.y=400,400
-        self.attack_stat = random.randint(30,50)
-        self.hp=random.randint(100,150)
-        self.speed=random.randint(300,500)
-        self.job = random.randint(1,4)
+    def __init__(self, hpLv=0, atkLv=0, spdLv=0, skillLv=0):
+        self.x, self.y = 400, 400
+
+        # 플레이어 레벨 초기화
+        self.hpLv = hpLv
+        self.spdLv = spdLv
+        self.skillLv = skillLv
+        self.atkLv = atkLv
+
+        self.attack_stat = random.randint(10 + self.atkLv * 10, 30 + self.atkLv * 10)
+        self.hp = random.randint(100 + self.hpLv * 50, 150 + self.hpLv * 50)
+        self.speed = random.randint(200 + self.spdLv * 30, 300 + self.spdLv * 30)
+        self.job = random.randint(1, 4)
+
         self.attack_width = None
         self.attack_height = None
         self.dir = 1
-        if self.job == 1:       #칼
-            self.attack_width=30
+        if self.job == 1:  # 칼
+            self.attack_width = 30
             self.attack_height = 30
             self.Portrait_Num = random.randint(6, 7)
-        elif self.job == 2:     #스피어
+        elif self.job == 2:  # 스피어
             self.attack_width = 80
             self.attack_height = 10
             self.Portrait_Num = random.randint(4, 5)
-        elif self.job == 3:     #렌서
+        elif self.job == 3:  # 렌서
             self.attack_width = 70
             self.attack_height = 10
             self.Portrait_Num = random.randint(2, 3)
-        elif self.job == 4:     #도
+        elif self.job == 4:  # 도
             self.attack_width = 30
             self.attack_height = 50
             self.Portrait_Num = random.randint(0, 1)
 
-        self.keydown =[0,0,0,0]
+        self.keydown = [0, 0, 0, 0]
 
         self.type = "player"
 
@@ -45,64 +53,61 @@ class Player:
         self.handle_x = 0
         self.handle_y = 0
         self.font = load_font('resource/DungeonFont.ttf', 70)
-        self.flip_x='H'
+        self.flip_x = 'H'
         self.flip_y = 0
         self.normal_frame = 0
         self.action_frame = 8
-        self.player_now=0
-        self.status = 0 #0 idle 1 move 2 attack 3 spec attack 4 death 5 none
+        self.player_now = 0
+        self.status = 0  # 0 idle 1 move 2 attack 3 spec attack 4 death 5 none
         self.attack_status = 0
 
-
-        #Idle
-        self.Rect = None    #좌측 상단 xy 가로 세로 길이
-        #Attack(weapon)
+        self.coin = 100
+        # Idle
+        self.Rect = None  # 좌측 상단 xy 가로 세로 길이
+        # Attack(weapon)
         self.Weapon_Rect = None
         self.level = 0
 
         self.shnormal_frame = 0
         self.lhnormal_frame = 0
-        self.spawn_time =0
+        self.spawn_time = 0
         self.dead_time = 0
         self.attack_time = 0
 
-        self.width=32
-        self.height=48
-
+        self.width = 32
+        self.height = 48
 
         self.heal_image = load_image("resource/Heal_Effect.png")
         self.laser_image = load_image("resource/LASER_Effect.png")
+
         self.wait_time = get_time()
         self.run_time = get_time()
         # base_path = "resource"
 
         self.image_action = {1: 7, 2: 8, 3: 7, 4: 6}
 
-
         self.state_machine = StateMachine(self)  # 어떤 객체를 위한 상태 머신인지 알려줄 필요가 있다
         self.state_machine.start(Spawn)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
 
         self.state_machine.set_transitions({
-            Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,z_down: Idle,time_out: Idle, Dead_event : Dead ,hit : Hit},
-            Run: {right_down: Run, left_down: Run, down_down: Run, up_down: Run,right_up: Run, left_up: Run, down_up: Run, up_up: Run,
-                  Idle_event : Idle,z_down: Run,time_out: Run,Dead_event : Dead},
-            Hit:{time_out : Idle},
-            #Attack: {right_down: Attack, left_down: Attack, right_up: Attack, left_up: Attack ,time_out : Idle, Dead_event : Dead},
-            Spawn:{time_out : Idle},
-            Dead: {time_out : Death }, Death: {}
+            Idle: {right_down: Run, left_down: Run, down_down: Run, up_down: Run, z_down: Idle, time_out: Idle,
+                   Dead_event: Dead, hit: Hit},
+            Run: {right_down: Run, left_down: Run, down_down: Run, up_down: Run, right_up: Run, left_up: Run,
+                  down_up: Run, up_up: Run,
+                  Idle_event: Idle, z_down: Run, time_out: Run, Dead_event: Dead},
+            Hit: {time_out: Idle},
+            # Attack: {right_down: Attack, left_down: Attack, right_up: Attack, left_up: Attack ,time_out : Idle, Dead_event : Dead},
+            Spawn: {time_out: Idle},
+            Dead: {time_out: Death}, Death: {}
 
         })
 
-
-
-
-
         base_path = os.path.dirname(os.path.abspath(__file__))
         job_paths = {
-            #1: "Knight/Knight with shadows/Knight.png",
-            #2: "Knight Templar/Knight Templar with shadows/Knight Templar.png",
-            #3: "Lancer/Lancer with shadows/Lancer.png",
-            #4: "Armored Axeman/Armored Axeman with shadows/Armored Axeman.png"
+            # 1: "Knight/Knight with shadows/Knight.png",
+            # 2: "Knight Templar/Knight Templar with shadows/Knight Templar.png",
+            # 3: "Lancer/Lancer with shadows/Lancer.png",
+            # 4: "Armored Axeman/Armored Axeman with shadows/Armored Axeman.png"
             1: "Hero_Sword.png",
             2: "Hero_Spear.png",
             3: "Hero_Lancer.png",
@@ -130,24 +135,24 @@ class Player:
         except pygame.error as e:
             print(f"Error loading image with pygame: {e}")
 
-    def update(self,player_now):
+    def update(self, player_now):
 
         self.state_machine.update()
         self.run_time = get_time()
-        print(self.x - 32/2, self.y + 48, 32, 48)
+        print(self.x - 32 / 2, self.y + 48, 32, 48)
         self.player_now = player_now
 
-        if self.hp<=0:
+        if self.hp <= 0:
             self.state_machine.add_event(('DEAD', 0))
 
         pass
+
     def render(self):
 
-
-        if self.handle_x<0:
-            self.flip_x ='h'
+        if self.handle_x < 0:
+            self.flip_x = 'h'
             self.dir = -1
-        elif self.handle_x>0:
+        elif self.handle_x > 0:
             self.flip_x = 'H'
             self.dir = 1
         if self.handle_y < 0:
@@ -155,50 +160,85 @@ class Player:
         elif self.handle_y > 0:
             self.flip_y = 0
         self.state_machine.draw()
-        # self.font.draw(self.x, self.y+50, f'{self.x:.2f},{self.y:.2f}', (255, 0, 0))
-        # self.font.draw(self.x, self.y + 100, f'{self.attack_stat}', (255, 0, 0))
-        # self.font.draw(self.x, self.y + 150, f'{self.hp}', (255, 0, 0))
-        # self.font.draw(self.x, self.y + 200, f'{self.speed}', (255, 0, 0))
-        #┌┐└┘
+        self.font.draw(self.x, self.y + 50, f'{self.x:.2f},{self.y:.2f}', (255, 0, 0))
+        self.font.draw(self.x, self.y + 100, f'{self.attack_stat}', (255, 0, 0))
+        self.font.draw(self.x, self.y + 150, f'{self.hp}', (255, 0, 0))
+        self.font.draw(self.x, self.y + 200, f'{self.speed}', (255, 0, 0))
+        # ┌┐└┘
 
         draw_rectangle(*self.return_body_box())
         draw_rectangle(*self.return_weapon_box())
-        draw_rectangle(100,100,200,200)
+        draw_rectangle(100, 100, 200, 200)
 
         if get_time() - self.wait_time > 0.1:
             self.wait_time = get_time()
 
-
         pass
 
-    def handle_event(self,event):
+    def handle_event(self, event):
         self.state_machine.add_event(('INPUT', event))
 
+        if self.player_now == 5 and 350 <= self.y <= 450 and 350 <= self.x <= 450:
+            if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 50:
+                self.hpLv += 1
+                self.coin -= 50
 
+        if self.player_now == 6 and 350 <= self.y <= 450 and 350 <= self.x <= 450:
+            if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 50:
+                self.hpLv += 1
+                self.coin -= 50
+
+        if self.player_now == 7 and 350 <= self.y <= 450 and 350 <= self.x <= 450:
+            if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 50:
+                self.hpLv += 1
+                self.coin -= 50
+
+        if self.player_now == 8 and 350 <= self.y <= 450 and 350 <= self.x <= 450:
+            if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 50:
+                self.hpLv += 1
+                gself.coin -= 50
+
+        # if  350 <= self.y <= 450 and 350 <= self.x <= 450:     #업그레이드
+        #     if self.player_now==5:
+        #         if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 50:
+        #             self.hpLv += 1
+        #             self.coin -= 50
+        #     elif self.player_now==6:
+        #         if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 50:
+        #             self.spdLv += 1
+        #             self.coin -= 50
+        #     elif self.player_now == 7:
+        #         if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 50:
+        #             self.atkLv += 1
+        #             self.coin -= 50
+        #     elif self.player_now == 8:
+        #         if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 50:
+        #             self.skillLv += 1
+        #             self.coin -= 50
 
     def take_damage(self, damage):
         self.hp -= damage
 
     def handle_collision(self, group, other):
-        if group == 'player:enemies'and other.normal_frame ==3:
+        if group == 'player:enemies' and other.normal_frame == 3:
             if other.normal_frame == 1:
                 self.hp -= 0.5
             pass
 
-
-        if group == 'palayera:enemies' and other.Attack_status ==1:#적이 플레이어 공격
+        if group == 'palayera:enemies' and other.Attack_status == 1:  # 적이 플레이어 공격
             if other.normal_frame == 1:
-                self.hp -=other.damage
+                self.hp -= other.damage
                 self.state_machine.add_event(('hit', 0))
-            #self.state_machine.add_event(('TIME_OUT', 0))
+            # self.state_machine.add_event(('TIME_OUT', 0))
             print("-HEL")
             pass
         if group == 'enemies:palayera':
             pass
-            #print("")
+            # print("")
 
     def return_body_box(self):
-        return self.x - (self.width/2), self.y - self.height,self.x ,  self.y+self.height
+        return self.x - (self.width / 2), self.y - self.height, self.x, self.y + self.height
+
     def return_weapon_box(self):
         if self.job == 1:
             return self.x + (30 * self.dir) - 55, self.y + 15, self.x + (30 * self.dir) + 30, self.y - 25
