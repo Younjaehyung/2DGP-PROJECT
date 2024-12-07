@@ -89,6 +89,7 @@ class Monster:
             self.nowdead = 1
 
 
+
         self.state_machine.update()
 
 
@@ -120,10 +121,11 @@ class Monster:
         if group == 'palayera:search' and self.monster_type is self.player_now:
             self.search_player((other.x, other.y))
 
-            #if self.state_machine.cur_state == 'Idle':
-            self.state_machine.add_event(('SEARCH', 0))
+            if self.state_machine.cur_state == Idle:
+                self.state_machine.add_event(('SEARCH', 0))
         else:
-            self.state_machine.add_event(('Idle', 0))
+            if self.state_machine.cur_state == Run:
+                self.state_machine.add_event(('Idle', 0))
 
 
     def search_box(self):
