@@ -321,10 +321,14 @@ class GameWorld:
         # raise ValueError('Cannot delete non existing object')
 
     def reset_enemy(self):
-        self.enemyLNum += 2
-        self.enemyRNum += 2
-        self.enemyTNum += 2
-        self.enemyBNum += 2
+        if self.enemyLNum < 11:
+            self.enemyLNum += 3
+        if self.enemyRNum < 11:
+            self.enemyRNum += 3
+        if self.enemyTNum < 11:
+            self.enemyTNum += 3
+        if self.enemyBNum < 11:
+            self.enemyBNum += 3
         for i in range(4):
             self.Gameobjects[i + 1].clear()
 
@@ -348,33 +352,33 @@ class GameWorld:
         else:
 
             # L
-            if self.enemyLNum > 4 and self.enemyLNum <= 6:
+            if self.stage >= 3 and self.stage <= 6:
                 self.enemiesL = [MonsterL2() for _ in range(self.enemyLNum)]
-            elif self.enemyLNum > 7:
+            elif self.stage >= 7 and self.stage <= 9:
                 self.enemiesL = [MonsterL3() for _ in range(self.enemyLNum)]
             else:
                 self.enemiesL = [MonsterL() for _ in range(self.enemyLNum)]
 
             # R
-            if self.enemyRNum > 4 and self.enemyRNum <= 6:
+            if self.stage >= 3 and self.stage <= 6:
                 self.enemiesR = [MonsterR2() for _ in range(self.enemyRNum)]
-            elif self.enemyRNum > 7:
+            elif self.stage >= 7 and self.stage <= 9:
                 self.enemiesR = [MonsterR3() for _ in range(self.enemyRNum)]
             else:
                 self.enemiesR = [MonsterR() for _ in range(self.enemyRNum)]
 
             # T
-            if self.enemyTNum > 4 and self.enemyTNum <= 6:
+            if self.stage >= 3 and self.stage <= 6:
                 self.enemiesT = [MonsterT2() for _ in range(self.enemyTNum)]
-            elif self.enemyTNum > 7:
+            elif self.stage >= 7 and self.stage <= 9:
                 self.enemiesT = [MonsterT3() for _ in range(self.enemyTNum)]
             else:
                 self.enemiesT = [MonsterT() for _ in range(self.enemyTNum)]
 
             # B
-            if self.enemyBNum > 4 and self.enemyBNum <= 6:
+            if self.stage >= 3 and self.stage <= 6:
                 self.enemiesB = [MonsterB2() for _ in range(self.enemyBNum)]
-            elif self.enemyBNum > 7:
+            elif self.stage >= 7 and self.stage <= 9:
                 self.enemiesB = [MonsterB3() for _ in range(self.enemyBNum)]
             else:
                 self.enemiesB = [MonsterB() for _ in range(self.enemyBNum)]
