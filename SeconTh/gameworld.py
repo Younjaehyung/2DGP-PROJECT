@@ -411,7 +411,7 @@ class GameWorld:
                     elif _enemey in self.enemiesB:
                         self.enemyBNum -= 1
                         self.player.coin += 10
-
+                #if _enemey.type == "monster" and _enemey.state_machine.cur_state == Death:
                     # 적 제거 및 충돌 제거
                     self.remove_object(_enemey)
                     CollisionManager().remove_collision_object_A(_enemey)
