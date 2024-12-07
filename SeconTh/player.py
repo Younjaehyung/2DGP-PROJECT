@@ -19,28 +19,28 @@ class Player:
         self.skillLv = skillLv
         self.atkLv = atkLv
 
-        self.attack_stat = random.randint(10 + self.atkLv * 10, 30 + self.atkLv * 10)
-        self.hp = random.randint(100 + self.hpLv * 50, 150 + self.hpLv * 50)
-        self.speed = random.randint(200 + self.spdLv * 30, 300 + self.spdLv * 30)
+        self.attack_stat = random.randint(10 + self.atkLv * 10, 20 + self.atkLv * 10)
+        self.hp = random.randint(75 + self.hpLv * 25, 125 + self.hpLv * 25)
+        self.speed = random.randint(200 + self.spdLv * 30, 250 + self.spdLv * 30)
         self.job = random.randint(1, 4)
 
         self.attack_width = None
         self.attack_height = None
         self.dir = 1
         if self.job == 1:  # 칼
-            self.attack_width = 30
-            self.attack_height = 30
+            self.attack_width = 45
+            self.attack_height = 45
             self.Portrait_Num = random.randint(6, 7)
         elif self.job == 2:  # 스피어
             self.attack_width = 80
-            self.attack_height = 10
+            self.attack_height = 20
             self.Portrait_Num = random.randint(4, 5)
         elif self.job == 3:  # 렌서
             self.attack_width = 70
-            self.attack_height = 10
+            self.attack_height = 20
             self.Portrait_Num = random.randint(2, 3)
         elif self.job == 4:  # 도
-            self.attack_width = 30
+            self.attack_width = 45
             self.attack_height = 50
             self.Portrait_Num = random.randint(0, 1)
 
@@ -49,6 +49,10 @@ class Player:
         self.type = "player"
 
         self.current = 0
+        self.upgrade_image=load_image('resource/NewResource/Icon.png')
+        self.upgrade_start_time = None  # 업그레이드 이미지 표시 시작 시간 추가
+        self.show_upgrade = False  # 업그레이드 이미지 표시 여부
+        self.upgrade_type = 0 #0: 없음 1: 공격 2: 속도 3: 체력 4: 스킬
 
         self.handle_x = 0
         self.handle_y = 0
@@ -61,7 +65,7 @@ class Player:
         self.status = 0  # 0 idle 1 move 2 attack 3 spec attack 4 death 5 none
         self.attack_status = 0
 
-        self.coin = 100
+        self.coin = 0
         # Idle
         self.Rect = None  # 좌측 상단 xy 가로 세로 길이
         # Attack(weapon)
@@ -78,11 +82,15 @@ class Player:
         self.height = 48
 
         self.heal_image = load_image("resource/Heal_Effect.png")
+        self.LevelUp_image = load_image("resource/NewResource/LevelUp_effect.png")
+        self.lvUp_frame = 0
         self.laser_image = load_image("resource/LASER_Effect.png")
 
         self.wait_time = get_time()
         self.run_time = get_time()
         # base_path = "resource"
+        self.LVup_sound = load_wav('resource/NewResource/Seconth_LevelUp.wav')
+        self.LVup_sound.set_volume(100)
 
         self.image_action = {1: 7, 2: 8, 3: 7, 4: 6}
 
@@ -170,7 +178,15 @@ class Player:
         draw_rectangle(*self.return_weapon_box())
         draw_rectangle(100, 100, 200, 200)
 
+        if self.show_upgrade:
+
+            self.upgrade_image.clip_draw((self.upgrade_type-1)*32, 0, 32, 32, self.x, self.y + 75, 50, 50)
+            self.LevelUp_image.clip_draw(self.lvUp_frame*100, 0, 100, 100, self.x, self.y, 350, 350)
+            if get_time() - self.upgrade_start_time > 0.7:
+                self.show_upgrade = False
+
         if get_time() - self.wait_time > 0.1:
+            self.lvUp_frame = (self.lvUp_frame + 1) % 4
             self.wait_time = get_time()
 
         pass
@@ -179,24 +195,40 @@ class Player:
         self.state_machine.add_event(('INPUT', event))
 
         if self.player_now == 5 and 350 <= self.y <= 450 and 350 <= self.x <= 450:
-            if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 50:
-                self.hpLv += 1
-                self.coin -= 50
+            if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 30:
+                self.skillLv += 1
+                self.coin -= 30
+                self.show_upgrade = True  # 업그레이드 이미지 표시 활성화
+                self.upgrade_type = 4
+                self.upgrade_start_time = get_time()  # 현재 시간을 기록
+                self.LVup_sound.play()
 
         if self.player_now == 6 and 350 <= self.y <= 450 and 350 <= self.x <= 450:
-            if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 50:
-                self.hpLv += 1
-                self.coin -= 50
+            if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 30:
+                self.spdLv += 1
+                self.coin -= 30
+                self.show_upgrade = True  # 업그레이드 이미지 표시 활성화
+                self.upgrade_type = 2
+                self.upgrade_start_time = get_time()  # 현재 시간을 기록
+                self.LVup_sound.play()
 
         if self.player_now == 7 and 350 <= self.y <= 450 and 350 <= self.x <= 450:
-            if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 50:
+            if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 30:
                 self.hpLv += 1
-                self.coin -= 50
+                self.coin -= 30
+                self.show_upgrade = True  # 업그레이드 이미지 표시 활성화
+                self.upgrade_type = 3
+                self.upgrade_start_time = get_time()  # 현재 시간을 기록
+                self.LVup_sound.play()
 
         if self.player_now == 8 and 350 <= self.y <= 450 and 350 <= self.x <= 450:
-            if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 50:
-                self.hpLv += 1
-                gself.coin -= 50
+            if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 30:
+                self.atkLv += 1
+                self.coin -= 30
+                self.show_upgrade = True  # 업그레이드 이미지 표시 활성화
+                self.upgrade_type = 1
+                self.upgrade_start_time = get_time()  # 현재 시간을 기록
+                self.LVup_sound.play()
 
         # if  350 <= self.y <= 450 and 350 <= self.x <= 450:     #업그레이드
         #     if self.player_now==5:
