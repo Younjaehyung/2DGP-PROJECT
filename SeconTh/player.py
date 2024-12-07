@@ -19,9 +19,9 @@ class Player:
         self.skillLv = skillLv
         self.atkLv = atkLv
 
-        self.attack_stat = random.randint(10 + self.atkLv * 10, 20 + self.atkLv * 10)
-        self.hp = random.randint(75 + self.hpLv * 25, 125 + self.hpLv * 25)
-        self.speed = random.randint(200 + self.spdLv * 30, 250 + self.spdLv * 30)
+        self.attack_stat = random.randint(10 + self.atkLv * 15, 20 + self.atkLv * 15)
+        self.hp = random.randint(75 + self.hpLv * 20, 125 + self.hpLv * 20)
+        self.speed = random.randint(200 + self.spdLv * 20, 250 + self.spdLv * 20)
         self.job = random.randint(1, 4)
 
         self.attack_width = None
@@ -214,19 +214,19 @@ class Player:
 
         if self.player_now == 7 and 350 <= self.y <= 450 and 350 <= self.x <= 450:
             if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 30:
-                self.hpLv += 1
+                self.atkLv += 1
                 self.coin -= 30
                 self.show_upgrade = True  # 업그레이드 이미지 표시 활성화
-                self.upgrade_type = 3
+                self.upgrade_type = 1
                 self.upgrade_start_time = get_time()  # 현재 시간을 기록
                 self.LVup_sound.play()
 
         if self.player_now == 8 and 350 <= self.y <= 450 and 350 <= self.x <= 450:
             if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 30:
-                self.atkLv += 1
+                self.hpLv += 1
                 self.coin -= 30
                 self.show_upgrade = True  # 업그레이드 이미지 표시 활성화
-                self.upgrade_type = 1
+                self.upgrade_type = 3
                 self.upgrade_start_time = get_time()  # 현재 시간을 기록
                 self.LVup_sound.play()
 
