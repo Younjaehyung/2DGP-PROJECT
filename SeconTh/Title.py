@@ -13,17 +13,22 @@ class Title:
         self.imagen2 = load_image("resource/title/title2.png")
         self.image3 = load_image("resource/title/title3.png")
         self.imagen3 = load_image("resource/title/title3.png")
-        self.image4 = load_image("resource/Title2.png")
+        self.image4 = load_image("resource/NewResource/Title2.png")
         self.title2_x = 600
         self.title2_nx = -600
         self.title3_x = 600
         self.title3_nx = -600
+        self.BGM2 = load_music('resource/NewResource/Seconth_Departure.mp3')
+        self.BGM2.set_volume(100)
+        self.BGM2.repeat_play()
+        self.BGM2.play()
 
     def update(self):
         self.title2_x += 3
         self.title2_nx += 3
         self.title3_x += 1
         self.title3_nx += 1
+
 
         if self.title2_x > 1800:
             self.title2_x = 600
@@ -39,6 +44,7 @@ class Title:
 
 
     def draw(self):
+
         self.image1.clip_draw(0, 0, 1200, 800, 600, 400)
         self.imagen2.clip_draw(0, 0, 1200, 800, self.title2_nx, 400)
         self.image2.clip_draw(0, 0, 1200, 800, self.title2_x, 400)
