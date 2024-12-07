@@ -419,6 +419,8 @@ class GameWorld:
                     # 적 제거 및 충돌 제거
                     self.remove_object(_enemey)
                     CollisionManager().remove_collision_object_A(_enemey)
+
+
                     print("DELETE A")
 
         if (self.player.state_machine.cur_state != Dead and self.player.state_machine.cur_state != Death) and (
@@ -434,6 +436,8 @@ class GameWorld:
             self.reset_enemy()
 
             return
+
+
 
 
         elif self.stage != 10:

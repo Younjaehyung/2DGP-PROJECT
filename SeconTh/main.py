@@ -38,6 +38,7 @@ def handle_input():
         global running
         global start
         global game
+        global endstate
         events = get_events()
 
         for event in events:
@@ -49,6 +50,10 @@ def handle_input():
               start = False
          elif start == False:
               game.handle_event(event)
+         if endstate == 1 and event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
+            endstate = 0
+         if endstate == 2 and event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
+            endstate = 0
 
 def title_draw():
     clear_canvas()
@@ -71,31 +76,36 @@ mapW=1200
 endstate=0
 
 open_canvas(mapW,mapH)
-initialize()
 
-while start:
-    handle_input()
-    gametitle.update()
-    title_draw()
+while True:
+    initialize()
+    while start:
+        handle_input()
+        gametitle.update()
+        title_draw()
 
-game = GameWorld()
-game.reset_mapsize(mapW,mapH)
-game.init()
-while True:
-    handle_input()
-    gameobject_update()
-    gameobject_draw()
-    if game.stage==11 and game.playerLife <=0:
-        endstate=1
-        break
-    elif game.stage==11:
-        endstate=2
-        break
-    delay(0.02)
-while True:
-    handle_input()
-    if endstate==1:
-        end_draw()
-    elif endstate==2:
-        end_draw2()
+    game = GameWorld()
+    game.reset_mapsize(mapW,mapH)
+    game.init()
+
+    while True:
+        handle_input()
+        gameobject_update()
+        gameobject_draw()
+        if game.stage==11 and game.playerLife <=0:
+            endstate=1
+            break
+        elif game.stage==11:
+            endstate=2
+            break
+        delay(0.02)
+    while True:
+        handle_input()
+        if endstate==1:
+            end_draw()
+        elif endstate==2:
+            end_draw2()
+
+        if endstate==0:
+            break
 close_canvas()
