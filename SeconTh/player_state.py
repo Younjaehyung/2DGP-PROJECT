@@ -147,7 +147,7 @@ class Run:
             if player.job == 2:
                 speed = 2
             if player.job == 3:
-                speed = 3
+                speed = 2
             if player.job == 4:
                 speed = 1
             if player.normal_frame == 0:
@@ -163,9 +163,10 @@ class Run:
         if player2_x > 800 or player2_x < 0:
             pass
         else:
-
-            player.x += (player.speed) * (get_time() - player.run_time) * player.handle_x * speed
-            player.y += (player.speed) * (get_time() - player.run_time) * player.handle_y * speed
+            player.x=player2_x
+            player.y=player2_y
+            #player.x += (player.speed) * (get_time() - player.run_time) * player.handle_x * speed
+            #player.y += (player.speed) * (get_time() - player.run_time) * player.handle_y * speed
 
         player.run_time = get_time()
 
@@ -254,15 +255,15 @@ class Spawn:
             250,
             250)
 
-        player.heal_image.clip_draw(
+        player.laser_image.clip_draw(
             player.lsnormal_frame,  # 이미지의 왼쪽 상단 x좌표
             0,  # 이미지의 왼쪽 상단 y좌표
             100,
             100,
             player.x,
-            player.y,
-            500,
-            500)
+            player.y + 25,
+            450,
+            450)
 
         pass
 
