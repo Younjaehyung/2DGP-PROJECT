@@ -172,6 +172,7 @@ class Dead:
         player.fly_back_speed = 5  # 뒤로 날아가는 속도
         player.sfx_frame = 0  # SFX 이미지의 초기 프레임
         player.sfx_time = get_time()  # SFX 애니메이션 시간 초기화
+        player.ATK_sound.play()
         pass
 
     @staticmethod
@@ -193,7 +194,7 @@ class Dead:
             300)
 
         player.icon_image.clip_draw(
-            0, 0, 32, 32,  # 아이콘 크기
+            128, 0, 32, 32,  # 아이콘 크기
             player.x, player.y + 50,  # 몬스터 위쪽에 렌더링
             50, 50  # 출력 크기
         )
@@ -202,11 +203,12 @@ class Dead:
             player.sfx_frame * 100, 0,  # SFX 프레임의 x 좌표
             100, 100,  # SFX 이미지의 너비와 높이
             player.x, player.y,  # 몬스터 위쪽에 렌더링
-            75, 75  # 출력 크기
+            100, 100  # 출력 크기
         )
 
     @staticmethod
     def do(player):
+
         if get_time() - player.dead_time > 0.1:
             player.normal_frame = player.normal_frame + 1
             player.dead_time = get_time()
@@ -219,6 +221,7 @@ class Dead:
             player.sfx_time = get_time()
 
         if player.fly_back_distance > 0:
+
             fly_x = player.dir * -1 * player.fly_back_speed  # 반대 방향으로 이동
             player.x += fly_x
             player.fly_back_distance -= abs(fly_x)
