@@ -1,10 +1,10 @@
+
 import random
 
 from pico2d import *
 import pygame
 from monster_state import*
 from state_machine import *
-
 
 class Monster:
 
@@ -48,6 +48,9 @@ class Monster:
         self.attack_time = 0
         self.idle_time = 0
         self.run_time = 0
+
+        self.ATK_sound = load_wav('resource/NewResource/Seconth_Hit2.wav')
+        self.ATK_sound.set_volume(75)
 
         self.die_frame = 0
         self.attack_frame = 0
@@ -94,7 +97,9 @@ class Monster:
         self.targetx, self.targety = o
 
     def handle_collision(self, group, other):
-        if group == 'player:enemies' and self.monster_type is self.player_now:
+        if group == 'player:enemies' and self.monster_type is self.player_now:  
+            if other.state_machine.cur_state == 'HIT':
+                action_frame = 2
             if other.state_machine.cur_state == 'Dead':
                 pass
 
@@ -135,7 +140,7 @@ class MonsterT(Monster):
     def __init__(self):
         super().__init__()
         self.monster_type = 2
-        self.health=100
+        self.health=50
         self.damage =1
         self.image =load_image('resource/Monster/Mon_Slime_1.png')
 
@@ -145,8 +150,8 @@ class MonsterT2(Monster):
     def __init__(self):
         super().__init__()
         self.monster_type = 2
-        self.health=100
-        self.damage =1
+        self.health=75
+        self.damage =2
         self.image =load_image('resource/Monster/Mon_Slime_2.png')
 
         #self.image = load_image('run_animation.png')
@@ -156,8 +161,8 @@ class MonsterT3(Monster):
     def __init__(self):
         super().__init__()
         self.monster_type = 2
-        self.health=100
-        self.damage =1
+        self.health=125
+        self.damage =3
         self.image =load_image('resource/Monster/Mon_Slime_3.png')
 
         #self.image = load_image('run_animation.png')
@@ -167,8 +172,8 @@ class MonsterB(Monster):
     def __init__(self):
         super().__init__()
         self.monster_type = 4
-        self.health = 100
-        self.damage=2
+        self.health = 50
+        self.damage=1
         self.image =load_image('resource/Monster/Mon_Skeleton_1.png')
         #self.image = load_image('run_animation.png')
 
@@ -177,7 +182,7 @@ class MonsterB2(Monster):
     def __init__(self):
         super().__init__()
         self.monster_type = 4
-        self.health = 100
+        self.health = 75
         self.damage=2
         self.image =load_image('resource/Monster/Mon_Skeleton_2.png')
         #self.image = load_image('run_animation.png')
@@ -188,7 +193,7 @@ class MonsterB3(Monster):
         super().__init__()
         self.monster_type = 4
         self.health = 100
-        self.damage=2
+        self.damage=3
         self.image =load_image('resource/Monster/Mon_Skeleton_3.png')
         #self.image = load_image('run_animation.png')
 
@@ -196,8 +201,8 @@ class MonsterL(Monster):
     def __init__(self):
         super().__init__()
         self.monster_type = 1
-        self.health = 100
-        self.damage=2
+        self.health = 50
+        self.damage=1
         self.image =load_image('resource/Monster/Mon_Beast_1.png')
         #self.image = load_image('run_animation.png')
 
@@ -205,7 +210,7 @@ class MonsterL2(Monster):
     def __init__(self):
         super().__init__()
         self.monster_type = 1
-        self.health = 100
+        self.health = 75
         self.damage=2
         self.image =load_image('resource/Monster/Mon_Beast_2.png')
         #self.image = load_image('run_animation.png')
@@ -214,8 +219,8 @@ class MonsterL3(Monster):
     def __init__(self):
         super().__init__()
         self.monster_type = 1
-        self.health = 100
-        self.damage=2
+        self.health = 125
+        self.damage=3
         self.image =load_image('resource/Monster/Mon_Beast_3.png')
         #self.image = load_image('run_animation.png')
 
@@ -224,8 +229,8 @@ class MonsterR(Monster):
     def __init__(self):
         super().__init__()
         self.monster_type = 3
-        self.health = 100
-        self.damage=3
+        self.health = 50
+        self.damage=1
         self.image =load_image('resource/Monster/Mon_Orc_1.png')
         #self.image = load_image('run_animation.png')
 
@@ -234,8 +239,8 @@ class MonsterR2(Monster):
     def __init__(self):
         super().__init__()
         self.monster_type = 3
-        self.health = 100
-        self.damage=3
+        self.health = 75
+        self.damage=2
         self.image =load_image('resource/Monster/Mon_Orc_2.png')
         #self.image = load_image('run_animation.png')
 
@@ -244,7 +249,7 @@ class MonsterR3(Monster):
     def __init__(self):
         super().__init__()
         self.monster_type = 3
-        self.health = 100
+        self.health = 125
         self.damage=3
         self.image =load_image('resource/Monster/Mon_Orc_3.png')
         #self.image = load_image('run_animation.png')
@@ -254,7 +259,7 @@ class MonsterBoss(Monster):
     def __init__(self):
         super().__init__()
         self.monster_type = 0
-        self.health = 1000
-        self.damage=2
+        self.health = 2000
+        self.damage=5
         self.image =load_image('resource/Monster/Mon_Orc_4.png')
         #self.image = load_image('run_animation.png')
