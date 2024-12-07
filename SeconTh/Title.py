@@ -56,12 +56,12 @@ class Title:
 
 class End:
     def __init__(self):
-       self.image = load_image("resource/BlackMap.png")
+       self.image = load_image("resource/NewResource/Gameover.png")
 
-       self.image2 = load_image("resource/BlackMap.png")
-       self.imagem = load_image("resource/BlackMap.png")
+       self.image2 = load_image("resource/NewResource/win.png")
+       self.imagem = load_image("resource/NewResource/Gameover.png")
 
-       self.imagep = load_image("resource/BlackMap.png")
+       self.imagep = load_image("resource/NewResource/win.png")
     def update(self):
         pass
 
