@@ -7,6 +7,7 @@ from collider import *
 class GameWorld:
     def __init__(self):
         self.BackGround = load_image("resource/BlackMap.png")
+        self.BackGround2 = load_image("resource/NewResource/RedMap.png")
         self.worldL = load_image("resource/NewResource/LMap.png")
         self.worldR = load_image("resource/NewResource/RMap.png")
         self.worldT = load_image("resource/NewResource/TMap.png")
@@ -108,8 +109,16 @@ class GameWorld:
         self.TClear = False
         self.BClear = False
 
-    def init(self):
+        self.BGM1 = load_music('resource/NewResource/Seconth_TheHeroBack.mp3')
+        self.BGM1.set_volume(75)
 
+
+        self.Move_sound = load_wav('resource/NewResource/Seconth_Move.wav')
+        self.Move_sound.set_volume(100)
+
+    def init(self):
+        self.BGM1.play()
+        self.BGM1.repeat_play()
         self.reset_player()
         self.reset_enemy()
         print(len(self.Gameobjects[1]))
@@ -167,6 +176,11 @@ class GameWorld:
         if self.transition_active:
             self.Transition_render()
 
+
+    def BGM_loader(self):
+        pass
+
+
     def Weather_render(self):
         if self.playerWhere == 1:
             self.EnvLx += 5
@@ -190,6 +204,7 @@ class GameWorld:
 
         if self.Transx > 1800:  # Transition 종료 조건
             self.transition_active = False  # Transition 비활성화
+            self.Move_sound.play()
             self.Transx = -600  # x 좌표 초기화
 
     # UI그리기
@@ -235,6 +250,12 @@ class GameWorld:
     def object_render(self):
         if self.playerWhere == 0:
             self.Obelisk.clip_draw(0 + ((self.stage - 1) * 128), 0, 128, 128, 400, 410, 128 * 1.75, 128 * 1.75)
+        elif self.playerWhere == 7:
+            self.ObjLB.clip_draw(0, 0, 576, 576, 400, 400, 800, 800)
+        elif self.playerWhere == 6:
+            self.ObjRT.clip_draw(0, 0, 576, 576, 400, 400, 800, 800)
+        elif self.playerWhere == 8:
+            self.ObjRB.clip_draw(0, 0, 576, 576, 400, 400, 800, 800)
 
     def world_render(self):
         if self.Die_active:
@@ -258,7 +279,12 @@ class GameWorld:
                 self.worldmap = self.worldLB
             elif self.playerWhere == 8:
                 self.worldmap = self.worldRB
-        self.BackGround.clip_draw(0, 0, 1200, 800, 600, 400)
+
+        if self.playerTime < 10:
+            self.BackGround2.clip_draw(0, 0, 1200, 800, 600, 400)
+        elif self.playerTime > 10 and self.playerTime <= 30:
+            self.BackGround.clip_draw(0, 0, 1200, 800, 600, 400)
+
         self.worldmap.clip_draw(0, 0, 576, 576, 400, 400, 800, 800)
 
         pass
