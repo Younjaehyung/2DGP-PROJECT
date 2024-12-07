@@ -7,6 +7,21 @@ import gameworld
 from gameworld import GameWorld
 from Title import *
 
+def initialize():
+    global game
+    global mapH
+    global mapW
+    global gametitle
+    global start
+    global gameend
+    global end
+    end = False
+    start = True
+
+
+    gametitle = Title()
+    gameend = End()
+
 def gameobject_update():
 
     game.update()
@@ -22,6 +37,7 @@ def gameobject_draw():
 def handle_input():
         global running
         global start
+        global game
         events = get_events()
 
         for event in events:
@@ -49,20 +65,7 @@ def end_draw2():
     gameend.draw2()
     update_canvas()
 
-def initialize():
-    global game
-    global mapH
-    global mapW
-    global gametitle
-    global start
-    global gameend
-    global end
-    end = False
-    start = True
 
-
-    gametitle = Title()
-    gameend = End()
 mapH=800
 mapW=1200
 endstate=0
@@ -82,7 +85,7 @@ while True:
     handle_input()
     gameobject_update()
     gameobject_draw()
-    if game.stage==11 and game.playerLife ==0:
+    if game.stage==11 and game.playerLife <=0:
         endstate=1
         break
     elif game.stage==11:
