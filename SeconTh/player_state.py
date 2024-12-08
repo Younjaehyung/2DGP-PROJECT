@@ -160,8 +160,11 @@ class Run:
         player2_x += (player.speed) * (get_time() - player.run_time) * player.handle_x * speed
         player2_y += (player.speed) * (get_time() - player.run_time) * player.handle_y * speed
 
-        if player2_x > 800 or player2_x < 0:
+        if player2_x > 790 or player2_x < 10 or player2_y>790 or player2_y<10:
             pass
+        elif player.player_now==2 and player2_y > 620:
+            pass
+
         else:
             player.x=player2_x
             player.y=player2_y
