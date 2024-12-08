@@ -19,8 +19,8 @@ class Player:
         self.skillLv = skillLv
         self.atkLv = atkLv
 
-        self.attack_stat = random.randint(10 + self.atkLv * 15, 20 + self.atkLv * 15)
-        self.hp = random.randint(75 + self.hpLv * 20, 125 + self.hpLv * 20)
+        self.attack_stat = random.randint(10 + self.atkLv * 5, 20 + self.atkLv * 5)
+        self.hp = random.randint(75 + self.hpLv * 60, 125 + self.hpLv * 60)
         self.speed = random.randint(200 + self.spdLv * 20, 250 + self.spdLv * 20)
         self.job = random.randint(1, 4)
 
@@ -122,26 +122,26 @@ class Player:
             4: "Hero_Axe.png"
 
         }
+        self.image = 0
+        if self.job ==1:
+            self.image = load_image('resource/Hero_Sword.png')
+        if self.job ==2:
+            self.image = load_image('resource/Hero_Spear.png')
+        if self.job ==3:
+            self.image = load_image('resource/Hero_Lancer.png')
+        if self.job ==4:
+            self.image = load_image('resource/Hero_Axe.png')
 
         # Pygame 이미지 경로
-        image_path = os.path.join(base_path, "resource", job_paths.get(self.job, ''))
-        print(f"Image path: {image_path}")  # 경로 확인용
-        image_path2 = os.path.join(base_path, "resource")
+        #image_path = os.path.join(base_path, "resource", job_paths.get(self.job, ''))
+        #print(f"Image path: {image_path}")  # 경로 확인용
+        #image_path2 = os.path.join(base_path, "resource")
         # 경로 및 파일 존재 여부 확인
-        if not os.path.exists(image_path2):
-            print(f"Error: File does not exist at {image_path}")
 
-            return
-
-        # pico2d에서 이미지 로드
-        self.image = load_image(image_path)
+        #self.image = load_image(image_path)
 
         # Pygame에서 이미지 로드
-        try:
-            self.colliderImage = pygame.image.load(image_path).convert_alpha()
-            self.rect = self.colliderImage.get_rect(topleft=(self.x, self.y))
-        except pygame.error as e:
-            print(f"Error loading image with pygame: {e}")
+
 
     def update(self, player_now):
 
@@ -168,15 +168,15 @@ class Player:
         elif self.handle_y > 0:
             self.flip_y = 0
         self.state_machine.draw()
-        self.font.draw(self.x, self.y + 50, f'{self.x:.2f},{self.y:.2f}', (255, 0, 0))
-        self.font.draw(self.x, self.y + 100, f'{self.attack_stat}', (255, 0, 0))
-        self.font.draw(self.x, self.y + 150, f'{self.hp}', (255, 0, 0))
-        self.font.draw(self.x, self.y + 200, f'{self.speed}', (255, 0, 0))
+        #self.font.draw(self.x, self.y + 50, f'{self.x:.2f},{self.y:.2f}', (255, 0, 0))
+        #self.font.draw(self.x, self.y + 100, f'{self.attack_stat}', (255, 0, 0))
+        #self.font.draw(self.x, self.y + 150, f'{self.hp}', (255, 0, 0))
+        #self.font.draw(self.x, self.y + 200, f'{self.speed}', (255, 0, 0))
         # ┌┐└┘
 
-        draw_rectangle(*self.return_body_box())
-        draw_rectangle(*self.return_weapon_box())
-        draw_rectangle(100, 100, 200, 200)
+        #draw_rectangle(*self.return_body_box())
+        #draw_rectangle(*self.return_weapon_box())
+        #draw_rectangle(100, 100, 200, 200)
 
         if self.show_upgrade:
 
@@ -195,11 +195,10 @@ class Player:
         self.state_machine.add_event(('INPUT', event))
 
         if self.player_now == 5 and 350 <= self.y <= 450 and 350 <= self.x <= 450:
-            if event.type == SDL_KEYDOWN and event.key == SDLK_f and self.coin >= 30:
-                self.skillLv += 1
-                self.coin -= 30
+            if event.type == SDL_KEYDOWN and event.key == SDLK_f:
+                self.coin += random.randint(-1,3)
                 self.show_upgrade = True  # 업그레이드 이미지 표시 활성화
-                self.upgrade_type = 4
+                self.upgrade_type = 5
                 self.upgrade_start_time = get_time()  # 현재 시간을 기록
                 self.LVup_sound.play()
 

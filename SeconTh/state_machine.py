@@ -61,6 +61,9 @@ def Monster_time_out(e):
 
 def hit(e):
     return e[0] == 'hit'
+
+def Monster_hit(e):
+    return e[0] == 'Monster_hit'
 # 상태 머신을 처리 관리 해주는 클래스
 class StateMachine:
     def __init__(self, o):

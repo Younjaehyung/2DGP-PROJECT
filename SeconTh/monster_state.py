@@ -161,6 +161,61 @@ class Attack:
 
         pass
 
+class Hit:
+    @staticmethod
+    def enter(player, e):
+        player.normal_frame = 0
+        player.action_frame = 2
+        player.hit_time = get_time()
+        player.sfx_frame = 0  # SFX 이미지의 초기 프레임
+        player.sfx_time = get_time()  # SFX 애니메이션 시간 초기화
+        player.ATK_sound.play()
+        pass
+
+    @staticmethod
+    def exit(player, e):
+        pass
+
+    @staticmethod
+    def draw(player):
+        player.image.clip_composite_draw(
+            player.normal_frame * 100,  # 이미지의 왼쪽 상단 x좌표
+            player.action_frame * 100,  # 이미지의 왼쪽 상단 y좌표
+            100,
+            100,
+            player.flip_y,
+            player.flip_x,
+            player.x,
+            player.y,
+            300,
+            300)
+
+        player.sfx_image.clip_draw(
+            player.sfx_frame * 100, 0,  # SFX 프레임의 x 좌표
+            100, 100,  # SFX 이미지의 너비와 높이
+            player.x, player.y,  # 몬스터 위쪽에 렌더링
+            100, 100  # 출력 크기
+        )
+
+    @staticmethod
+    def do(player):
+
+        if get_time() - player.dead_time > 0.1:
+            player.normal_frame = player.normal_frame + 1
+            player.dead_time = get_time()
+
+        if player.normal_frame == 4:
+            player.state_machine.add_event(('TIME_OUT', 0))
+
+        if get_time() - player.sfx_time > 0.1 and player.sfx_frame < 6:  # 마지막 프레임까지만 업데이트
+            player.sfx_frame += 1
+            player.sfx_time = get_time()
+
+
+        pass
+
+
+
 
 class Dead:
     @staticmethod

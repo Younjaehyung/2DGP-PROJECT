@@ -6,7 +6,8 @@ from pico2d import *
 import gameworld
 from gameworld import GameWorld
 from Title import *
-
+global game
+Gamequit = True
 def initialize():
     global game
     global mapH
@@ -39,6 +40,7 @@ def handle_input():
         global start
         global game
         global endstate
+        global Gamequit
         events = get_events()
 
         for event in events:
@@ -54,6 +56,8 @@ def handle_input():
             endstate = 0
          if endstate == 2 and event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
             endstate = 0
+         if event.type == SDL_QUIT:
+            Gamequit=False
 
 def title_draw():
     clear_canvas()
@@ -75,28 +79,38 @@ mapH=800
 mapW=1200
 endstate=0
 
+
 open_canvas(mapW,mapH)
 
-while True:
+while Gamequit:
+    if Gamequit == False:
+        break
+
     initialize()
+    game = GameWorld()
     while start:
         handle_input()
         gametitle.update()
         title_draw()
+        if Gamequit == False:
+            break
 
-    game = GameWorld()
+
     game.reset_mapsize(mapW,mapH)
     game.init()
+
 
     while True:
         handle_input()
         gameobject_update()
         gameobject_draw()
-        if game.stage==11 and game.playerLife <=0:
+        if game.stage==11 and game.playerLife <=-1:
             endstate=1
             break
         elif game.stage==11:
             endstate=2
+            break
+        if Gamequit == False:
             break
         delay(0.02)
     while True:
@@ -105,7 +119,9 @@ while True:
             end_draw()
         elif endstate==2:
             end_draw2()
-
+            print('win')
         if endstate==0:
+            break
+        if Gamequit == False:
             break
 close_canvas()

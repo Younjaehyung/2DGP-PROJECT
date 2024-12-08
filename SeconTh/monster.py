@@ -48,6 +48,7 @@ class Monster:
         self.attack_time = 0
         self.idle_time = 0
         self.run_time = 0
+        self.hit_time = 0
 
         self.ATK_sound = load_wav('resource/NewResource/Seconth_Hit2.wav')
         self.ATK_sound.set_volume(75)
@@ -61,9 +62,10 @@ class Monster:
         self.state_machine.start(Idle)  # 객체를 생성한게 아니고, 직접 idle 클래스를 사용
 
         self.state_machine.set_transitions({
-            Idle: {Monster_Attack : Attack, Search_event : Run,time_out: Idle, Dead_event: Dead},
-            Run: {Monster_Attack : Attack, Idle_event: Idle,time_out: Run, Dead_event: Dead},
-            Attack : {time_out: Idle ,Dead_event: Dead},
+            Idle: {Monster_Attack : Attack, Search_event : Run,time_out: Idle, Dead_event: Dead,Monster_hit : Hit},
+            Run: {Monster_Attack : Attack, Idle_event: Idle,time_out: Run, Dead_event: Dead,Monster_hit : Hit},
+            Attack : {time_out: Idle ,Dead_event: Dead,Monster_hit : Hit},
+            Hit: {time_out: Idle, Dead_event: Dead},
             Dead: {time_out: Death}, Death: {}
 
         })
@@ -73,8 +75,8 @@ class Monster:
         if self.monster_type is not self.player_now:
             return
         self.state_machine.draw()
-        draw_rectangle(*self.return_body_box())
-        draw_rectangle(*self.return_weapon_box())
+        #draw_rectangle(*self.return_body_box())
+        #draw_rectangle(*self.return_weapon_box())
 
 
     def update(self,playerwhere):
@@ -113,7 +115,9 @@ class Monster:
 
         if group == 'enemies:palayera' and (self.monster_type is self.player_now )and other.attack_status == 1:
             if other.normal_frame == 3 or other.normal_frame == 2:
-                self.health-= other.attack_stat #플레이어가 적을 공격
+                if self.state_machine.cur_state != Hit:
+                    self.state_machine.add_event(('Monster_hit', 0))
+                    self.health-= other.attack_stat #플레이어가 적을 공격
 
 
             print(f'{self.health} distance :')
